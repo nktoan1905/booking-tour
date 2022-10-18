@@ -1,9 +1,19 @@
 import express from 'express';
-import userController from '../controllers/userController';
+import authController from '../controllers/authController';
+import middlewareController from '../middleware/middlewareController';
 
-let router = express.Router();
+const router = express.Router();
 
-router.post('/register', userController.handleRegister);
-router.post('/login', userController.handleLogin);
+// register
+router.post('/register', authController.registerUser);
 
-module.exports = router;
+// login
+router.post('/login', authController.login);
+
+// refresh token
+router.post('/refresh', authController.refreshToken);
+
+// log out
+router.post('/logout', middlewareController.verifyToken, authController.userLogout);
+
+export default router;

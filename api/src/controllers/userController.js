@@ -1,39 +1,26 @@
-import jwt from 'jsonwebtoken';
-import useServices from '../services/userServices';
-require('dotenv').config();
-let handleRegister = async (req, res) => {
-	try {
-		const { status, message } = await useServices.createNewUser(req.body);
-		if (status === false) {
-			res.status(400).json({
-				message: message,
-			});
-		} else {
-			res.status(200).json({
-				message: message,
-			});
-		}
-	} catch (error) {
-		res.status(400).send(error);
-	}
-};
+import userServices from '../services/userServices';
 
-let handleLogin = async (req, res) => {
-	try {
-		const { status, message, userId } = await useServices.userLogin(req.body);
-		if (status === false) {
-			res.status(400).json({
-				message: message,
-			});
-		} else {
-			const token = jwt.sign({ _id: userId }, process.env.TOKEN_SECRET);
-			res.header('auth-token', token).status(200).json({ message: message, token: token });
+const userController = {
+	getAllUsers: async (req, res) => {
+		try {
+			const { status, users } = await userServices.getAllUsers();
+			res.status(200).json(users);
+		} catch (error) {
+			res.status(500).json(error);
 		}
-	} catch (error) {
-		res.status(400).send(error);
-	}
+	},
+	deleteUserById: async (req, res) => {
+		try {
+			const id = req.params.id;
+			const { status, message } = await userServices.deleteUserById(id);
+			if (!status) {
+				return res.status(404).json(message);
+			} else {
+				return res.status(200).json(message);
+			}
+		} catch (error) {
+			res.status(500).json(error);
+		}
+	},
 };
-module.exports = {
-	handleLogin: handleLogin,
-	handleRegister: handleRegister,
-};
+export default userController;
