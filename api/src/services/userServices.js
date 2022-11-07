@@ -3,13 +3,9 @@ import bcrypt from 'bcrypt';
 const salt = bcrypt.genSaltSync(10);
 const userServices = {
 	createNewUser: async (data) => {
-		/** data
-		 * username
-		 * email
-		 * password
-		 */
 		return new Promise(async (resolve, reject) => {
 			try {
+				console.log(data);
 				let hashed = await bcrypt.hash(data.password, salt);
 				// check email is exist
 				let emailExist = await db.User.findOne({
@@ -21,26 +17,42 @@ const userServices = {
 						message: 'Email was already exsit.',
 					});
 				}
-				// check username is exist
-				let usernameExist = await db.User.findOne({
-					where: { username: data.username },
-				});
-				if (usernameExist) {
-					return resolve({
-						status: false,
-						message: 'Username was already exsit.',
-					});
-				}
-				// let newUser = {
-				// 	username: data.username,
-				// 	email: data.email,
-				// 	password: hashed,
-				// };
-				// create newUser
 				let newUser = await db.User.create({
-					username: data.username,
 					email: data.email,
 					password: hashed,
+					fullName: data.fullName,
+					gender: data.gender,
+				});
+				resolve({
+					status: true,
+					newUser: newUser,
+				});
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	createUser: async (data) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				console.log(data);
+				let hashed = await bcrypt.hash(data.password, salt);
+				// check email is exist
+				let emailExist = await db.User.findOne({
+					where: { email: data.email },
+				});
+				if (emailExist) {
+					return resolve({
+						status: false,
+						message: 'Email was already exsit.',
+					});
+				}
+				let newUser = await db.User.create({
+					email: data.email,
+					password: hashed,
+					fullName: data.fullName,
+					gender: data.gender,
+					isAdmin: data.isAdmin,
 				});
 				resolve({
 					status: true,
@@ -89,6 +101,27 @@ const userServices = {
 				resolve({
 					status: true,
 					users,
+				});
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	getUserById: async (id) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const user = await db.User.findOne({
+					where: { id: id },
+					raw: true,
+				});
+				if (user)
+					resolve({
+						status: true,
+						
+					});
+				resolve({
+					status: true,
+					user,
 				});
 			} catch (error) {
 				reject(error);

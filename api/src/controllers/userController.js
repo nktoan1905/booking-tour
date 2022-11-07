@@ -9,6 +9,14 @@ const userController = {
 			res.status(500).json(error);
 		}
 	},
+	createUser: async (req, res) => {
+		try {
+			const { status, users } = await userServices.createUser();
+			res.status(200).json(users);
+		} catch (error) {
+			res.status(500).json(error);
+		}
+	},
 	deleteUserById: async (req, res) => {
 		try {
 			const id = req.params.id;
@@ -22,5 +30,11 @@ const userController = {
 			res.status(500).json(error);
 		}
 	},
+	getUsersById: async (req, res) => {
+		try {
+			const id = req.params.id;
+			const { status, user } = await userServices.getUserById(id);
+		} catch (error) {}
+	}
 };
 export default userController;

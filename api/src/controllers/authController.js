@@ -12,9 +12,7 @@ const authController = {
 					message: message,
 				});
 			} else {
-				res.status(200).json({
-					newUser,
-				});
+				res.status(200).json(newUser);
 			}
 		} catch (error) {
 			res.status(400).send(error);
