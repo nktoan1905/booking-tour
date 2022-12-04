@@ -2,34 +2,19 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	/**
-     * 	name: DataTypes.STRING,
-		icon: DataTypes.STRING,
-		content: DataTypes.STRING,
-		status: DataTypes.INTEGER,
-     */
+	 * 			car_name: DataTypes.STRING,
+	 *      max_user: DataTypes.STRING,
+	 */
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('TravelGuides', {
+		await queryInterface.createTable('refreshTokens', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.INTEGER,
 			},
-			name: {
+			token: {
 				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			icon: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			content: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			status: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
 			},
 			createdAt: {
 				allowNull: false,
@@ -42,6 +27,6 @@ module.exports = {
 		});
 	},
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('TravelGuides');
+		await queryInterface.dropTable('refreshTokens');
 	},
 };

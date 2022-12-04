@@ -3,38 +3,49 @@ import userServices from '../services/userServices';
 const userController = {
 	getAllUsers: async (req, res) => {
 		try {
-			const { status, users } = await userServices.getAllUsers();
-			res.status(200).json(users);
+			const { statusMessage, usersList } = await userServices.getAllUsers();
+			res.status(200).json({
+				status: statusMessage,
+				data: usersList,
+			});
 		} catch (error) {
-			res.status(500).json(error);
+			res.status(400).send(error);
 		}
 	},
-	createUser: async (req, res) => {
-		try {
-			const { status, users } = await userServices.createUser();
-			res.status(200).json(users);
-		} catch (error) {
-			res.status(500).json(error);
-		}
-	},
-	deleteUserById: async (req, res) => {
+	getUserProfile: async (req, res) => {
 		try {
 			const id = req.params.id;
-			const { status, message } = await userServices.deleteUserById(id);
-			if (!status) {
-				return res.status(404).json(message);
+			const { status, statusMessage, user } = await userServices.getUserById(id);
+			console.log(user);
+			if (status) {
+				res.status(200).json({
+					status: statusMessage,
+					data: user,
+				});
 			} else {
-				return res.status(200).json(message);
+				res.status(404).json({
+					status: statusMessage,
+				});
 			}
 		} catch (error) {
-			res.status(500).json(error);
+			res.status(400).send(error);
 		}
 	},
-	getUsersById: async (req, res) => {
+	updateUserProfile: async (req, res) => {
 		try {
-			const id = req.params.id;
-			const { status, user } = await userServices.getUserById(id);
-		} catch (error) {}
-	}
+			const [isUpdate] = await userServices.updateUserById(req.user.id, req.body);
+			if (isUpdate) {
+				res.status(200).json({
+					status: 'Update user successfully!',
+				});
+			} else {
+				res.status(404).json({
+					status: 'User not found.',
+				});
+			}
+		} catch (error) {
+			res.status(400).send(error);
+		}
+	},
 };
 export default userController;

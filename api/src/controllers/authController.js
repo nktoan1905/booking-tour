@@ -1,94 +1,82 @@
-import userServices from '../services/userServices';
+import authServices from '../services/authServices';
 import jwt from 'jsonwebtoken';
+import db from '../models';
 
 let refreshTokens = [];
 const authController = {
-	// Register
 	registerUser: async (req, res) => {
 		try {
-			const { status, message, newUser } = await userServices.createNewUser(req.body);
-			if (status === false) {
-				res.status(400).json({
-					message: message,
+			const { status, statusMessage, newUser } = await authServices.createNewUser(req.body);
+			delete newUser?.password;
+			if (status) {
+				res.status(200).json({
+					status: statusMessage,
+					data: newUser,
 				});
 			} else {
-				res.status(200).json(newUser);
+				res.status(400).json({
+					status: statusMessage,
+				});
 			}
 		} catch (error) {
 			res.status(400).send(error);
 		}
 	},
-	generateAccessToken: (user) => {
-		return jwt.sign(
-			{
-				id: user.id,
-				admin: user.isAdmin,
-			},
-			process.env.JWT_ACCESS_KEY,
-			{
-				expiresIn: '20d',
-			},
-		);
-	},
-	generateRefreshToken: (user) => {
-		return jwt.sign(
-			{
-				id: user.id,
-				admin: user.isAdmin,
-			},
-			process.env.JWT_REFRESH_KEY,
-			{
-				expiresIn: '365d',
-			},
-		);
-	},
 	login: async (req, res) => {
 		try {
-			const { status, message, user } = await userServices.loginUser(req.body);
+			const { status, statusMessage, user } = await authServices.findUserbyEmail(req.body);
+			console.log(status, statusMessage, user);
 			if (!status) {
-				res.status(404).json(message);
+				res.status(404).json(statusMessage);
 			} else {
-				const accessToken = authController.generateAccessToken(user);
-				const refreshToken = authController.generateRefreshToken(user);
-				refreshTokens.push(refreshToken);
+				const accessToken = authServices.generateAccessToken(user);
+				const refreshToken = authServices.generateRefreshToken(user);
+				await db.RefreshToken.create({
+					token: refreshToken,
+				});
 				res.cookie('refreshToken', refreshToken, {
 					httpOnly: true,
 					secure: false,
 					path: '/',
 					sameSite: 'strict',
 				});
-				delete user.password;
 				res.status(200).json({
-					...user,
-					accessToken,
+					status: statusMessage,
+					data: {
+						...user,
+						accessToken,
+					},
 				});
 			}
 		} catch (error) {
-			res.status(400).json(error);
+			res.status(400).send(error);
 		}
 	},
 	refreshToken: async (req, res) => {
-		// lấy refresh token từ user
 		const refreshToken = req.cookies.refreshToken;
 		if (!refreshToken) {
 			return res.status(401).json("You're not authenticated");
 		}
-		if (!refreshTokens.includes(refreshToken)) {
+		const refreshTokenExist = await db.RefreshToken.findOne({
+			where: { refresh_token: refreshToken },
+			raw: true,
+		});
+		if (refreshTokenExist == null) {
 			return res.status(403).json('Refresh token is not valid');
 		}
-		jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, (err, user) => {
+		jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, async (err, user) => {
 			if (err) {
 				return res.status(403).json('Refresh token is not valid');
 			}
-			// create new access token và refresh token
-			refreshTokens = refreshTokens.filter((token) => {
-				token !== refreshToken;
+
+			await db.RefreshToken.destroy({ where: { refresh_token: refreshToken } });
+
+			const newAccessToken = authServices.generateAccessToken(user);
+			const newRefreshToken = authServices.generateRefreshToken(user);
+
+			await db.RefreshToken.create({
+				refresh_token: newRefreshToken,
 			});
-
-			const newAccessToken = authController.generateAccessToken(user);
-			const newRefreshToken = authController.generateRefreshToken(user);
-
-			refreshTokens.push(newRefreshToken);
 			res.cookie('refreshToken', newRefreshToken, {
 				httpOnly: true,
 				secure: false,
@@ -100,10 +88,18 @@ const authController = {
 			});
 		});
 	},
-	userLogout: async (req, res) => {
-		res.clearCookie('refreshToken');
-		refreshTokens = refreshTokens.filter((token) => token != req.cookies.refreshToken);
-		res.status(200).json('Logout Succeed');
+	logout: async (req, res) => {
+		try {
+			res.clearCookie('refreshToken');
+			await db.RefreshToken.destroy({
+				where: {
+					refresh_token: req.cookies.refreshToken,
+				},
+			});
+			res.status(200).json({ status: 'Logout Succeed' });
+		} catch (error) {
+			res.status(400).send(error);
+		}
 	},
 };
 

@@ -26,12 +26,3 @@ app.use('/v1/user', userRoute);
 app.listen(8000 || process.env.PORT, () => {
 	console.log('Server is running');
 });
-// Authentication
-/**
- * So sánh mk username vs trong db
- */
-// Athutoirization
-/**
- * bạn là ai bạn có quyền làm gì
- */
-// JSOn web token dùng để xác thực người dùng

@@ -1,9 +1,15 @@
 import { Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize('learing_jwt', 'root', '123456789', {
+const sequelize = new Sequelize('travel_development', 'root', '123456789', {
 	host: 'localhost',
 	dialect: 'mysql',
-	logging: false
+	logging: false,
+	dialectOptions: {
+		ssl: {
+			require: true,
+			rejectUnauthorized: false,
+		},
+	},
 });
 
 let connectDB = async () => {
@@ -14,4 +20,4 @@ let connectDB = async () => {
 		console.error('Unable to connect to the database:', error);
 	}
 };
-export default connectDB
+export default connectDB;

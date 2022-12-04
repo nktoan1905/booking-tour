@@ -3,57 +3,50 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		/**
-		 * Add seed commands here.
-		 *
-		 * Example:
-		 * await queryInterface.bulkInsert('People', [{
-		 *   name: 'John Doe',
-		 *   isBetaMember: false
-		 * }], {});
-		 */
+
 		await queryInterface.bulkInsert(
 			'Roles',
 			[
 				{
 					name: 'Admin',
-					description: 'Đây là Admin',
+					description: 'Admin',
 					status: 1,
-          createdAt: new Date(),
-          updatedAt: new Date()
+					created_at: new Date(),
+					updated_at: new Date(),
 				},
 				{
-					name: 'Nhân viên',
-					description: 'Đây là Nhân Viên',
+					name: 'Employee',
+					description: 'Employee',
 					status: 1,
-          createdAt: new Date(),
-          updatedAt: new Date()
+					created_at: new Date(),
+					updated_at: new Date(),
 				},
 				{
-					name: 'Member',
+					name: 'New Member',
 					description: 'Đây là Member',
 					status: 1,
-          createdAt: new Date(),
-          updatedAt: new Date()
+					created_at: new Date(),
+					updated_at: new Date(),
 				},
 				{
 					name: 'Golden Member',
 					description: 'Đây là Golden Member',
 					status: 1,
-          createdAt: new Date(),
-          updatedAt: new Date()
+					created_at: new Date(),
+					updated_at: new Date(),
+				},
+				{
+					name: 'Sliver Member',
+					description: 'Đây là Sliver Member',
+					status: 1,
+					created_at: new Date(),
+					updated_at: new Date(),
 				},
 			],
-			{},
 		);
 	},
 
 	async down(queryInterface, Sequelize) {
-		/**
-		 * Add commands to revert seed here.
-		 *
-		 * Example:
-		 * await queryInterface.bulkDelete('People', null, {});
-		 */
+
 	},
 };

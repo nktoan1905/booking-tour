@@ -18,10 +18,19 @@ const middlewareController = {
 	},
 	verifyTokenAndAdminAuth: (req, res, next) => {
 		middlewareController.verifyToken(req, res, () => {
-			if (req.user.id == req.params.id || req.user.admin) {
+			if (req.user.id == req.params.id && req.user.roleId == 1) {
 				next();
 			} else {
-				res.status(403).json("You're not allowed to delete other");
+				res.status(403).json("You're not allowed!");
+			}
+		});
+	},
+	verifyTokenAndIsYour: (req, res, next) => {
+		middlewareController.verifyToken(req, res, () => {
+			if (req.user.id == req.params.id) {
+				next();
+			} else {
+				res.status(403).json("You're not allowed!");
 			}
 		});
 	},
