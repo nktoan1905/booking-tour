@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../../redux/request/authApiRequest';
+import { toast } from 'react-toastify';
 export const Login = () => {
-	const [userName, setUserName] = useState('');
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	// const [userNameError, setUsernameError] = useState();
-	// const [passwordError, setPasswordError] = useState();
+	const dispatch = useDispatch();
+	const nav = useNavigate();
+	const loginSubmit = async (e) => {
+		await loginUser({ email, password }, dispatch, nav, toast);
+	};
 	return (
 		<div
 			className="d-flex flex-column justify-content-center align-items-center"
@@ -23,21 +29,19 @@ export const Login = () => {
 					<input
 						type="email"
 						className="border-0 flex-grow-1"
-						value={userName}
-						placeholder="User name"
-						autocomplete="off"
+						value={email}
+						placeholder="Email"
+						autoComplete="off"
+						onChange={(e) => {
+							setEmail(e.target.value);
+						}}
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') loginSubmit(e);
+						}}
 						style={{ height: '45px', outline: 'none' }}
 					/>
-					<span className="material-symbols-outlined">person</span>
+					<span className="material-symbols-outlined">email</span>
 				</div>
-				{/* {userNameError && (
-					<p className="d-flex align-items-center" style={{ color: 'red', width: '100%' }}>
-						<span className="material-symbols-outlined me-1" style={{ color: 'red' }}>
-							error
-						</span>
-						{userNameError}
-					</p>
-				)} */}
 				<div
 					className={`mb-3 d-flex align-items-center justify-content-between input-group border form-control border`}>
 					<input
@@ -45,19 +49,17 @@ export const Login = () => {
 						className="border-0 flex-grow-1"
 						value={password}
 						placeholder="Password"
-						autocomplete="off"
+						autoComplete="off"
+						onChange={(e) => {
+							setPassword(e.target.value);
+						}}
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') loginSubmit(e);
+						}}
 						style={{ height: '45px', outline: 'none' }}
 					/>
 					<span className="material-symbols-outlined">password</span>
 				</div>
-				{/* {passwordError && (
-					<p className="d-flex align-items-center" style={{ color: 'red', width: '100%' }}>
-						<span className="material-symbols-outlined me-1" style={{ color: 'red' }}>
-							error
-						</span>
-						{passwordError}
-					</p>
-				)} */}
 				<div className="d-flex justify-content-end mb-4 text-capitalize" style={{ width: '100%' }}>
 					<a className="text-capitalize" href="#">
 						forgot Password?
