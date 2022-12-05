@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './config/connectDB';
 import authRoute from './routes/auth';
 import userRoute from './routes/user';
+import adminRoute from './routes/admin';
 dotenv.config();
 
 const app = express();
@@ -22,6 +23,7 @@ app.get('/', function (req, res) {
 // Routes
 app.use('/v1/auth', authRoute);
 app.use('/v1/user', userRoute);
+app.use('/v1/admin', adminRoute);
 //
 app.listen(8000 || process.env.PORT, () => {
 	console.log('Server is running');

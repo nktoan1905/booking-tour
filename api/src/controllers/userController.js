@@ -1,6 +1,40 @@
 import userServices from '../services/userServices';
 
 const userController = {
+	createNewEmployee: async (req, res) => {
+		try {
+			const { status, statusMessage, newEmployee } = await userServices.createNewEmployee(req.body);
+			delete newEmployee?.password;
+			if (status) {
+				res.status(200).json({
+					status: statusMessage,
+					data: newEmployee,
+				});
+			} else {
+				res.status(400).json({
+					status: statusMessage,
+				});
+			}
+		} catch (error) {
+			res.status(400).send(error);
+		}
+	},
+	deleteEmployeeById: async (req, res) => {
+		try {
+			const { status, statusMessage } = await userServices.deleteEmployeeById(req.id);
+			if (status) {
+				res.status(200).json({
+					status: statusMessage,
+				});
+			} else {
+				res.status(404).json({
+					status: statusMessage,
+				});
+			}
+		} catch (error) {
+			res.status(400).send(error);
+		}
+	},
 	getAllUsers: async (req, res) => {
 		try {
 			const { statusMessage, usersList } = await userServices.getAllUsers();

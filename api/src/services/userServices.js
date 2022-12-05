@@ -1,7 +1,59 @@
 import db from '../models/index';
 import bcrypt from 'bcrypt';
+import schema from '../helpers/validation';
+
 const salt = bcrypt.genSaltSync(10);
+
 const userServices = {
+	createNewEmployee: async (data) => {
+		new Promise(async (resolve, reject) => {
+			try {
+				const result = await schema.authSchema.validateAsync(data);
+				let hashed = await bcrypt.hash(result.password, salt);
+				let emailIsExist = await db.User.findOne({
+					where: { email: result.email },
+				});
+				if (emailIsExist) {
+					return resolve({
+						status: false,
+						statusMessage: 'Email was already exsit.',
+					});
+				}
+				let newEmployee = await db.User.create({
+					email: result.email,
+					password: hashed,
+					roleId: 2,
+				});
+				resolve({
+					status: true,
+					statusMessage: 'Create new employee successfully.',
+					newUser: newEmployee.dataValues,
+				});
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	deleteEmployeeById: async (id) => {
+		new Promise(async (resolve, reject) => {
+			try {
+				const [isDelete] = await db.User.destroy({ where: { id: id } });
+				if (isDelete) {
+					resolve({
+						status: true,
+						statusMessage: 'Delete Employee Successfully',
+					});
+				} else {
+					resolve({
+						status: false,
+						statusMessage: 'This Employee not found',
+					});
+				}
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
 	getAllUsers: async () => {
 		return new Promise(async (resolve, reject) => {
 			try {
