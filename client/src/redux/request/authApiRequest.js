@@ -20,10 +20,11 @@ export const loginUser = async (user, dispatch, navigate, toast) => {
 		dispatch(loginFailed());
 	}
 };
-export const registerUser = async (user, dispatch, navigate) => {
+export const registerUser = async (user, dispatch, navigate, toast) => {
 	dispatch(registerStart());
 	try {
 		await authAPI.register(user);
+		toast.success(res.data.status);
 		dispatch(registerSuccess());
 		navigate('/login');
 	} catch (error) {

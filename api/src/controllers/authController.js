@@ -2,9 +2,8 @@ import authServices from '../services/authServices';
 import jwt from 'jsonwebtoken';
 import db from '../models';
 
-let refreshTokens = [];
 const authController = {
-	registerUser: async (req, res) => {
+	handleRegisterUser: async (req, res) => {
 		try {
 			const { status, statusMessage, newUser } = await authServices.createNewUser(req.body);
 			delete newUser?.password;
@@ -22,7 +21,7 @@ const authController = {
 			res.status(400).send(error);
 		}
 	},
-	login: async (req, res) => {
+	handleLogin: async (req, res) => {
 		try {
 			const { status, statusMessage, user } = await authServices.findUserbyEmail(req.body);
 			console.log(status, statusMessage, user);
@@ -52,7 +51,7 @@ const authController = {
 			res.status(400).send(error);
 		}
 	},
-	refreshToken: async (req, res) => {
+	handleRefreshToken: async (req, res) => {
 		const refreshToken = req.cookies.refreshToken;
 		if (!refreshToken) {
 			return res.status(401).json("You're not authenticated");
@@ -70,10 +69,8 @@ const authController = {
 			}
 
 			await db.RefreshToken.destroy({ where: { refresh_token: refreshToken } });
-
 			const newAccessToken = authServices.generateAccessToken(user);
 			const newRefreshToken = authServices.generateRefreshToken(user);
-
 			await db.RefreshToken.create({
 				refresh_token: newRefreshToken,
 			});
@@ -88,7 +85,7 @@ const authController = {
 			});
 		});
 	},
-	logout: async (req, res) => {
+	handleLogout: async (req, res) => {
 		try {
 			res.clearCookie('refreshToken');
 			await db.RefreshToken.destroy({

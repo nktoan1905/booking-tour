@@ -1,7 +1,7 @@
 import userServices from '../services/userServices';
 
 const userController = {
-	createNewEmployee: async (req, res) => {
+	handleCreateNewEmployee: async (req, res) => {
 		try {
 			const { status, statusMessage, newEmployee } = await userServices.createNewEmployee(req.body);
 			delete newEmployee?.password;
@@ -19,7 +19,7 @@ const userController = {
 			res.status(400).send(error);
 		}
 	},
-	deleteEmployeeById: async (req, res) => {
+	handleDeleteEmployeeById: async (req, res) => {
 		try {
 			const { status, statusMessage } = await userServices.deleteEmployeeById(req.id);
 			if (status) {
@@ -35,7 +35,7 @@ const userController = {
 			res.status(400).send(error);
 		}
 	},
-	getAllUsers: async (req, res) => {
+	handleGetAllUsers: async (req, res) => {
 		try {
 			const { statusMessage, usersList } = await userServices.getAllUsers();
 			res.status(200).json({
@@ -46,7 +46,7 @@ const userController = {
 			res.status(400).send(error);
 		}
 	},
-	getUserProfile: async (req, res) => {
+	handleGetUserProfile: async (req, res) => {
 		try {
 			const id = req.params.id;
 			const { status, statusMessage, user } = await userServices.getUserById(id);
@@ -65,7 +65,7 @@ const userController = {
 			res.status(400).send(error);
 		}
 	},
-	updateUserProfile: async (req, res) => {
+	hanleUpdateUserProfile: async (req, res) => {
 		try {
 			const [isUpdate] = await userServices.updateUserById(req.user.id, req.body);
 			if (isUpdate) {

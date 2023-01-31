@@ -4,8 +4,8 @@ import middlewareController from '../middleware/middlewareController';
 
 const router = express.Router();
 
-router.get('/:id', middlewareController.verifyTokenAndIsYour, userController.getUserProfile);
+// router.get('/:id', userController.getUserProfile);
 
-router.put('/:id', middlewareController.verifyTokenAndIsYour, userController.updateUserProfile);
+// router.put('/:id', userController.updateUserProfile);
 
 export default router;

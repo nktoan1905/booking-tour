@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-const middlewareController = {
-	verifyToken: (req, res, next) => {
+const tokenMiddleware = {
+	verifyToken: function (req, res, next) {
 		const token = req.headers.token;
 		if (token) {
 			const accessToken = token.split(' ')[1];
@@ -16,15 +16,5 @@ const middlewareController = {
 			return res.status(401).json("You're not authenticated");
 		}
 	},
-	verifyTokenAndAdminAuth: (req, res, next) => {
-		middlewareController.verifyToken(req, res, () => {
-			if (req.user.id == req.params.id && req.user.roleId == 1) {
-				next();
-			} else {
-				res.status(403).json("You're not allowed!");
-			}
-		});
-	},
-
 };
-export default middlewareController;
+export default tokenMiddleware;

@@ -71,7 +71,6 @@ const authServices = {
 					});
 				}
 				let validPassword = await bcrypt.compare(data.password, user.password);
-				console.log(validPassword);
 				if (!validPassword) {
 					resolve({
 						status: false,

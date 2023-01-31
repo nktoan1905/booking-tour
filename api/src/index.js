@@ -6,6 +6,7 @@ import connectDB from './config/connectDB';
 import authRoute from './routes/auth';
 import userRoute from './routes/user';
 import adminRoute from './routes/admin';
+import db from './models';
 dotenv.config();
 
 const app = express();
@@ -14,7 +15,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
-connectDB();
+connectDB(db.sequelize);
 
 app.get('/', function (req, res) {
 	res.send('Hello World!');
