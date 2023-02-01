@@ -6,6 +6,7 @@ import connectDB from './config/connectDB';
 import authRoute from './routes/auth';
 import userRoute from './routes/user';
 import adminRoute from './routes/admin';
+import categoriesRoute from './routes/category';
 import db from './models';
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.get('/', function (req, res) {
 app.use('/v1/auth', authRoute);
 app.use('/v1/user', userRoute);
 app.use('/v1/admin', adminRoute);
+app.use('/v1/categories', categoriesRoute);
 //
 app.listen(8000 || process.env.PORT, () => {
 	console.log('Server is running');
