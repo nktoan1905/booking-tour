@@ -7,6 +7,9 @@ const authController = {
 		try {
 			const { status, statusMessage, newUser } = await authServices.createNewUser(req.body);
 			delete newUser?.password;
+			delete newUser?.updatedAt;
+			delete newUser?.createdAt;
+
 			if (status) {
 				res.status(200).json({
 					status: statusMessage,
@@ -24,15 +27,16 @@ const authController = {
 	handleLogin: async (req, res) => {
 		try {
 			const { status, statusMessage, user } = await authServices.findUserbyEmail(req.body);
-			console.log(status, statusMessage, user);
 			if (!status) {
 				res.status(404).json(statusMessage);
 			} else {
 				const accessToken = authServices.generateAccessToken(user);
 				const refreshToken = authServices.generateRefreshToken(user);
+
 				await db.RefreshToken.create({
 					token: refreshToken,
 				});
+
 				res.cookie('refreshToken', refreshToken, {
 					httpOnly: true,
 					secure: false,
@@ -42,7 +46,6 @@ const authController = {
 				res.status(200).json({
 					status: statusMessage,
 					data: {
-						...user,
 						accessToken,
 					},
 				});
@@ -57,8 +60,7 @@ const authController = {
 			return res.status(401).json("You're not authenticated");
 		}
 		const refreshTokenExist = await db.RefreshToken.findOne({
-			where: { refresh_token: refreshToken },
-			raw: true,
+			where: { token: refreshToken },
 		});
 		if (refreshTokenExist == null) {
 			return res.status(403).json('Refresh token is not valid');
@@ -68,7 +70,7 @@ const authController = {
 				return res.status(403).json('Refresh token is not valid');
 			}
 
-			await db.RefreshToken.destroy({ where: { refresh_token: refreshToken } });
+			await db.RefreshToken.destroy({ where: { token: refreshToken } });
 			const newAccessToken = authServices.generateAccessToken(user);
 			const newRefreshToken = authServices.generateRefreshToken(user);
 			await db.RefreshToken.create({
@@ -81,7 +83,10 @@ const authController = {
 				sameSite: 'strict',
 			});
 			res.status(200).json({
-				newAccessToken: newAccessToken,
+				message: 'Refresh token successfully!',
+				data: {
+					newAccessToken: newAccessToken,
+				},
 			});
 		});
 	},
@@ -90,10 +95,10 @@ const authController = {
 			res.clearCookie('refreshToken');
 			await db.RefreshToken.destroy({
 				where: {
-					refresh_token: req.cookies.refreshToken,
+					token: req.cookies.refreshToken,
 				},
 			});
-			res.status(200).json({ status: 'Logout Succeed' });
+			res.status(200).json({ message: 'Logout successfully!' });
 		} catch (error) {
 			res.status(400).send(error);
 		}

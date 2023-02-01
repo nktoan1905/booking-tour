@@ -1,6 +1,5 @@
 import db from '../models/index';
 import bcrypt from 'bcrypt';
-import schema from '../helpers/validation';
 import jwt from 'jsonwebtoken';
 
 const salt = bcrypt.genSaltSync(10);
@@ -9,10 +8,9 @@ const authServices = {
 	createNewUser: async (data) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const result = await schema.authSchema.validateAsync(data);
-				let hashed = await bcrypt.hash(result.password, salt);
+				let hashed = await bcrypt.hash(data.password, salt);
 				let emailIsExist = await db.User.findOne({
-					where: { email: result.email },
+					where: { email: data.email },
 				});
 				if (emailIsExist) {
 					return resolve({
@@ -21,8 +19,11 @@ const authServices = {
 					});
 				}
 				let newUser = await db.User.create({
-					email: result.email,
+					email: data.email,
+					fullName: data.fullName,
 					password: hashed,
+					roleId: 3,
+					status: 1,
 				});
 				resolve({
 					status: true,
