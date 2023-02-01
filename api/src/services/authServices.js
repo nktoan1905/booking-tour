@@ -1,6 +1,8 @@
 import db from '../models/index';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import UserRole from '../helpers/roleConst';
+import Status from '../helpers/statusConst';
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -22,8 +24,8 @@ const authServices = {
 					email: data.email,
 					fullName: data.fullName,
 					password: hashed,
-					roleId: 3,
-					status: 1,
+					roleId: UserRole.MEMBERS,
+					status: Status.ACTIVE,
 				});
 				resolve({
 					status: true,
@@ -79,11 +81,16 @@ const authServices = {
 					});
 				}
 				delete user?.password;
-				if (user && validPassword) {
+				if (user && validPassword && user.status === Status.ACTIVE) {
 					resolve({
 						status: true,
 						statusMessage: 'Login successfully',
 						user,
+					});
+				} else {
+					resolve({
+						status: false,
+						statusMessage: 'Account was been deleted',
 					});
 				}
 			} catch (error) {

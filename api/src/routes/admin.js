@@ -1,16 +1,34 @@
 import express from 'express';
 import userController from '../controllers/UserController';
-import middlewareController from '../middleware/middlewareController';
 import roleMiddleware from '../middleware/roleMiddleware';
 const router = express.Router();
 
-// get all users của website
-router.get('/', roleMiddleware.verifyAdmin, userController.handleGetAllUsers);
+// get all admins
+router.get('/admins', roleMiddleware.verifyAdmin, userController.handleGetAllAdmins);
 
-// Tạo mới nhân viên website
-router.post('/:id', roleMiddleware.verifyAdmin, userController.handleCreateNewEmployee);
+// create new employee
+router.post('/register/employee', roleMiddleware.verifyAdmin, userController.handleCreateNewEmployee);
 
-// Xóa nhân viên website
-router.delete('/:id', roleMiddleware.verifyAdmin, userController.handleDeleteEmployeeById);
+// get all employees
+router.get('/employees', roleMiddleware.verifyAdmin, userController.handleGetAllEmployees);
+
+// delete employee
+router.delete('/employees/:id', roleMiddleware.verifyAdmin, userController.handleDeleteEmployeeById);
+
+// get all members
+router.get('/members', roleMiddleware.verifyAdmin, userController.handleGetAllMembers);
+
+// delete user
+router.delete('/members/:id', roleMiddleware.verifyAdmin, userController.handleDeleteMemberById);
+
+// update status account Member or Employee
+router.put('/:id', roleMiddleware.verifyAdmin, userController.handleUpdateMemberAndEmployeeStatus);
+
+// update member role to siver or golden
+router.put('/members/:id', roleMiddleware.verifyAdmin, userController.handleUpdateMemberRole);
+
+
+
+
 
 export default router;

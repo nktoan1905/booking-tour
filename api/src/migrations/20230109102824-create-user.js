@@ -31,7 +31,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       dob: {
-        type: Sequelize.DATEONLY
+        type: Sequelize.STRING
       },
       roleId: {
         type: Sequelize.INTEGER

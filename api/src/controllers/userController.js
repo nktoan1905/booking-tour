@@ -1,85 +1,140 @@
 import userServices from '../services/userServices';
 
 const userController = {
-	handleCreateNewEmployee: async (req, res) => {
+	handleGetAllMembers: async (req, res) => {
 		try {
-			const { status, statusMessage, newEmployee } = await userServices.createNewEmployee(req.body);
-			delete newEmployee?.password;
+			const { status, message, members } = await userServices.getAllMembers();
 			if (status) {
 				res.status(200).json({
-					status: statusMessage,
-					data: newEmployee,
+					message: message,
+					data: members,
 				});
-			} else {
-				res.status(400).json({
-					status: statusMessage,
-				});
-			}
+			} else res.status(404).json({ message });
 		} catch (error) {
-			res.status(400).send(error);
+			res.status(400).json(error);
 		}
 	},
-	handleDeleteEmployeeById: async (req, res) => {
+	handleGetAllEmployees: async (req, res) => {
 		try {
-			const { status, statusMessage } = await userServices.deleteEmployeeById(req.id);
+			const { status, message, employees } = await userServices.getAllEmployees();
 			if (status) {
 				res.status(200).json({
-					status: statusMessage,
+					message: message,
+					data: employees,
 				});
-			} else {
-				res.status(404).json({
-					status: statusMessage,
-				});
-			}
+			} else res.status(404).json({ message });
 		} catch (error) {
-			res.status(400).send(error);
+			res.status(400).json(error);
 		}
 	},
-	handleGetAllUsers: async (req, res) => {
+	handleGetAllAdmins: async (req, res) => {
 		try {
-			const { statusMessage, usersList } = await userServices.getAllUsers();
-			res.status(200).json({
-				status: statusMessage,
-				data: usersList,
-			});
+			const { status, message, admins } = await userServices.getAllEmployees();
+			if (status) {
+				res.status(200).json({
+					message: message,
+					data: admins,
+				});
+			} else res.status(404).json({ message });
 		} catch (error) {
-			res.status(400).send(error);
+			res.status(400).json(error);
 		}
 	},
 	handleGetUserProfile: async (req, res) => {
 		try {
-			const id = req.params.id;
-			const { status, statusMessage, user } = await userServices.getUserById(id);
-			console.log(user);
+			const { status, message, userProfile } = await userServices.getUserProfileById(req.user.id);
 			if (status) {
 				res.status(200).json({
-					status: statusMessage,
-					data: user,
+					message: message,
+					data: userProfile,
 				});
-			} else {
-				res.status(404).json({
-					status: statusMessage,
-				});
-			}
+			} else res.status(404).json({ message });
 		} catch (error) {
-			res.status(400).send(error);
+			res.status(400).json(error);
 		}
 	},
-	hanleUpdateUserProfile: async (req, res) => {
+	handleCreateNewEmployee: async (req, res) => {
 		try {
-			const [isUpdate] = await userServices.updateUserById(req.user.id, req.body);
-			if (isUpdate) {
+			const { status, message } = await userServices.createEmployee(req.body);
+			if (status) {
 				res.status(200).json({
-					status: 'Update user successfully!',
+					message,
 				});
-			} else {
-				res.status(404).json({
-					status: 'User not found.',
-				});
-			}
+			} else res.status(404).json({ message });
 		} catch (error) {
-			res.status(400).send(error);
+			res.status(400).json(error);
 		}
 	},
+	handleUpdateProfile: async (req, res) => {
+		try {
+			console.log(req.body);
+			const { isUpdate } = await userServices.updateUserProfile(req.user.id, req.body);
+			res.status(200).json({
+				isUpdate,
+			});
+		} catch (error) {
+			res.status(400).json(error);
+		}
+	},
+	handleUpdateMemberAndEmployeeStatus: async (req, res) => {
+		try {
+			if (!req.id) {
+				res.status(400);
+			}
+			const { status, message } = await userServices.updateMemberAndEmployeeStatus(req.id);
+			if (status) {
+				res.status(200).json(message);
+			} else {
+				res.status(404).json(message);
+			}
+		} catch (error) {
+			res.status(400).json(error);
+		}
+	},
+	handleUpdateMemberRole: async (req, res) => {
+		try {
+			if (!req.params.id || !req.body) {
+				res.status(400);
+			}
+			const { status, message } = await userServices.updateMemberRole(req.params.id, req.body);
+			if (status) {
+				res.status(200).json({ message });
+			} else {
+				res.status(404).json({ message });
+			}
+		} catch (error) {
+			res.status(400).json(error);
+		}
+	},
+	handleDeleteEmployeeById: async (req, res) => {
+		try {
+			if (!req.params.id) {
+				res.status(400);
+			}
+			const { status, message } = await userServices.deleteEmployeeById(req.params.id);
+			if (status) {
+				res.status(200).json({ message });
+			} else {
+				res.status(404).json({ message });
+			}
+		} catch (error) {
+			res.status(400).json(error);
+		}
+	},
+	handleDeleteMemberById: async (req, res) => {
+		try {
+			if (!req.params.id) {
+				res.status(400);
+			}
+			const { status, message } = await userServices.deleteMemberById(req.params.id);
+			if (status) {
+				res.status(200).json({ message });
+			} else {
+				res.status(404).json({ message });
+			}
+		} catch (error) {
+			res.status(400).json(error);
+		}
+	}
 };
 export default userController;
