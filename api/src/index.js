@@ -7,6 +7,8 @@ import authRoute from './routes/auth';
 import userRoute from './routes/user';
 import adminRoute from './routes/admin';
 import categoriesRoute from './routes/category';
+import promotionsRoute from './routes/promotion';
+import newsRoute from './routes/news';
 import db from './models';
 dotenv.config();
 
@@ -27,6 +29,8 @@ app.use('/v1/auth', authRoute);
 app.use('/v1/user', userRoute);
 app.use('/v1/admin', adminRoute);
 app.use('/v1/categories', categoriesRoute);
+app.use('/v1/promotions', promotionsRoute);
+app.use('/v1/news', newsRoute);
 //
 app.listen(8000 || process.env.PORT, () => {
 	console.log('Server is running');

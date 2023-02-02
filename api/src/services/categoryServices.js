@@ -1,4 +1,3 @@
-import e from 'express';
 import Status from '../helpers/statusConst';
 import db from '../models';
 
