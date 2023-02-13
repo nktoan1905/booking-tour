@@ -9,8 +9,8 @@ router.post('/register', tokenMiddleware.verifyToken, newsController.handleCreat
 
 router.put('/:newsId', tokenMiddleware.verifyToken, newsController.handleUpdateNews);
 
-router.put('/:newsId/status', tokenMiddleware.verifyToken   ,newsController.handleUpdateStatusNews);
+router.put('/:newsId/status', tokenMiddleware.verifyToken, newsController.handleUpdateStatusNews);
 
-router.delete('/:newsId', newsController.handleDeleteNews);
+router.delete('/:newsId', tokenMiddleware.verifyToken, newsController.handleDeleteNews);
 
 export default router;

@@ -12,11 +12,22 @@ const roleMiddleware = {
 		});
 	},
 	verifyEmployees: function (req, res, next) {
-		if (req.user.roleId === UserRole.EMPLOYEE) {
-			next();
-		} else {
-			res.status(403).json("You don't have permission to access!");
-		}
+		tokenMiddleware.verifyToken(req, res, () => {
+			if (req.user.roleId === UserRole.EMPLOYEE) {
+				next();
+			} else {
+				res.status(403).json("You don't have permission to access!");
+			}
+		});
+	},
+	verifyAdminOrEmployee: (req, res, next) => {
+		tokenMiddleware.verifyToken(req, res, () => {
+			if (req.user.roleId === UserRole.EMPLOYEE || req.user.roleId === UserRole.ADMIN) {
+				next();
+			} else {
+				res.status(403).json("You don't have permission to access!");
+			}
+		});
 	},
 };
 export default roleMiddleware;

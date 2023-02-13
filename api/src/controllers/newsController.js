@@ -1,3 +1,4 @@
+import HttpSatusCode from '../helpers/httpStatusCode';
 import db from '../models';
 import newServices from '../services/newsServices';
 
@@ -6,24 +7,24 @@ const newsController = {
 		try {
 			const { status, message } = await newServices.createNews(req.user.id, req.body);
 			if (status) {
-				res.status(200).json({ message });
+				res.status(HttpSatusCode.OK).json({ message });
 			} else {
-				res.status(400).json({ message });
+				res.status(HttpSatusCode.BAD_REQUEST).json({ message });
 			}
 		} catch (error) {
-			res.status(400).json(error);
+			res.status(HttpSatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleGetAllNews: async (req, res) => {
 		try {
 			const { status, message, news } = await newServices.getAllNews();
 			if (status) {
-				res.status(200).json({ message: message, data: news });
+				res.status(HttpSatusCode.OK).json({ message: message, data: news });
 			} else {
-				res.status(400).json({ message });
+				res.status(HttpSatusCode.BAD_REQUEST).json({ message });
 			}
 		} catch (error) {
-			res.status(400).json(error);
+			res.status(HttpSatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleUpdateNews: async (req, res) => {
@@ -31,36 +32,36 @@ const newsController = {
 			console.log(req.params.newsId);
 			const { status, message } = await newServices.updateNews(req.params.newsId, req.body);
 			if (status) {
-				res.status(200).json({ message });
+				res.status(HttpSatusCode.OK).json({ message });
 			} else {
-				res.status(400).json({ message });
+				res.status(HttpSatusCode.BAD_REQUEST).json({ message });
 			}
 		} catch (error) {
-			res.status(400).json(error);
+			res.status(HttpSatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleUpdateStatusNews: async (req, res) => {
 		try {
 			const { status, message } = await newServices.updateStatusNews(req.params.newsId, req.body);
 			if (status) {
-				res.status(200).json({ message });
+				res.status(HttpSatusCode.OK).json({ message });
 			} else {
-				res.status(400).json({ message });
+				res.status(HttpSatusCode.BAD_REQUEST).json({ message });
 			}
 		} catch (error) {
-			res.status(400).json(error);
+			res.status(HttpSatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleDeleteNews: async (req, res) => {
 		try {
 			const { status, message } = await newServices.deleteNews(req.params.newsId);
 			if (status) {
-				res.status(200).json({ message });
+				res.status(HttpSatusCode.OK).json({ message });
 			} else {
-				res.status(400).json({ message });
+				res.status(HttpSatusCode.BAD_REQUEST).json({ message });
 			}
 		} catch (error) {
-			res.status(400).json(error);
+			res.status(HttpSatusCode.BAD_REQUEST).json(error);
 		}
 	},
 };

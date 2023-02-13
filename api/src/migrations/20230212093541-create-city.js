@@ -2,33 +2,26 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('News', {
+		await queryInterface.createTable('Cities', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.INTEGER,
 			},
-			title: {
+			name: {
 				type: Sequelize.STRING,
 			},
-			content: {
-				type: Sequelize.STRING,
+			status: {
+				type: Sequelize.INTEGER,
 			},
-			userId: {
+			countryId: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
-				onDelete: 'CASCADE',
 				references: {
-					model: 'Users',
+					model: 'Countries',
 					key: 'id',
 				},
-			},
-			image: {
-				type: Sequelize.STRING,
-			},
-			imageName: {
-				type: Sequelize.STRING,
 			},
 			createdAt: {
 				allowNull: false,
@@ -41,6 +34,6 @@ module.exports = {
 		});
 	},
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('News');
+		await queryInterface.dropTable('Cities');
 	},
 };

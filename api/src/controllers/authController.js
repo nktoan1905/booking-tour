@@ -11,17 +11,17 @@ const authController = {
 			delete newUser?.createdAt;
 
 			if (status) {
-				res.status(200).json({
+				res.status(HttpSatusCode.OK).json({
 					status: statusMessage,
 					data: newUser,
 				});
 			} else {
-				res.status(400).json({
+				res.status(HttpSatusCode.BAD_REQUEST).json({
 					status: statusMessage,
 				});
 			}
 		} catch (error) {
-			res.status(400).send(error);
+			res.status(HttpSatusCode.BAD_REQUEST).send(error);
 		}
 	},
 	handleLogin: async (req, res) => {
@@ -43,7 +43,7 @@ const authController = {
 					path: '/',
 					sameSite: 'strict',
 				});
-				res.status(200).json({
+				res.status(HttpSatusCode.OK).json({
 					status: statusMessage,
 					data: {
 						accessToken,
@@ -51,13 +51,13 @@ const authController = {
 				});
 			}
 		} catch (error) {
-			res.status(400).send(error);
+			res.status(HttpSatusCode.BAD_REQUEST).send(error);
 		}
 	},
 	handleRefreshToken: async (req, res) => {
 		const refreshToken = req.cookies.refreshToken;
 		if (!refreshToken) {
-			return res.status(401).json("You're not authenticated");
+			return res.status(HttpSatusCode.UNAUTHORIIZED).json("You're not authenticated");
 		}
 		const refreshTokenExist = await db.RefreshToken.findOne({
 			where: { token: refreshToken },
@@ -82,7 +82,7 @@ const authController = {
 				path: '/',
 				sameSite: 'strict',
 			});
-			res.status(200).json({
+			res.status(HttpSatusCode.OK).json({
 				message: 'Refresh token successfully!',
 				data: {
 					newAccessToken: newAccessToken,
@@ -98,9 +98,9 @@ const authController = {
 					token: req.cookies.refreshToken,
 				},
 			});
-			res.status(200).json({ message: 'Logout successfully!' });
+			res.status(HttpSatusCode.OK).json({ message: 'Logout successfully!' });
 		} catch (error) {
-			res.status(400).send(error);
+			res.status(HttpSatusCode.BAD_REQUEST).send(error);
 		}
 	},
 };

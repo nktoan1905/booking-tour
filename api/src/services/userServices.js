@@ -119,7 +119,25 @@ const userServices = {
 			try {
 				const userProfile = await db.User.findOne({
 					where: { id: id },
-					attributes: ['fullName', 'gender', 'email', 'password', 'avatar', 'address', 'phoneNumber', 'dob', 'status'],
+					attributes: [
+						'fullName',
+						'gender',
+						'email',
+						'avatar',
+						'address',
+						'phoneNumber',
+						'dob',
+						'status',
+					],
+					include: [
+						{
+							model: db.Role,
+							as: 'roleInfo',
+							attributes: ['name', 'status'],
+						},
+					],
+					nest: true,
+					raw: true,
 				});
 				if (!userProfile) {
 					resolve({
@@ -134,6 +152,7 @@ const userServices = {
 					});
 				}
 			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});
@@ -201,6 +220,7 @@ const userServices = {
 					resolve({ status: false, message: 'Update failed' });
 				}
 			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});
@@ -287,7 +307,7 @@ const userServices = {
 				reject(error);
 			}
 		});
-	}
+	},
 };
 
 export default userServices;

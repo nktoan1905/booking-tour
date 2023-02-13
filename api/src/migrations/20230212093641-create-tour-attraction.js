@@ -2,22 +2,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('TourDepartureDays', {
+    await queryInterface.createTable('TourAttractions', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      dayStartId: {
+      tourId: {
         type: Sequelize.INTEGER
       },
-      TourId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model : 'tours',
-          key: 'id'
-        }
+      cityId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -30,6 +26,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('TourDepartureDays');
+    await queryInterface.dropTable('TourAttractions');
   }
 };

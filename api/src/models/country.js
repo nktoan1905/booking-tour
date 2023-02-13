@@ -1,7 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-	class Promotion extends Model {
+	class Country extends Model {
 		/**
 		 * Helper method for defining associations.
 		 * This method is not a part of Sequelize lifecycle.
@@ -9,24 +9,18 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			Promotion.belongsToMany(models.Tour, {
-				through: models.TourPromotion,
-				foreignKey: 'promtionId',
-				otherKeys: 'tourId',
-				targetKey: 'id',
-			});
+			Country.hasMany(models.City, { foreignKey: 'countryId', targetKey: 'id', as: 'cityInfo' });
 		}
 	}
-	Promotion.init(
+	Country.init(
 		{
 			name: DataTypes.STRING,
-			promotion: DataTypes.INTEGER,
 			status: DataTypes.INTEGER,
 		},
 		{
 			sequelize,
-			modelName: 'Promotion',
+			modelName: 'Country',
 		},
 	);
-	return Promotion;
+	return Country;
 };

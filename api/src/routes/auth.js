@@ -1,6 +1,6 @@
 import express from 'express';
 import authController from '../controllers/authController';
-import middlewareController from '../middleware/middlewareController';
+import tokenMiddleware from '../middleware/tokenMiddleware';
 
 const router = express.Router();
 
@@ -14,6 +14,6 @@ router.post('/login', authController.handleLogin);
 router.post('/refresh', authController.handleRefreshToken);
 
 // log out
-router.post('/logout', middlewareController.verifyToken, authController.handleLogout);
+router.post('/logout', tokenMiddleware.verifyToken, authController.handleLogout);
 
 export default router;

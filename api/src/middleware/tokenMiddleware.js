@@ -13,7 +13,7 @@ const tokenMiddleware = {
 				next();
 			});
 		} else {
-			return res.status(401).json("You're not authenticated");
+			return res.status(HttpSatusCode.UNAUTHORIIZED).json("You're not authenticated");
 		}
 	},
 };
