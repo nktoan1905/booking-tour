@@ -12,6 +12,7 @@ import newsRoute from './routes/news';
 import countryRoute from './routes/country';
 import cityRoute from './routes/city';
 import contactRoute from './routes/contact';
+import departureDayRoute from './routes/departureDay';
 import db from './models';
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use('/v1/categories', categoriesRoute);
 app.use('/v1/promotions', promotionsRoute);
 app.use('/v1/countries', countryRoute);
 app.use('/v1/cities', cityRoute);
+app.use('/v1/departure-day', departureDayRoute);
 app.use('/v1/news', newsRoute);
 app.use('/v1/contact', contactRoute);
 

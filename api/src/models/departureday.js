@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   DepartureDay.init({
-    dayStart: DataTypes.INTEGER,
+    dayStart: DataTypes.DATEONLY,
     status: DataTypes.BOOLEAN
   }, {
     sequelize,

@@ -52,5 +52,13 @@ const checkExist = {
 			return 0;
 		}
 	},
+	checkDepartureDayIdExist: async (departureDayId) => {
+		const departureDay = await db.DepartureDay.findOne({ where: { id: departureDayId } });
+		if (departureDay) {
+			return 1;
+		} else {
+			return 0;
+		}
+	},
 };
 export default checkExist;

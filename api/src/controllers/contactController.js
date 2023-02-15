@@ -1,4 +1,4 @@
-import HttpSatusCode from '../helpers/httpStatusCode';
+import HttpStatusCode from '../helpers/httpStatusCode';
 import contactServices from '../services/contactServices';
 import sendMail from '../services/mailServices';
 
@@ -12,48 +12,48 @@ const contactController = {
 				// 	'nktoan1905@gmail.com',
 				// 	req.body.email,
 				// );
-				res.status(HttpSatusCode.CREATED).json({ message });
+				res.status(HttpStatusCode.CREATED).json({ message });
 			} else {
-				res.status(HttpSatusCode.BAD_REQUEST).json({ message });
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 			}
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).json(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleGetAllContact: async (req, res) => {
 		try {
 			const { status, message, contacts } = await contactServices.getAllContact();
 			if (status) {
-				res.status(HttpSatusCode.OK).json({ message: message, data: contacts });
+				res.status(HttpStatusCode.OK).json({ message: message, data: contacts });
 			} else {
-				res.status(HttpSatusCode.BAD_REQUEST).json({ message: message });
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message: message });
 			}
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).json(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleUpdateStatusContact: async (req, res) => {
 		try {
 			const { status, message } = await contactServices.updateStatusContact(req.params.contactId, req.body.status);
 			if (status) {
-				res.status(HttpSatusCode.OK).json({ message: message });
+				res.status(HttpStatusCode.OK).json({ message: message });
 			} else {
-				res.status(HttpSatusCode.BAD_REQUEST).json({ message: message });
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message: message });
 			}
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).json(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleDeleteContact: async (req, res) => {
 		try {
 			const { status, message } = await contactServices.deleteContact(req.params.contactId);
 			if (status) {
-				res.status(HttpSatusCode.OK).json({ message });
+				res.status(HttpStatusCode.OK).json({ message });
 			} else {
-				res.status(HttpSatusCode.BAD_REQUEST).json({ message });
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 			}
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).json(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 };

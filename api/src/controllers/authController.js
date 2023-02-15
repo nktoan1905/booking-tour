@@ -1,7 +1,7 @@
 import authServices from '../services/authServices';
 import jwt from 'jsonwebtoken';
 import db from '../models';
-import HttpSatusCode from '../helpers/httpStatusCode';
+import HttpStatusCode from '../helpers/httpStatusCode';
 
 const authController = {
 	handleRegisterUser: async (req, res) => {
@@ -12,17 +12,17 @@ const authController = {
 			delete newUser?.createdAt;
 
 			if (status) {
-				res.status(HttpSatusCode.OK).json({
+				res.status(HttpStatusCode.OK).json({
 					status: statusMessage,
 					data: newUser,
 				});
 			} else {
-				res.status(HttpSatusCode.BAD_REQUEST).json({
+				res.status(HttpStatusCode.BAD_REQUEST).json({
 					status: statusMessage,
 				});
 			}
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).send(error);
+			res.status(HttpStatusCode.BAD_REQUEST).send(error);
 		}
 	},
 	handleLogin: async (req, res) => {
@@ -44,7 +44,7 @@ const authController = {
 					path: '/',
 					sameSite: 'strict',
 				});
-				res.status(HttpSatusCode.OK).json({
+				res.status(HttpStatusCode.OK).json({
 					status: statusMessage,
 					data: {
 						accessToken,
@@ -52,13 +52,13 @@ const authController = {
 				});
 			}
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).send(error);
+			res.status(HttpStatusCode.BAD_REQUEST).send(error);
 		}
 	},
 	handleRefreshToken: async (req, res) => {
 		const refreshToken = req.cookies.refreshToken;
 		if (!refreshToken) {
-			return res.status(HttpSatusCode.UNAUTHORIIZED).json("You're not authenticated");
+			return res.status(HttpStatusCode.UNAUTHORIIZED).json("You're not authenticated");
 		}
 		const refreshTokenExist = await db.RefreshToken.findOne({
 			where: { token: refreshToken },
@@ -83,7 +83,7 @@ const authController = {
 				path: '/',
 				sameSite: 'strict',
 			});
-			res.status(HttpSatusCode.OK).json({
+			res.status(HttpStatusCode.OK).json({
 				message: 'Refresh token successfully!',
 				data: {
 					newAccessToken: newAccessToken,
@@ -99,9 +99,9 @@ const authController = {
 					token: req.cookies.refreshToken,
 				},
 			});
-			res.status(HttpSatusCode.OK).json({ message: 'Logout successfully!' });
+			res.status(HttpStatusCode.OK).json({ message: 'Logout successfully!' });
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).send(error);
+			res.status(HttpStatusCode.BAD_REQUEST).send(error);
 		}
 	},
 };

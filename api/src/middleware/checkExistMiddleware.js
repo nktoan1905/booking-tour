@@ -1,5 +1,5 @@
 import checkExist from '../helpers/checkExist';
-import HttpSatusCode from '../helpers/httpStatusCode';
+import HttpStatusCode from '../helpers/httpStatusCode';
 
 const checkIdExistMiddleware = {
 	checkIdPromotionExist: async (req, res, next) => {
@@ -7,7 +7,7 @@ const checkIdExistMiddleware = {
 		if (isExist) {
 			next();
 		} else {
-			res.status(HttpSatusCode.NOT_FOUND).json({ message: 'Id not found' });
+			res.status(HttpStatusCode.NOT_FOUND).json({ message: 'Id not found' });
 		}
 	},
 	checkIdCountryExist: async (req, res, next) => {
@@ -15,7 +15,7 @@ const checkIdExistMiddleware = {
 		if (isExist) {
 			next();
 		} else {
-			res.status(HttpSatusCode.NOT_FOUND).json({ message: 'Id not found' });
+			res.status(HttpStatusCode.NOT_FOUND).json({ message: 'Id not found' });
 		}
 	},
 	checkIdCityExist: async (req, res, next) => {
@@ -23,7 +23,7 @@ const checkIdExistMiddleware = {
 		if (isExist) {
 			next();
 		} else {
-			res.status(HttpSatusCode.NOT_FOUND).json({ message: 'Id not found' });
+			res.status(HttpStatusCode.NOT_FOUND).json({ message: 'Id not found' });
 		}
 	},
 	checkIdCategoryExist: async (req, res, next) => {
@@ -31,7 +31,7 @@ const checkIdExistMiddleware = {
 		if (isExist) {
 			next();
 		} else {
-			res.status(HttpSatusCode.NOT_FOUND).json({ message: 'Id not found' });
+			res.status(HttpStatusCode.NOT_FOUND).json({ message: 'Id not found' });
 		}
 	},
 	checkIdNewsExist: async (req, res, next) => {
@@ -39,7 +39,7 @@ const checkIdExistMiddleware = {
 		if (isExist) {
 			next();
 		} else {
-			res.status(HttpSatusCode.NOT_FOUND).json({ message: 'Id not found' });
+			res.status(HttpStatusCode.NOT_FOUND).json({ message: 'Id not found' });
 		}
 	},
 	checkIdContactExist: async (req, res, next) => {
@@ -47,7 +47,15 @@ const checkIdExistMiddleware = {
 		if (isExist) {
 			next();
 		} else {
-			res.status(HttpSatusCode.NOT_FOUND).json({ message: 'Id not found' });
+			res.status(HttpStatusCode.NOT_FOUND).json({ message: 'Id not found' });
+		}
+	},
+	checkIdDepartureDayExist: async (req, res, next) => {
+		const isExist = await checkExist.checkDepartureDayIdExist(req.params.departureDayId);
+		if (isExist) {
+			next();
+		} else {
+			res.status(HttpStatusCode.NOT_FOUND).json({ message: 'Id not found' });
 		}
 	},
 };

@@ -1,4 +1,4 @@
-import HttpSatusCode from '../helpers/httpStatusCode';
+import HttpStatusCode from '../helpers/httpStatusCode';
 import UserRole from '../helpers/roleConst';
 import tokenMiddleware from './tokenMiddleware';
 
@@ -17,7 +17,7 @@ const roleMiddleware = {
 			if (req.user.roleId === UserRole.EMPLOYEE) {
 				next();
 			} else {
-				res.status(HttpSatusCode.FORBIDDEN).json({ message: "You don't have permission to access!" });
+				res.status(HttpStatusCode.FORBIDDEN).json({ message: "You don't have permission to access!" });
 			}
 		});
 	},
@@ -26,7 +26,7 @@ const roleMiddleware = {
 			if (req.user.roleId === UserRole.EMPLOYEE || req.user.roleId === UserRole.ADMIN) {
 				next();
 			} else {
-				res.status(HttpSatusCode.FORBIDDEN).json({ message: "You don't have permission to access!" });
+				res.status(HttpStatusCode.FORBIDDEN).json({ message: "You don't have permission to access!" });
 			}
 		});
 	},

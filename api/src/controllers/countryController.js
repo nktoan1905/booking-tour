@@ -1,4 +1,4 @@
-import HttpSatusCode from '../helpers/httpStatusCode';
+import HttpStatusCode from '../helpers/httpStatusCode';
 import countryServices from '../services/countryServices';
 
 const countryController = {
@@ -6,48 +6,48 @@ const countryController = {
 		try {
 			const { status, message } = await countryServices.createNewCountry(req.body);
 			if (status) {
-				res.status(HttpSatusCode.CREATED).json({ message });
+				res.status(HttpStatusCode.CREATED).json({ message });
 			} else {
-				res.status(HttpSatusCode.BAD_REQUEST).json({ message });
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 			}
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).json(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleGetAllCountryAndCity: async (req, res) => {
 		try {
 			const { status, message, countries } = await countryServices.getAllCountryAndCity();
 			if (status) {
-				res.status(HttpSatusCode.OK).json({ message: message, data: countries });
+				res.status(HttpStatusCode.OK).json({ message: message, data: countries });
 			} else {
-				res.status(HttpSatusCode.BAD_REQUEST).json({ message: message });
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message: message });
 			}
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).json(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleUpdateCountryByCountryId: async (req, res) => {
 		try {
 			const { status, message } = await countryServices.updateCountryByCountryId(req.params.countryId, req.body);
 			if (status) {
-				res.status(HttpSatusCode.OK).json({ message });
+				res.status(HttpStatusCode.OK).json({ message });
 			} else {
-				res.status(HttpSatusCode.BAD_REQUEST).json({ message });
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 			}
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).json(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleDeleteCountryByCountryId: async (req, res) => {
 		try {
 			const { status, message } = await countryServices.deleteCountryByCountryId(req.params.countryId);
 			if (status) {
-				res.status(HttpSatusCode.OK).json({ message });
+				res.status(HttpStatusCode.OK).json({ message });
 			} else {
-				res.status(HttpSatusCode.BAD_REQUEST).json({ message });
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 			}
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).json(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 };

@@ -1,4 +1,4 @@
-import HttpSatusCode from '../helpers/httpStatusCode';
+import HttpStatusCode from '../helpers/httpStatusCode';
 import categoryServices from '../services/categoryServices';
 
 const categoryController = {
@@ -6,47 +6,47 @@ const categoryController = {
 		try {
 			const { status, message } = await categoryServices.createNewCategory(req.body);
 			if (status) {
-				res.status(HttpSatusCode.OK).json({ message });
-			} else res.status(HttpSatusCode.BAD_REQUEST).json({ message });
+				res.status(HttpStatusCode.OK).json({ message });
+			} else res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).json(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleGetAllCategories: async (req, res) => {
 		try {
 			const { status, message, categories } = await categoryServices.getAllCategories();
 			if (status) {
-				res.status(HttpSatusCode.OK).json({ message, data: categories });
-			} else res.status(HttpSatusCode.BAD_REQUEST).json({ message });
+				res.status(HttpStatusCode.OK).json({ message, data: categories });
+			} else res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).json(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleUpdateCategory: async (req, res) => {
 		try {
 			if (!req.params.categoryId) {
-				res.status(HttpSatusCode.BAD_REQUEST).json({ message: 'Not found' });
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'Not found' });
 			}
 			const { status, message } = await categoryServices.updateCategoryById(req.params.categoryId, req.body);
 			if (status) {
-				res.status(HttpSatusCode.OK).json({ message });
-			} else res.status(HttpSatusCode.BAD_REQUEST).json({ message });
+				res.status(HttpStatusCode.OK).json({ message });
+			} else res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).json(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleDeleteCategory: async (req, res) => {
 		try {
 			if (!req.params.categoryId) {
-				res.status(HttpSatusCode.BAD_REQUEST).json({ message: 'Not found' });
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'Not found' });
             }
 				const { status, message } = await categoryServices.deleteCategoryById(req.params.categoryId);
 				if (status) {
-					res.status(HttpSatusCode.OK).json({ message });
-				} else res.status(HttpSatusCode.BAD_REQUEST).json({ message });
+					res.status(HttpStatusCode.OK).json({ message });
+				} else res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 			
 		} catch (error) {
-			res.status(HttpSatusCode.BAD_REQUEST).json(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 };
