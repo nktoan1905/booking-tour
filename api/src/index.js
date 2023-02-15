@@ -11,6 +11,7 @@ import promotionsRoute from './routes/promotion';
 import newsRoute from './routes/news';
 import countryRoute from './routes/country';
 import cityRoute from './routes/city';
+import contactRoute from './routes/contact';
 import db from './models';
 dotenv.config();
 
@@ -35,7 +36,9 @@ app.use('/v1/promotions', promotionsRoute);
 app.use('/v1/countries', countryRoute);
 app.use('/v1/cities', cityRoute);
 app.use('/v1/news', newsRoute);
+app.use('/v1/contact', contactRoute);
+
 //
-app.listen(8000 || process.env.PORT, () => {
+app.listen(process.env.PORT || 8000, () => {
 	console.log('Server is running');
 });

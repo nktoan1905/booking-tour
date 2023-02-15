@@ -19,14 +19,19 @@ const countryServices = {
 	getAllCountryAndCity: async () => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const countries = await db.Country.findAll({
+				let countries = await db.Country.findAll({
 					attributes: ['id', 'name', 'status'],
 				});
-
 				if (countries) {
-					resolve({ status: true, messaage: 'Get all countries sucessfully!', countries: countries });
+					for (let i = 0; i < countries.length; i++) {
+						let cities = await db.City.findAll({ where: { countryId: countries[i].id } });
+						countries[i].cites = cities;
+					}
+				}
+				if (countries) {
+					resolve({ status: true, message: 'Get all countries sucessfully!', countries: countries });
 				} else {
-					resolve({ status: false, messaage: 'Get all countries failed!' });
+					resolve({ status: false, message: 'Get all countries failed!' });
 				}
 			} catch (error) {
 				console.log(error);

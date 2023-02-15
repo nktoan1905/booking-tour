@@ -54,7 +54,7 @@ const newsController = {
 	},
 	handleDeleteNews: async (req, res) => {
 		try {
-			const { status, message } = await newServices.deleteNews(req.params.newsId);
+			const { status, message } = await newServices.deleteNews(req.params.newsId, req.user);
 			if (status) {
 				res.status(HttpSatusCode.OK).json({ message });
 			} else {

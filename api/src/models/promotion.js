@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			name: DataTypes.STRING,
 			promotion: DataTypes.INTEGER,
-			status: DataTypes.INTEGER,
+			status: DataTypes.BOOLEAN,
 		},
 		{
 			sequelize,

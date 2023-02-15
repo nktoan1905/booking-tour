@@ -9,23 +9,37 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER,
 			},
-			name: {
+			fullName: {
 				type: Sequelize.STRING,
+				allowNull: false,
 			},
 			phoneNumber: {
 				type: Sequelize.STRING,
+				allowNull: false,
 			},
 			email: {
 				type: Sequelize.STRING,
+				allowNull: false,
 			},
 			address: {
 				type: Sequelize.STRING,
+				allowNull: false,
+			},
+			title: {
+				type: Sequelize.STRING,
+				allowNull: false,
 			},
 			content: {
 				type: Sequelize.STRING,
+				allowNull: false,
+			},
+			typeContact: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
 			},
 			status: {
 				type: Sequelize.BOOLEAN,
+				allowNull: false,
 			},
 			createdAt: {
 				allowNull: false,

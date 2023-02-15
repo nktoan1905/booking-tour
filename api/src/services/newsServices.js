@@ -1,3 +1,4 @@
+import UserRole from '../helpers/roleConst';
 import Status from '../helpers/statusConst';
 import db from '../models';
 
@@ -41,7 +42,7 @@ const newServices = {
 				if (!news) {
 					resolve({ status: false, message: 'New not found.' });
 				} else {
-					resolve({ status: true, message: 'Get all news Successfully.' , news});
+					resolve({ status: true, message: 'Get all news Successfully.', news });
 				}
 			} catch (error) {
 				console.log(error);
@@ -88,12 +89,17 @@ const newServices = {
 			}
 		});
 	},
-	deleteNews: async (newsId) => {
+	deleteNews: async (newsId, user) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const isDelete = await db.New.destroy({ where: { id: newsId } });
-				if (isUpdate) {
-					resolve({ status: true, message: 'Delete new successfully!' });
+				const news = await db.New.findOne({ wheree: { id: newsId } });
+				if (news.userId === user.id || user.roleId === UserRole.ADMIN || user.roleId === UserRole.EMPLOYEE) {
+					const isDelete = await db.New.destroy({ where: { id: newsId } });
+					if (isDelete) {
+						resolve({ status: true, message: 'Delete new successfully!' });
+					} else {
+						resolve({ status: false, message: 'Delete failed!' });
+					}
 				} else {
 					resolve({ status: false, message: 'Delete failed!' });
 				}

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 	Country.init(
 		{
 			name: DataTypes.STRING,
-			status: DataTypes.INTEGER,
+			status: DataTypes.BOOLEAN,
 		},
 		{
 			sequelize,

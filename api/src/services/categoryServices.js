@@ -5,11 +5,16 @@ const categoryServices = {
 	createNewCategory: async (data) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				let newCategory = await db.Category.create({ name: data.name, status: Status.ACTIVE });
-				if (newCategory) {
-					resolve({ status: true, message: 'Create new category successfully!' });
+				const category = await db.Category.findOne({ where: { name: data.name } });
+				if (!category) {
+					let newCategory = await db.Category.create({ name: data.name, status: Status.ACTIVE });
+					if (newCategory) {
+						resolve({ status: true, message: 'Create new category successfully!' });
+					} else {
+						resolve({ status: false, message: 'Create category failed!' });
+					}
 				} else {
-					resolve({ status: false, message: 'Create category failed!' });
+					resolve({ status: false, message: 'Category already exists!' });
 				}
 			} catch (error) {
 				reject(error);

@@ -1,6 +1,7 @@
 import authServices from '../services/authServices';
 import jwt from 'jsonwebtoken';
 import db from '../models';
+import HttpSatusCode from '../helpers/httpStatusCode';
 
 const authController = {
 	handleRegisterUser: async (req, res) => {

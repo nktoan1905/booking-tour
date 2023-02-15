@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   DepartureDay.init({
     dayStart: DataTypes.INTEGER,
-    status: DataTypes.INTEGER
+    status: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'DepartureDay',

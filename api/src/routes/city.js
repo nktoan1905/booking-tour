@@ -1,14 +1,26 @@
 import express from 'express';
 import cityController from '../controllers/cityController';
+import checkExist from '../helpers/checkExist';
+import roleMiddleware from '../middleware/roleMiddleware';
 
 const router = express.Router();
 
-router.post('/', cityController.handleCreateNewCity);
+router.post('/register', roleMiddleware.verifyAdminOrEmployee, cityController.handleCreateNewCity);
 
-router.get('/', cityController.handleGetAllCity);
+router.get('/', roleMiddleware.verifyAdminOrEmployee, cityController.handleGetAllCity);
 
-router.put('/:cityId', cityController.handleUpdateCityByCityId);
+router.put(
+	'/:cityId',
+	roleMiddleware.verifyAdminOrEmployee,
+	checkExist.checkCityIdExist,
+	cityController.handleUpdateCityByCityId,
+);
 
-router.delete('/:cityId', cityController.handleDeleteCityByCityId);
+router.delete(
+	'/:cityId',
+	roleMiddleware.verifyAdmin,
+	checkExist.checkCityIdExist,
+	cityController.handleDeleteCityByCityId,
+);
 
 export default router;
