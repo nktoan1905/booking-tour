@@ -28,7 +28,7 @@ const countryServices = {
 						countries[i].cites = cities;
 					}
 				}
-				if (countries) {
+				if (countries.length > 0) {
 					resolve({ status: true, message: 'Get all countries sucessfully!', countries: countries });
 				} else {
 					resolve({ status: false, message: 'Get all countries failed!' });

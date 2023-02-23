@@ -41,7 +41,7 @@ const contactServices = {
 						'createdAt',
 					],
 				});
-				if (contacts) {
+				if (contacts.length > 0) {
 					resolve({ status: true, message: 'Get all contacts successfully', contacts });
 				} else {
 					resolve({ status: false, message: 'Get all contacts failed' });

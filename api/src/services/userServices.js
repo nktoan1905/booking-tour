@@ -27,7 +27,7 @@ const userServices = {
 						'status',
 					],
 				});
-				if (!members) {
+				if (members.length <= 0) {
 					resolve({
 						status: false,
 						message: 'No members were found!',
@@ -62,7 +62,7 @@ const userServices = {
 						'status',
 					],
 				});
-				if (!employees) {
+				if (employees <= 0) {
 					resolve({
 						status: false,
 						message: 'No employees were found!',
@@ -119,16 +119,7 @@ const userServices = {
 			try {
 				const userProfile = await db.User.findOne({
 					where: { id: id },
-					attributes: [
-						'fullName',
-						'gender',
-						'email',
-						'avatar',
-						'address',
-						'phoneNumber',
-						'dob',
-						'status',
-					],
+					attributes: ['fullName', 'gender', 'email', 'avatar', 'address', 'phoneNumber', 'dob', 'status'],
 					include: [
 						{
 							model: db.Role,
@@ -207,6 +198,7 @@ const userServices = {
 						phoneNumber: data.phoneNumber,
 						address: data.address,
 						dob: data.dob,
+						updatedAt: new Date(),
 					},
 					{ where: { id: id } },
 				);
@@ -237,14 +229,14 @@ const userServices = {
 				}
 				let user = checkIdExist;
 				if (user.status === Status.ACTIVE) {
-					let isUpdate = await db.User.update({ status: Status.DELETE }, { where: { id: id } });
+					let isUpdate = await db.User.update({ status: Status.DELETE, updatedAt: new Date() }, { where: { id: id } });
 					if (isUpdate) {
 						resolve({ status: true, message: 'Update active status to delete status successfully!' });
 					} else {
 						resolve({ status: false, message: 'Update status failed.' });
 					}
 				} else {
-					let isUpdate = await db.User.update({ status: Status.ACTIVE }, { where: { id: id } });
+					let isUpdate = await db.User.update({ status: Status.ACTIVE, updatedAt: new Date() }, { where: { id: id } });
 					if (isUpdate) {
 						resolve({ status: true, message: 'Update delete status to active status successfully!' });
 					} else {

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   TourDepartureDay.init({
     dayStartId: DataTypes.INTEGER,
-    TourId: DataTypes.INTEGER
+    tourId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'TourDepartureDay',

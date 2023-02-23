@@ -17,7 +17,7 @@ const authServices = {
 				if (emailIsExist) {
 					return resolve({
 						status: false,
-						statusMessage: 'Email was already exsit.',
+						message: 'Email was already exsit.',
 					});
 				}
 				let newUser = await db.User.create({
@@ -29,7 +29,7 @@ const authServices = {
 				});
 				resolve({
 					status: true,
-					statusMessage: 'Create new user successfully.',
+					message: 'Create new user successfully.',
 					newUser: newUser.dataValues,
 				});
 			} catch (error) {
@@ -70,27 +70,27 @@ const authServices = {
 				if (user == null) {
 					resolve({
 						status: false,
-						statusMessage: 'Wrong Email!',
+						message: 'Wrong Email!',
 					});
 				}
 				let validPassword = await bcrypt.compare(data.password, user.password);
 				if (!validPassword) {
 					resolve({
 						status: false,
-						statusMessage: 'Wrong password!',
+						message: 'Wrong password!',
 					});
 				}
 				delete user?.password;
 				if (user && validPassword && user.status === Status.ACTIVE) {
 					resolve({
 						status: true,
-						statusMessage: 'Login successfully',
+						message: 'Login successfully',
 						user,
 					});
 				} else {
 					resolve({
 						status: false,
-						statusMessage: 'Account was been deleted',
+						message: 'Account was been deleted',
 					});
 				}
 			} catch (error) {

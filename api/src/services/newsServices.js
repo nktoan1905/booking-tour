@@ -39,7 +39,7 @@ const newServices = {
 					raw: true,
 					nest: true,
 				});
-				if (!news) {
+				if (news.length <= 0) {
 					resolve({ status: false, message: 'New not found.' });
 				} else {
 					resolve({ status: true, message: 'Get all news Successfully.', news });

@@ -39,12 +39,11 @@ const promotionController = {
 		try {
 			if (!req.params.promotionId) {
 				res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'Not found' });
-            }
-				const { status, message } = await promotionServices.deletePromotionById(req.params.promotionId);
-				if (status) {
-					res.status(HttpStatusCode.OK).json({ message });
-				} else res.status(HttpStatusCode.BAD_REQUEST).json({ message });
-			
+			}
+			const { status, message } = await promotionServices.deletePromotionById(req.params.promotionId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}

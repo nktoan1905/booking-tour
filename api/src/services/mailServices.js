@@ -12,14 +12,14 @@ const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_U
 
 oAuth2Client.setCredentials({ refresh_token: REDIRECT_TOKEN });
 
-const sendMail = async (dataSent, formUser, toUser) => {
+const sendMail = async (dataSent, toUser) => {
 	try {
 		const accessToken = await oAuth2Client.getAccessToken();
 		const transport = nodemailer.createTransport({
 			service: 'gmail',
 			auth: {
 				type: 'OAuth2',
-				user: 'nktoan1905@gmail.com',
+				user: 'bookingtour1905@gmail.com',
 				clientId: CLIENT_ID,
 				clientSecret: CLIENT_SECRET,
 				refreshToken: REDIRECT_TOKEN,
@@ -27,7 +27,7 @@ const sendMail = async (dataSent, formUser, toUser) => {
 			},
 		});
 		let info = await transport.sendMail({
-			from: `"Booking Tour 👻" <${formUser}>`, // sender address
+			from: `"Booking Tour 👻" <bookingtour1905@gmail.com>`, // sender address
 			to: toUser, // list of receivers
 			subject: dataSent.subject, // Subject line
 			html: dataSent.body, // html body

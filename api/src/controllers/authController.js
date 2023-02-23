@@ -6,19 +6,19 @@ import HttpStatusCode from '../helpers/httpStatusCode';
 const authController = {
 	handleRegisterUser: async (req, res) => {
 		try {
-			const { status, statusMessage, newUser } = await authServices.createNewUser(req.body);
+			const { status, message, newUser } = await authServices.createNewUser(req.body);
 			delete newUser?.password;
 			delete newUser?.updatedAt;
 			delete newUser?.createdAt;
 
 			if (status) {
 				res.status(HttpStatusCode.OK).json({
-					status: statusMessage,
+					message: message,
 					data: newUser,
 				});
 			} else {
 				res.status(HttpStatusCode.BAD_REQUEST).json({
-					status: statusMessage,
+					message: message,
 				});
 			}
 		} catch (error) {
@@ -27,9 +27,9 @@ const authController = {
 	},
 	handleLogin: async (req, res) => {
 		try {
-			const { status, statusMessage, user } = await authServices.findUserbyEmail(req.body);
+			const { status, message, user } = await authServices.findUserbyEmail(req.body);
 			if (!status) {
-				res.status(404).json(statusMessage);
+				res.status(404).json(message);
 			} else {
 				const accessToken = authServices.generateAccessToken(user);
 				const refreshToken = authServices.generateRefreshToken(user);
@@ -45,7 +45,7 @@ const authController = {
 					sameSite: 'strict',
 				});
 				res.status(HttpStatusCode.OK).json({
-					status: statusMessage,
+					message: message,
 					data: {
 						accessToken,
 					},

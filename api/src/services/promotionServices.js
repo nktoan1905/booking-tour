@@ -1,3 +1,4 @@
+import UserRole from '../helpers/roleConst';
 import Status from '../helpers/statusConst';
 import db from '../models';
 
@@ -5,10 +6,15 @@ const promotionServices = {
 	createNewPromotion: async (data) => {
 		return new Promise(async (resolve, reject) => {
 			try {
+				/**
+				 * Admin 20%
+				 *
+				 */
 				let newPromotion = await db.Promotion.create({
 					name: data.name,
 					promotion: data.promotion,
 					status: Status.ACTIVE,
+					forObject: data.forObject || UserRole.MEMBERS,
 				});
 				if (newPromotion) {
 					resolve({ status: true, message: 'Create new promotion successfully!' });
@@ -24,7 +30,7 @@ const promotionServices = {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let promotions = await db.Promotion.findAll({ atributes: ['id', 'name', 'promotion', 'status'] });
-				if (!promotions) {
+				if (promotion.length <= 0) {
 					resolve({ status: false, message: 'Get all promotions failed!' });
 				} else {
 					resolve({ status: true, message: 'Get all promotions successfully!', promotions: promotions });
@@ -37,7 +43,16 @@ const promotionServices = {
 	updatePromotionById: async (id, data) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				let isUpdate = await db.Promotion.update({ name: data.name, status: data.status }, { where: { id: id } });
+				let isUpdate = await db.Promotion.update(
+					{
+						name: data.name,
+						status: data.status,
+						forObject: data.forObject,
+						promotion: data.promotion,
+						updatedAt: new Date(),
+					},
+					{ where: { id: id } },
+				);
 				if (isUpdate) {
 					resolve({ status: true, message: 'Update promotion successfully!' });
 				} else {

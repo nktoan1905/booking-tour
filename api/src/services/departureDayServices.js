@@ -25,7 +25,7 @@ const departureDayServices = {
 				const departureDays = await db.DepartureDay.findAll({
 					attributes: ['id', 'dayStart', 'status'],
 				});
-				if (departureDays) {
+				if (departureDays.length > 0) {
 					resolve({ status: true, message: 'Get all Departure day successfully!' , departureDays});
 				} else {
 					resolve({ status: false, message: 'Get all Departure day failed!' });

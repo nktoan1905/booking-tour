@@ -12,12 +12,8 @@ module.exports = {
 			dayStartId: {
 				type: Sequelize.INTEGER,
 			},
-			TourId: {
+			tourId: {
 				type: Sequelize.INTEGER,
-				references: {
-					model: 'tours',
-					key: 'id',
-				},
 			},
 			createdAt: {
 				allowNull: false,

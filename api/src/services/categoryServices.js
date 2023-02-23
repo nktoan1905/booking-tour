@@ -25,7 +25,7 @@ const categoryServices = {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let categories = await db.Category.findAll({ atributes: ['id', 'name', 'status'] });
-				if (!categories) {
+				if (categories.length < 0) {
 					resolve({ status: false, message: 'Get all categories failed!' });
 				} else {
 					resolve({ status: true, message: 'Get all categories successfully!', categories: categories });

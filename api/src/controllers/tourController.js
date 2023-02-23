@@ -1,0 +1,150 @@
+import HttpStatusCode from '../helpers/httpStatusCode';
+import tourServices from '../services/tourServices';
+
+const tourController = {
+	handleCreateNewTour: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.createNewTour(req.body);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleAddCategory: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.addCategory(req.params.tourId, req.body.categoryId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleRemoveCategory: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.removeCategory(req.params.tourId, req.body.categoryId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleAddService: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.addService(req.params.tourId, req.body.serviceId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleRemoveService: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.removeService(req.params.tourId, req.body.serviceId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleAddPromotion: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.addPromotion(req.params.tourId, req.body.promotionId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleRemovePromotion: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.removePromotion(req.params.tourId, req.body.promotionId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleAddCity: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.addCity(req.params.tourId, req.body.cityId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleRemoveCity: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.removeCity(req.params.tourId, req.body.cityId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleAddDepentureDay: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.addDepentureDay(req.params.tourId, req.body.depenturedayId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleRemoveDepentureDay: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.removeDepentureDay(req.params.tourId, req.body.depenturedayId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleGetAllTours: async (req, res) => {
+		try {
+			const { status, message, tours } = await tourServices.getAllTours();
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message: message, data: tours });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+};
+export default tourController;

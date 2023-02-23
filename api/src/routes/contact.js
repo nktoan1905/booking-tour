@@ -5,7 +5,7 @@ import roleMiddleware from '../middleware/roleMiddleware';
 
 const router = express.Router();
 
-router.post('/', contactController.handleCreateNewContact);
+router.post('/register', contactController.handleCreateNewContact);
 
 router.get('/', roleMiddleware.verifyAdminOrEmployee, contactController.handleGetAllContact);
 

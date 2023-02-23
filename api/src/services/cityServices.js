@@ -49,7 +49,7 @@ const cityServices = {
 					nest: true,
 					raw: true,
 				});
-				if (cities) {
+				if (cities.length > 0) {
 					resolve({ status: true, message: 'Get all cities successfully!', cities: cities });
 				} else {
 					resolve({ status: false, message: 'Get all cities failed!' });

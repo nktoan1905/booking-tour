@@ -6,9 +6,19 @@ module.exports = (sequelize, DataTypes) => {
 		 * Helper method for defining associations.
 		 * This method is not a part of Sequelize lifecycle.
 		 * The `models/index` file will call this method automatically.
-		 */
+		 * */
 		static associate(models) {
 			// define association here
+			Tour.belongsToMany(models.Category, { through: models.TourCategory, as: 'categories', foreignKey: 'tourId' });
+			Tour.belongsToMany(models.City, { through: models.TourCity, as: 'cities', foreignKey: 'tourId' });
+			Tour.belongsToMany(models.DepartureDay, {
+				through: models.TourDepartureDay,
+				as: 'departureDays',
+				foreignKey: 'tourId',
+			});
+			Tour.belongsToMany(models.Service, { through: models.TourService, as: 'services', foreignKey: 'tourId' });
+			Tour.belongsToMany(models.Promotion, { through: models.TourPromotion, as: 'promotions', foreignKey: 'tourId' });
+			Tour.hasMany(models.TourImage, { foreignKey: 'tourId', as: 'images', targetKey: 'id' });
 		}
 	}
 	Tour.init(
