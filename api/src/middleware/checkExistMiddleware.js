@@ -58,6 +58,14 @@ const checkIdExistMiddleware = {
 			res.status(HttpStatusCode.NOT_FOUND).json({ message: 'Id not found' });
 		}
 	},
+	checkIdTourExist: async (req, res, next) => {
+		const isExist = await checkExist.checkTourIdExist(req.params.tourId);
+		if (isExist) {
+			next();
+		} else {
+			res.status(HttpStatusCode.NOT_FOUND).json({ message: 'Id not found' });
+		}
+	},
 };
 
 export default checkIdExistMiddleware;

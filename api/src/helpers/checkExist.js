@@ -27,7 +27,14 @@ const checkExist = {
 			return 0;
 		}
 	},
-	checkTourIdExist: async () => {},
+	checkTourIdExist: async (tourId) => {
+		const tour = await db.Tour.findOne({ where: { id: tourId } });
+		if (tour) {
+			return 1;
+		} else {
+			return 0;
+		}
+	},
 	checkCountryIdExist: async (countryId) => {
 		const country = await db.Country.findOne({ where: { id: countryId } });
 		if (country) {

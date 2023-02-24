@@ -1,10 +1,11 @@
-import db from '../models/index';
+import db from '../models';
+
 import bcrypt from 'bcrypt';
-import schema from '../helpers/validation';
 import { Op } from 'sequelize';
 import UserRole from '../helpers/roleConst';
 import Status from '../helpers/statusConst';
 import UserHelpers from '../helpers/userHelper';
+import sendMail from './mailServices';
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -40,6 +41,7 @@ const userServices = {
 					});
 				}
 			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});
@@ -82,8 +84,9 @@ const userServices = {
 	getAllAdmins: async () => {
 		return new Promise(async (resolve, reject) => {
 			try {
+				console.log('1b');
 				const admins = await db.User.findAll({
-					where: { roleId: UserRole.Admin },
+					where: { roleId: UserRole.ADMIN },
 					attributes: [
 						'id',
 						'fullName',
@@ -97,7 +100,8 @@ const userServices = {
 						'status',
 					],
 				});
-				if (!admins) {
+				console.log('🚀 ~ file: userServices.js:100 ~ returnnewPromise ~ admins:', admins);
+				if (admins.length <= 0) {
 					resolve({
 						status: false,
 						message: 'No admins were found!',
@@ -150,32 +154,51 @@ const userServices = {
 	},
 	createEmployee: async (data) => {
 		return new Promise(async (resolve, reject) => {
-			let emailIsExist = await db.User.findOne({
-				where: { email: data.email },
-			});
-			if (emailIsExist) {
-				return resolve({
-					status: false,
-					statusMessage: 'Email was already exsit.',
+			try {
+				let emailIsExist = await db.User.findOne({
+					where: { email: data.email },
 				});
+				if (emailIsExist) {
+					return resolve({
+						status: false,
+						message: 'Email was already exsit.',
+					});
+				}
+				let hashed = await bcrypt.hash(data.password, salt);
+				let newEmployee = await db.User.create({
+					fullName: data.fullName,
+					gender: data.gender,
+					email: data.email,
+					password: hashed,
+					avatar: data.avatar,
+					address: data.address,
+					phoneNumber: data.phoneNumber,
+					dob: data.dob,
+					roleId: UserRole.EMPLOYEE,
+					status: Status.ACTIVE,
+				});
+				const { status, message } = await sendMail(
+					{
+						subject: 'New employee account',
+						body: `<h1>New Account</h1> <div>Email: ${data.email}</div> <div>Password: ${data.password}</div>`,
+					},
+					data.email,
+				);
+				if (status) {
+					resolve({
+						status: true,
+						message: 'Create new employee successfully!',
+					});
+				} else {
+					resolve({
+						status: false,
+						message: 'Sent mail failed',
+					});
+				}
+			} catch (error) {
+				console.log(error);
+				reject(error);
 			}
-			let hashed = await bcrypt.hash(data.password, salt);
-			let newEmployee = await db.User.create({
-				fullName: data.fullName,
-				gender: data.gender,
-				email: data.email,
-				password: hashed,
-				avatar: data.avatar,
-				address: data.address,
-				phoneNumber: data.phoneNumber,
-				dob: data.dob,
-				roleId: UserRole.EMPLOYEE,
-				status: Status.ACTIVE,
-			});
-			resolve({
-				status: true,
-				message: 'Create new employee successfully!',
-			});
 		});
 	},
 	updateUserProfile: async (id, data) => {
@@ -275,7 +298,7 @@ const userServices = {
 	deleteMemberById: async (id) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const isDelete = await db.User.destroy({ where: { id: id } });
+				const isDelete = await db.User.destroy({ where: { id: id, roleId: UserRole.MEMBERS } });
 				if (isDelete) {
 					resolve({ status: true, message: 'Delete member successfully!' });
 				} else {
@@ -289,7 +312,7 @@ const userServices = {
 	deleteEmployeeById: async (id) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const isDelete = await db.User.destroy({ where: { id: id } });
+				const isDelete = await db.User.destroy({ where: { id: id, roleId: UserRole.EMPLOYEE } });
 				if (isDelete) {
 					resolve({ status: true, message: 'Delete employee successfully!' });
 				} else {

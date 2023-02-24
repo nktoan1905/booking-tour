@@ -17,6 +17,7 @@ import serviceRoute from './routes/service';
 import tourRoute from './routes/tour';
 import OTPRoute from './routes/OTP';
 import db from './models';
+import { uploadImage } from './controllers/uploadImageController';
 dotenv.config();
 
 const app = express();
@@ -32,6 +33,7 @@ app.get('/', function (req, res) {
 });
 
 // Routes
+// app.use('/upload', uploadImage)
 // Route for user
 app.use('/v1', OTPRoute);
 app.use('/v1/auth', authRoute);

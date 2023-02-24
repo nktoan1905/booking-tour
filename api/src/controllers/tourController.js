@@ -112,7 +112,7 @@ const tourController = {
 	},
 	handleAddDepentureDay: async (req, res) => {
 		try {
-			const { status, message } = await tourServices.addDepentureDay(req.params.tourId, req.body.depenturedayId);
+			const { status, message } = await tourServices.addDepartureDay(req.params.tourId, req.body.departureDayId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {
@@ -122,9 +122,9 @@ const tourController = {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
-	handleRemoveDepentureDay: async (req, res) => {
+	handleRemoveDepartureDay: async (req, res) => {
 		try {
-			const { status, message } = await tourServices.removeDepentureDay(req.params.tourId, req.body.depenturedayId);
+			const { status, message } = await tourServices.removeDepartureDay(req.params.tourId, req.body.depenturedayId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {
@@ -139,6 +139,30 @@ const tourController = {
 			const { status, message, tours } = await tourServices.getAllTours();
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message: message, data: tours });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleUpdateTourByTuorId: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.updateTourByTourId(req.params.tourId, req.body);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message: message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleDeleteTourByTuorId: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.deleteTourByTourId(req.params.tourId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message: message });
 			} else {
 				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 			}

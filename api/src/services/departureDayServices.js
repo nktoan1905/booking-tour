@@ -1,3 +1,4 @@
+import e from 'express';
 import db from '../models/index';
 
 const departureDayServices = {
@@ -26,7 +27,7 @@ const departureDayServices = {
 					attributes: ['id', 'dayStart', 'status'],
 				});
 				if (departureDays.length > 0) {
-					resolve({ status: true, message: 'Get all Departure day successfully!' , departureDays});
+					resolve({ status: true, message: 'Get all Departure day successfully!', departureDays });
 				} else {
 					resolve({ status: false, message: 'Get all Departure day failed!' });
 				}
@@ -76,6 +77,62 @@ const departureDayServices = {
 					resolve({ status: true, message: 'Delete successful!' });
 				} else {
 					resolve({ status: false, message: 'Delete failed!' });
+				}
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	getAllDepartureDaysAndTour: async () => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const departureDayAndTours = await db.DepartureDay.findAll({
+					include: {
+						model: db.Tour,
+						as: 'tours',
+						include: [
+							{
+								model: db.Category,
+								as: 'categories',
+								through: {
+									attributes: [],
+								},
+							},
+							{
+								model: db.Service,
+								as: 'services',
+								through: {
+									attributes: [],
+								},
+							},
+							{
+								model: db.Promotion,
+								as: 'promotions',
+								through: {
+									attributes: [],
+								},
+							},
+							{
+								model: db.City,
+								as: 'cities',
+								include: [{ model: db.Country, as: 'countryInfo' }],
+							},
+							{
+								model: db.DepartureDay,
+								as: 'departureDays',
+								through: {
+									attributes: [],
+								},
+							},
+						],
+					},
+					nest: true,
+					raw: false,
+				});
+				if (departureDayAndTours.length > 0) {
+					resolve({ status: true, message: 'Get all departure days and tours successfully!', departureDayAndTours });
+				} else {
+					resolve({ status: false, message: 'Get all departure days and tours failed!' });
 				}
 			} catch (error) {
 				reject(error);

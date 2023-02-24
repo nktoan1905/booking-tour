@@ -10,7 +10,7 @@ const userController = {
 					message: message,
 					data: members,
 				});
-			} else res.status(404).json({ message });
+			} else res.status(HttpStatusCode.NOT_FOUND).json({ message });
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
@@ -23,20 +23,20 @@ const userController = {
 					message: message,
 					data: employees,
 				});
-			} else res.status(404).json({ message });
+			} else res.status(HttpStatusCode.NOT_FOUND).json({ message });
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleGetAllAdmins: async (req, res) => {
 		try {
-			const { status, message, admins } = await userServices.getAllEmployees();
+			const { status, message, admins } = await userServices.getAllAdmins();
 			if (status) {
 				res.status(HttpStatusCode.OK).json({
 					message: message,
 					data: admins,
 				});
-			} else res.status(404).json({ message });
+			} else res.status(HttpStatusCode.NOT_FOUND).json({ message });
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
@@ -49,7 +49,7 @@ const userController = {
 					message: message,
 					data: userProfile,
 				});
-			} else res.status(404).json({ message });
+			} else res.status(HttpStatusCode.NOT_FOUND).json({ message });
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
@@ -61,7 +61,7 @@ const userController = {
 				res.status(HttpStatusCode.OK).json({
 					message,
 				});
-			} else res.status(404).json({ message });
+			} else res.status(HttpStatusCode.NOT_FOUND).json({ message });
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
@@ -91,7 +91,7 @@ const userController = {
 			if (status) {
 				res.status(HttpStatusCode.OK).json(message);
 			} else {
-				res.status(404).json(message);
+				res.status(HttpStatusCode.NOT_FOUND).json(message);
 			}
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
@@ -106,7 +106,7 @@ const userController = {
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {
-				res.status(404).json({ message });
+				res.status(HttpStatusCode.NOT_FOUND).json({ message });
 			}
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
@@ -117,11 +117,11 @@ const userController = {
 			if (!req.params.id) {
 				res.status(HttpStatusCode.BAD_REQUEST);
 			}
-			const { status, message } = await userServices.deleteEmployeeById(req.params.id);
+			const { status, message } = await userServices.deleteEmployeeById(req.params.emloyeeId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {
-				res.status(404).json({ message });
+				res.status(HttpStatusCode.NOT_FOUND).json({ message });
 			}
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
@@ -132,11 +132,11 @@ const userController = {
 			if (!req.params.id) {
 				res.status(HttpStatusCode.BAD_REQUEST);
 			}
-			const { status, message } = await userServices.deleteMemberById(req.params.id);
+			const { status, message } = await userServices.deleteMemberById(req.params.memberId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {
-				res.status(404).json({ message });
+				res.status(HttpStatusCode.NOT_FOUND).json({ message });
 			}
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);

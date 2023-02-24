@@ -26,6 +26,18 @@ const departureDayController = {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
+	handleGetAllDepartureDaysAndTours: async (req, res) => {
+		try {
+			const { status, message, departureDayAndTours } = await departureDayServices.getAllDepartureDaysAndTour();
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message: message, data: departureDayAndTours });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message: message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
 	handleUpdateDayStartInDepartureDay: async (req, res) => {
 		try {
 			const { status, message } = await departureDayServices.updateDayStartInDepartureDay(
