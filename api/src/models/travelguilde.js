@@ -9,12 +9,14 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			TravelGuilde.belongsTo(models.User, { foreignKey: 'createdBy' });
+			TravelGuilde.belongsTo(models.User, { foreignKey: 'createdBy', as: 'createdByUserInfo' });
 		}
 	}
 	TravelGuilde.init(
 		{
 			titile: DataTypes.STRING,
+			thumbnail: DataTypes.STRING,
+			thumbnailName: DataTypes.STRING,
 			content: DataTypes.STRING,
 			status: DataTypes.INTEGER,
 			createdBy: DataTypes.INTEGER,

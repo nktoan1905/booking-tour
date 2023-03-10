@@ -16,13 +16,18 @@ import departureDayRoute from './routes/departureDay';
 import serviceRoute from './routes/service';
 import tourRoute from './routes/tour';
 import OTPRoute from './routes/OTP';
+import uploadRoute from './routes/uploadClound';
 import db from './models';
-import { uploadImage } from './controllers/uploadImageController';
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+	cors({
+		credentials: true,
+		origin: process.env.CLIENT_URL,
+	}),
+);
 app.use(cookieParser());
 app.use(express.json());
 
@@ -39,6 +44,7 @@ app.use('/v1', OTPRoute);
 app.use('/v1/auth', authRoute);
 app.use('/v1/user', userRoute);
 app.use('/v1/admin', adminRoute);
+app.use('/v1/upload', uploadRoute);
 // Route for tour
 app.use('/v1/tours', tourRoute);
 app.use('/v1/categories', categoriesRoute);
