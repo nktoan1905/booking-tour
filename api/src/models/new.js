@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			New.belongsTo(models.User, { as: 'userInfo', foreignKey: 'userId' });
+			New.belongsTo(models.NewsCategory, { foreignKey: 'categoryId', as: 'type' });
 		}
 	}
 	New.init(
@@ -20,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
 			status: DataTypes.BOOLEAN,
 			image: DataTypes.STRING,
 			imageName: DataTypes.STRING,
-			userId: DataTypes.INTEGER,
+			categoryId: DataTypes.INTEGER,
 		},
 		{
 			sequelize,

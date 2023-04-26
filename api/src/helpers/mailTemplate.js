@@ -329,5 +329,51 @@ const mailTemplate = {
       </html>`;
 	},
 	sendBill: () => {},
+	sendComfirmContact: (data) => {
+		return `
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Liên hệ</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        color: #333;
+      }
+      .confirmation {
+        display: none;
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 20px;
+        margin-top: 20px;
+      }
+      
+      .confirmation p {
+        margin-bottom: 10px;
+      }
+      
+      .confirmation strong {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Liên hệ</h1>
+    <div class="confirmation" id="confirmation" style="display:block">
+      <p>Cảm ơn bạn đã liên hệ với chúng tôi!</p>
+      <p>Dưới đây là thông tin bạn đã cung cấp:</p>
+      <p><strong>Họ và tên:</strong> <span>${data.fullName}</span></p>
+      <p><strong>Số điện thoại:</strong> <span>${data.phoneNumber}</span></p>
+      <p><strong>Email:</strong> <span>${data.email}</span></p>
+      <p><strong>Address:</strong> <span>${data.address}</span></p>
+      <p><strong>Title:</strong> <span>${data.title}</span></p>
+      <p><strong>Content:</strong> <span>${data.content}</span></p>
+    </div>
+    <h2>Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất!</h2>
+  </body>`;
+	},
 };
 export default mailTemplate;

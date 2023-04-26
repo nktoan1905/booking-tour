@@ -410,5 +410,8 @@ const tourServices = {
 			}
 		});
 	},
+	createNewOrder: async () => {
+		
+	},
 };
 export default tourServices;

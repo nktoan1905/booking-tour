@@ -40,11 +40,34 @@ const contactServices = {
 						'status',
 						'createdAt',
 					],
+					include: [
+						{
+							model: db.TypeContact,
+							as: 'type',
+							attributes: ['id', 'name'],
+						},
+					],
+					raw: true,
+					nest: true,
 				});
 				if (contacts.length > 0) {
 					resolve({ status: true, message: 'Get all contacts successfully', contacts });
 				} else {
 					resolve({ status: false, message: 'Get all contacts failed' });
+				}
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	getAllContactType: async () => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const typeContacts = await db.TypeContact.findAll();
+				if (typeContacts.length > 0) {
+					resolve({ status: true, message: 'Get all type contacts successfully', typeContacts });
+				} else {
+					resolve({ status: false, message: 'Get all type contacts failed' });
 				}
 			} catch (error) {
 				reject(error);

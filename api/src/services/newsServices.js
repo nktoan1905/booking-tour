@@ -13,6 +13,7 @@ const newServices = {
 					userId: userId,
 					image: data.image,
 					imageName: data.imageName,
+					categoryId: data.categoryId,
 					status: Status.ACTIVE,
 				});
 				if (news) {
@@ -36,6 +37,11 @@ const newServices = {
 							as: 'userInfo',
 							attributes: ['fullName', 'email'],
 						},
+						{
+							model: db.NewsCategory,
+							as: 'type',
+							attributes: ['id', 'name'],
+						},
 					],
 					raw: true,
 					nest: true,
@@ -52,7 +58,18 @@ const newServices = {
 		});
 	},
 	getAllCateogryNews: async () => {
-		console.log(newCategory);
+		return new Promise(async (resolve, reject) => {
+			try {
+				const newsCategories = await db.NewsCategory.findAll();
+				if (newsCategories.length > 0) {
+					resolve({ status: true, message: 'Get all news categories successfully!', newsCategories });
+				} else {
+					resolve({ status: false, message: 'Get all news categories false!' });
+				}
+			} catch (error) {
+				reject(error);
+			}
+		});
 	},
 	updateNews: async (newsId, data, user) => {
 		return new Promise(async (resolve, reject) => {

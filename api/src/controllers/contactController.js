@@ -1,4 +1,5 @@
 import HttpStatusCode from '../helpers/httpStatusCode';
+import mailTemplate from '../helpers/mailTemplate';
 import contactServices from '../services/contactServices';
 import sendMail from '../services/mailServices';
 
@@ -6,12 +7,14 @@ const contactController = {
 	handleCreateNewContact: async (req, res) => {
 		try {
 			const { status, message } = await contactServices.createNewContact(req.body);
+			await sendMail(
+				{
+					subject: 'Xác nhận thông tin',
+					body: mailTemplate.sendComfirmContact(req.body),
+				},
+				req.body.email,
+			);
 			if (status) {
-				// sendMail(
-				// 	{ subject: `<p>title ${req.body.title}</p>`, body: `<h1>${req.body.content}</h1>` },
-				// 	'nktoan1905@gmail.com',
-				// 	req.body.email,
-				// );
 				res.status(HttpStatusCode.CREATED).json({ message });
 			} else {
 				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
@@ -25,6 +28,18 @@ const contactController = {
 			const { status, message, contacts } = await contactServices.getAllContact();
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message: message, data: contacts });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message: message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleGetAllTypeContact: async (req, res) => {
+		try {
+			const { status, message, typeContacts } = await contactServices.getAllContactType();
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message: message, data: typeContacts });
 			} else {
 				res.status(HttpStatusCode.BAD_REQUEST).json({ message: message });
 			}

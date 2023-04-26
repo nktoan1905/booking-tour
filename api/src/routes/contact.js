@@ -9,6 +9,8 @@ router.post('/register', contactController.handleCreateNewContact);
 
 router.get('/', roleMiddleware.verifyAdminOrEmployee, contactController.handleGetAllContact);
 
+router.get('/type', contactController.handleGetAllTypeContact);
+
 router.put(
 	'/:contactId',
 	roleMiddleware.verifyAdminOrEmployee,

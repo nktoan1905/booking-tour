@@ -7,7 +7,7 @@ const newsController = {
 	handleCreateNewNews: async (req, res) => {
 		try {
 			const { status, message } = await newServices.createNews(req.user.id, req.body);
-			console.log(req.body);
+
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {
@@ -31,8 +31,12 @@ const newsController = {
 	},
 	handleGetAllNewCategories: async (req, res) => {
 		try {
-			const categories = [newCategory.TRAVEL_NEWS, newCategory.TRAVEL_GUILDE, newCategory.TRAVEL_EXPERIENCE];
-			res.status(HttpStatusCode.OK).json({ message: 'Get all categories successfully', data: categories });
+			const { status, message, newsCategories } = await newServices.getAllCateogryNews();
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message: message, data: newsCategories });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message: message });
+			}
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
