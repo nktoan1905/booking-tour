@@ -1,3 +1,4 @@
+import newCategory from '../helpers/newCategory';
 import UserRole from '../helpers/roleConst';
 import Status from '../helpers/statusConst';
 import db from '../models';
@@ -50,12 +51,20 @@ const newServices = {
 			}
 		});
 	},
-	updateNews: async (newsId, data) => {
+	getAllCateogryNews: async () => {
+		console.log(newCategory);
+	},
+	updateNews: async (newsId, data, user) => {
 		return new Promise(async (resolve, reject) => {
 			try {
+				const news = await db.New.findOne({ where: { id: newsId } });
+				if (news.userId !== user.id && user.roleId !== UserRole.ADMIN) {
+					resolve({ status: false, message: 'Update failed!' });
+				}
 				const isUpdate = await db.New.update(
 					{
 						title: data.title,
+						category: data.category,
 						content: data.content,
 						image: data.image,
 						imageName: data.imageName,

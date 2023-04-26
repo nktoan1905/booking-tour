@@ -1,4 +1,5 @@
 import HttpStatusCode from '../helpers/httpStatusCode';
+import newCategory from '../helpers/newCategory';
 import db from '../models';
 import newServices from '../services/newsServices';
 
@@ -6,6 +7,7 @@ const newsController = {
 	handleCreateNewNews: async (req, res) => {
 		try {
 			const { status, message } = await newServices.createNews(req.user.id, req.body);
+			console.log(req.body);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {
@@ -27,10 +29,17 @@ const newsController = {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
+	handleGetAllNewCategories: async (req, res) => {
+		try {
+			const categories = [newCategory.TRAVEL_NEWS, newCategory.TRAVEL_GUILDE, newCategory.TRAVEL_EXPERIENCE];
+			res.status(HttpStatusCode.OK).json({ message: 'Get all categories successfully', data: categories });
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
 	handleUpdateNews: async (req, res) => {
 		try {
-			console.log(req.params.newsId);
-			const { status, message } = await newServices.updateNews(req.params.newsId, req.body);
+			const { status, message } = await newServices.updateNews(req.params.newsId, req.body, req.user);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {

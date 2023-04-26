@@ -142,5 +142,21 @@ const userController = {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
+	handleUpdatePassword: async (req, res) => {
+		try {
+			const { status, message } = await userServices.updatePassword(
+				req.user.id,
+				req.body.confirmPassword,
+				req.body.newPassword,
+			);
+			if (status === true) {
+				res.status(HttpStatusCode.OK).json({ message: message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message: message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
 };
 export default userController;

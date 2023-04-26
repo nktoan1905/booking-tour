@@ -234,7 +234,7 @@ const tourServices = {
 				if (!tour) {
 					resolve({ status: false, message: 'Tour not found' });
 				}
-				const serivce = await db.Serivce.findOne({ where: { id: serviceId }, raw: false });
+				const serivce = await db.Service.findOne({ where: { id: serviceId }, raw: false });
 				if (!serivce) {
 					resolve({ status: false, message: 'Serivce not found' });
 				}
@@ -354,6 +354,7 @@ const tourServices = {
 					nest: true,
 					raw: false,
 				});
+
 				if (tours.length > 0) {
 					resolve({ status: true, message: 'Get All Tours successfully', tours: tours });
 				} else {

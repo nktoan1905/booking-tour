@@ -14,5 +14,8 @@ router.get('/generateOTP', async (req, res) => {
 		'nktoan1905@gmail.com',
 	);
 	res.status(201).json(OTP);
+
+
+
 });
 export default router;

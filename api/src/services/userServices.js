@@ -240,6 +240,35 @@ const userServices = {
 			}
 		});
 	},
+	updatePassword: async (id, confirmPassword, newPassword) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const user = await db.User.findOne({
+					where: { id: id },
+				});
+				if (!user) {
+					resolve({ status: false, message: 'User not found' });
+				}
+				let validPassword = await bcrypt.compare(confirmPassword, user.password);
+
+				if (!validPassword) {
+					resolve({ status: false, message: 'Confirm password incorrect' });
+				}
+				let hashed = await bcrypt.hash(newPassword, salt);
+
+				const isUpdated = await db.User.update({
+					password: hashed,
+				});
+				if (isUpdated) {
+					resolve({ status: true, message: 'Password updated successfully' });
+				} else {
+					resolve({ status: false, message: 'Password updated fail' });
+				}
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
 	updateMemberAndEmployeeStatus: async (id) => {
 		return new Promise(async (resolve, reject) => {
 			try {
@@ -247,7 +276,7 @@ const userServices = {
 				if (!checkIdExist) {
 					resolve({
 						status: false,
-						message: 'Id dose not exist',
+						message: 'Id not exist',
 					});
 				}
 				let user = checkIdExist;

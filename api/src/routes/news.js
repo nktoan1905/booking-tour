@@ -7,25 +7,27 @@ const router = express.Router();
 
 router.get('/', newsController.handleGetAllNews);
 
-router.post('/register', tokenMiddleware.verifyToken, newsController.handleCreateNewNews);
+router.get('/categories',  newsController.handleGetAllNewCategories);
+
+router.post('/register', roleMiddleware.verifyEmployees, newsController.handleCreateNewNews);
 
 router.put(
 	'/:newsId',
-	tokenMiddleware.verifyToken,
+	roleMiddleware.verifyEmployees,
 	checkIdExistMiddleware.checkIdNewsExist,
 	newsController.handleUpdateNews,
 );
 
 router.put(
 	'/:newsId/status',
-	roleMiddleware.verifyAdminOrEmployee,
+	roleMiddleware.verifyAdmin,
 	checkIdExistMiddleware.checkIdNewsExist,
 	newsController.handleUpdateStatusNews,
 );
 
 router.delete(
 	'/:newsId',
-	tokenMiddleware.verifyToken,
+	roleMiddleware.verifyAdmin,
 	checkIdExistMiddleware.checkIdNewsExist,
 	newsController.handleDeleteNews,
 );

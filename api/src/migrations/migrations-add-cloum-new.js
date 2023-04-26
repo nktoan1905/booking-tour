@@ -2,10 +2,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-        await queryInterface.addColumn('News','status',{
-            type: Sequelize.INTEGER,
-        })
+		await queryInterface.addColumn('News', 'status', {
+			type: Sequelize.INTEGER,
+		});
+		await queryInterface.addColumn('News', 'categoryId', {
+			type: Sequelize.INTEGER,
+		});
 	},
-	async down(queryInterface, Sequelize) {
-	},
+	async down(queryInterface, Sequelize) {},
 };
