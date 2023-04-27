@@ -1,42 +1,76 @@
 import express from 'express';
 import tourController from '../controllers/tourController';
 import checkIdExistMiddleware from '../middleware/checkExistMiddleware';
-
-import tokenMiddleware from '../middleware/tokenMiddleware';
+import uploadCloud from '../config/cloudinary.config';
+import roleMiddleware from '../middleware/roleMiddleware';
 
 const router = express.Router();
 
-router.post('/resgister', tourController.handleCreateNewTour);
+router.post('/resgister', roleMiddleware.verifyAdminOrEmployee, tourController.handleCreateNewTour);
 
-router.post('/:tourId/categories/add', checkIdExistMiddleware.checkIdTourExist, tourController.handleAddCategory);
+router.post(
+	'/:tourId/categories/add',
+	roleMiddleware.verifyAdminOrEmployee,
+	checkIdExistMiddleware.checkIdTourExist,
+	tourController.handleAddCategory,
+);
 
 router.delete(
 	'/:tourId/categories/remove',
+	roleMiddleware.verifyAdminOrEmployee,
 	checkIdExistMiddleware.checkIdTourExist,
 	tourController.handleRemoveCategory,
 );
 
-router.post('/:tourId/cites/add', checkIdExistMiddleware.checkIdTourExist, tourController.handleAddCity);
+router.post(
+	'/:tourId/cites/add',
+	roleMiddleware.verifyAdminOrEmployee,
+	checkIdExistMiddleware.checkIdTourExist,
+	tourController.handleAddCity,
+);
 
-router.delete('/:tourId/cites/remove', checkIdExistMiddleware.checkIdTourExist, tourController.handleRemoveCity);
+router.delete(
+	'/:tourId/cites/remove',
+	roleMiddleware.verifyAdminOrEmployee,
+	checkIdExistMiddleware.checkIdTourExist,
+	tourController.handleRemoveCity,
+);
 
 router.post(
 	'/:tourId/departureDays/add',
+	roleMiddleware.verifyAdminOrEmployee,
 	checkIdExistMiddleware.checkIdTourExist,
 	tourController.handleAddDepentureDay,
 );
 
 router.delete(
 	'/:tourId/departureDays/remove',
+	roleMiddleware.verifyAdminOrEmployee,
 	checkIdExistMiddleware.checkIdTourExist,
 	tourController.handleRemoveDepartureDay,
 );
 
-router.post('/:tourId/services/add', checkIdExistMiddleware.checkIdTourExist, tourController.handleAddService);
+router.post(
+	'/:tourId/services/add',
+	roleMiddleware.verifyAdminOrEmployee,
+	roleMiddleware.verifyAdminOrEmployee,
+	checkIdExistMiddleware.checkIdTourExist,
+	tourController.handleAddService,
+);
 
-router.delete('/:tourId/services/remove', checkIdExistMiddleware.checkIdTourExist, tourController.handleRemoveService);
+router.delete(
+	'/:tourId/services/remove',
+	roleMiddleware.verifyAdminOrEmployee,
+	checkIdExistMiddleware.checkIdTourExist,
+	tourController.handleRemoveService,
+);
 
-router.post('/:tourId/promotions/add', checkIdExistMiddleware.checkIdTourExist, tourController.handleAddPromotion);
+router.post(
+	'/:tourId/promotions/add',
+	roleMiddleware.verifyAdminOrEmployee,
+	checkIdExistMiddleware.checkIdTourExist,
+	tourController.handleAddPromotion,
+);
 
 router.delete(
 	'/:tourId/promotions/remove',
@@ -46,8 +80,32 @@ router.delete(
 
 router.get('/', tourController.handleGetAllTours);
 
-router.put('/:tourId', tourController.handleUpdateTourByTuorId);
+router.put(
+	'/:tourId',
+	roleMiddleware.verifyAdminOrEmployee,
+	checkIdExistMiddleware.checkIdTourExist,
+	tourController.handleUpdateTourByTuorId,
+);
 
-router.delete('/:tourId', tourController.handleDeleteTourByTuorId);
+router.delete(
+	'/:tourId',
+	roleMiddleware.verifyAdminOrEmployee,
+	checkIdExistMiddleware.checkIdTourExist,
+	tourController.handleDeleteTourByTuorId,
+);
+
+router.post(
+	'/:tourId/image/add',
+	roleMiddleware.verifyAdminOrEmployee,
+	checkIdExistMiddleware.checkIdTourExist,
+	tourController.handleAddImage,
+);
+
+router.delete(
+	'/:tourId/image/remove/:imageId',
+	roleMiddleware.verifyAdminOrEmployee,
+	checkIdExistMiddleware.checkIdTourExist,
+	tourController.handleRemoveImage,
+);
 
 export default router;

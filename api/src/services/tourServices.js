@@ -18,6 +18,7 @@ const tourServices = {
 					map: data.map,
 					duration: data.duration,
 					amount: data.amount,
+					status: 1,
 				});
 				if (newTour) {
 					resolve({ status: true, message: 'Create new tour successfully' });
@@ -163,6 +164,9 @@ const tourServices = {
 				const tour = await db.Tour.findOne({ where: { id: parseInt(tourId) }, raw: false });
 				if (!tour) {
 					resolve({ status: false, message: 'Tour not found' });
+				}
+				if (tour.status === 1) {
+					resolve({ status: false, message: 'Tour is not available' });
 				}
 				const departureDay = await db.DepartureDay.findOne({ where: { id: departureDayId }, raw: false });
 				if (!departureDay) {
@@ -323,6 +327,7 @@ const tourServices = {
 						{
 							model: db.Category,
 							as: 'categories',
+							attributes: ['id', 'name'],
 							through: {
 								attributes: [],
 							},
@@ -330,6 +335,8 @@ const tourServices = {
 						{
 							model: db.Service,
 							as: 'services',
+							attributes: ['id', 'name', 'description', 'icon'],
+
 							through: {
 								attributes: [],
 							},
@@ -337,6 +344,7 @@ const tourServices = {
 						{
 							model: db.Promotion,
 							as: 'promotions',
+							attributes: ['id', 'name'],
 							through: {
 								attributes: [],
 							},
@@ -344,11 +352,21 @@ const tourServices = {
 						{
 							model: db.City,
 							as: 'cities',
-							include: [{ model: db.Country, as: 'countryInfo' }],
+							attributes: ['id', 'name'],
+							include: [{ model: db.Country, as: 'countryInfo', attributes: ['id', 'name'] }],
 						},
 						{
 							model: db.DepartureDay,
 							as: 'departureDays',
+							attributes: ['id', 'dayStart'],
+							through: {
+								attributes: [],
+							},
+						},
+						{
+							model: db.TourImage,
+							as: 'images',
+							attributes: ['id', 'imageName', 'imageLink'],
 						},
 					],
 					nest: true,
@@ -383,6 +401,7 @@ const tourServices = {
 						duration: data.duration,
 						amount: data.amount,
 						updatedAt: new Date(),
+						status: data.status,
 					},
 					{ where: { id: tourId } },
 				);
@@ -410,8 +429,37 @@ const tourServices = {
 			}
 		});
 	},
-	createNewOrder: async () => {
-		
+	addImage: async (data, tourId) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const isCreated = await db.TourImage.create({
+					imageLink: data.imageLink,
+					imageName: data.imageName,
+					tourId: tourId,
+				});
+				if (isCreated) {
+					resolve({ status: true, message: 'Add image tour successfully' });
+				} else {
+					resolve({ status: false, message: 'Add image tour failed' });
+				}
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	removeImage: async (imageId, tourId) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const isDelete = await db.TourImage.destroy({ where: { id: imageId, tourId: tourId } });
+				if (isDelete) {
+					resolve({ status: true, message: 'Delete image tour successfully' });
+				} else {
+					resolve({ status: false, message: 'Delete image tour failed' });
+				}
+			} catch (error) {
+				reject(error);
+			}
+		});
 	},
 };
 export default tourServices;

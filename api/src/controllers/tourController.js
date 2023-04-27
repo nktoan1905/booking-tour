@@ -171,6 +171,29 @@ const tourController = {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
-	
+	handleAddImage: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.addImage(req.body, req.params.tourId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleRemoveImage: async (req, res) => {
+		try {
+			const { status, message } = await tourServices.removeImage(req.params.imageId, req.params.tourId);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
 };
 export default tourController;
