@@ -1,0 +1,22 @@
+#footer {
+  background-color: #141414;
+  color: white;
+}
+.icon_footer {
+  background-color: white;
+  width: 2.5rem;
+  height: 2.5rem;
+  float: left;
+  margin-right: 1rem;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  color: white;
+  transition: 0.5s;
+  position: relative;
+}
+.icon_footer:hover {
+  transform: scale(1.2);
+}

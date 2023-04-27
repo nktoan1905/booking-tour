@@ -1,0 +1,53 @@
+#feedback i {
+  color: #cac6c5;
+  font-size: 1.2rem;
+}
+
+#feedback .ant-avatar {
+  width: 70px !important;
+  height: 70px !important;
+}
+#feedback .content-yk p {
+  width: 100%;
+  max-width: 80%;
+  margin: 0 auto;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+#feedback .content-yk {
+  border: 1px solid #0abf54;
+}
+#feedback .fixed {
+  background-image: url("");
+  z-index: -1;
+}
+#feedback .fixed-background {
+  position: relative;
+  width: 100%;
+}
+#feedback .fixed-wrap {
+  clip: rect(0, auto, auto, 0);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -999 !important;
+}
+#feedback .fixed {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+}
+#feedback .dark {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+}
