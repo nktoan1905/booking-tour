@@ -2,6 +2,7 @@ import authServices from '../services/authServices';
 import jwt from 'jsonwebtoken';
 import db from '../models';
 import HttpStatusCode from '../helpers/httpStatusCode';
+import userServices from '../services/userServices';
 
 const authController = {
 	handleRegisterUser: async (req, res) => {
@@ -22,7 +23,7 @@ const authController = {
 				});
 			}
 		} catch (error) {
-			res.status(HttpStatusCode.BAD_REQUEST).send(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleLogin: async (req, res) => {
@@ -52,7 +53,7 @@ const authController = {
 				});
 			}
 		} catch (error) {
-			res.status(HttpStatusCode.BAD_REQUEST).send(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 	handleRefreshToken: async (req, res) => {
@@ -101,7 +102,17 @@ const authController = {
 			});
 			res.status(HttpStatusCode.OK).json({ message: 'Logout successfully!' });
 		} catch (error) {
-			res.status(HttpStatusCode.BAD_REQUEST).send(error);
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleForgotPassword: async (req, res) => {
+		try {
+			const { status, message } = await userServices.findUserByEmail(req.body.email);
+			if (status === false) {
+				res.status(HttpStatusCode.NOT_FOUND).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
 };

@@ -12,7 +12,6 @@ import departureDayRoute from './departureDay';
 import serviceRoute from './service';
 import tourRoute from './tour';
 import paymentRoute from './payment';
-import OTPRoute from './OTP';
 import uploadRoute from './uploadClound';
 
 const multer = require('multer');
@@ -28,7 +27,6 @@ let initRoutes = (app) => {
 	// Routes
 
 	// Route for user
-	app.use('/v1', OTPRoute);
 	app.use('/v1/auth', authRoute);
 	app.use('/v1/user', userRoute);
 	app.use('/v1/admin', adminRoute);

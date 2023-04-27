@@ -158,5 +158,49 @@ const userController = {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
+	handleGetAllTourIdIsFlowingByUserId: async (req, res) => {
+		try {
+			const { status, message, listTourInfomation } = await userServices.getAllTourIdIsFlowingByUserId(req.user.id);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message: message, data: listTourInfomation });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleAddNewFlowingTourByTourId: async (req, res) => {
+		try {
+			const { status, message } = await userServices.addNewFlowingTourByTourId(
+				req.user.id,
+				req.body.tourId,
+				req.body.dayStart,
+			);
+			if (status) {
+				res.status(HttpStatusCode.CREATED).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleDeleteFlowingTourByTourId: async (req, res) => {
+		try {
+			const { status, message } = await userServices.deleteFlowingTourByTourId(
+				req.user.id,
+				req.body.tourId,
+				req.body.dayStart,
+			);
+			if (status) {
+				res.status(HttpStatusCode.CREATED).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
 };
 export default userController;

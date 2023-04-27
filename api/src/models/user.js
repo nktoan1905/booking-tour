@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 				targetKey: 'id',
 				as: 'tours',
 			});
+			User.belongsToMany(models.Tour, { through: models.UserFlowTour, foreignKey: 'userId', targetKey: 'id' });
 		}
 	}
 	User.init(

@@ -352,6 +352,110 @@ const userServices = {
 			}
 		});
 	},
+	findUserByEmail: async (email) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const user = await db.User.findOne({ where: { email: email } });
+				if (!user) {
+					resolve({ status: false, message: 'Email not found' });
+				} else {
+					resolve({ status: true, message: 'Email has found' });
+				}
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	getAllTourIdIsFlowingByUserId: async (userId) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const userFlowTours = await db.UserFlowTour.findAll({ where: { userId: userId } });
+				if (userFlowTours.length <= 0) {
+					resolve({ status: false, message: "User don't have any flowing tour" });
+				}
+				const listTourInfomation = [];
+
+				for (let i = 0; i < userFlowTours.length; i++) {
+					const data = await db.Tour.findOne(
+						{
+							include: [
+								{
+									model: db.Category,
+									as: 'categories',
+									through: {
+										attributes: [],
+									},
+								},
+								{
+									model: db.Service,
+									as: 'services',
+									through: {
+										attributes: [],
+									},
+								},
+								{
+									model: db.City,
+									as: 'cities',
+									include: [{ model: db.Country, as: 'countryInfo' }],
+								},
+							],
+							nest: true,
+							raw: false,
+						},
+						{
+							where: {
+								tourId: userFlowTours[i].tourId,
+							},
+						},
+					);
+					if (!data) {
+						resolve({ status: false, message: 'Invalid tour' });
+					}
+					const tourInfo = { ...data, dayStart: userFlowTours[i].dayStart };
+					listTourInfomation.push(tourInfo);
+				}
+				resolve({ status: true, message: 'Get all flowing tour successfully', listTourInfomation });
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	addNewFlowingTourByTourId: async (userId, tourId, dayStart) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const isExist = await db.UserFlowTour.findOne({
+					wherer: { userId: userId, tourId: tourId, dayStart: new Date(dayStart) },
+				});
+				if (isExist) {
+					resolve({ status: false, message: 'This tour is already flowing' });
+				}
+				const isCreated = await db.UserFlowTour.create({ userId: userId, tourId: tourId, dayStart: dayStart });
+				if (isCreated) {
+					resolve({ status: true, message: 'Flowing successfully' });
+				} else {
+					resolve({ status: false, message: 'Flowing failed' });
+				}
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	deleteFlowingTourByTourId: async (userId, tourId, dayStart) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const isDelete = await db.UserFlowTour.destroy({
+					where: { userId: userId, tourId: tourId, dayStart: new Date(dayStart) },
+				});
+				if (isDelete) {
+					resolve({ status: true, message: 'Delete flowing successfully' });
+				} else {
+					resolve({ status: false, message: 'Delete flowing failed' });
+				}
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
 };
 
 export default userServices;

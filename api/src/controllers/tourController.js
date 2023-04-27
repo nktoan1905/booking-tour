@@ -171,5 +171,6 @@ const tourController = {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
+	
 };
 export default tourController;
