@@ -11,6 +11,7 @@ import contactRoute from './contact';
 import departureDayRoute from './departureDay';
 import serviceRoute from './service';
 import tourRoute from './tour';
+import paymentRoute from './payment';
 import OTPRoute from './OTP';
 import uploadRoute from './uploadClound';
 
@@ -40,6 +41,7 @@ let initRoutes = (app) => {
 	app.use('/v1/cities', cityRoute);
 	app.use('/v1/departure-day', departureDayRoute);
 	app.use('/v1/services', serviceRoute);
+	app.use('/v1/payment', paymentRoute);
 	// Route for something left
 	app.use('/v1/news', newsRoute);
 	app.use('/v1/contact', contactRoute);

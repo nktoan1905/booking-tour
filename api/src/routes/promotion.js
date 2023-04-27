@@ -24,4 +24,4 @@ router.delete(
 	promotionController.handleDeletePromotion,
 );
 
-export default router;
+export default router;module.exports = router;
