@@ -13,8 +13,11 @@ router.post('/login', authController.handleLogin);
 // refresh token
 router.post('/refresh', authController.handleRefreshToken);
 
+router.post('/forgot-passowrd', authController.handleForgotPassword)
+
 // log out
 router.post('/logout', tokenMiddleware.verifyToken, authController.handleLogout);
+
 
 
 export default router;

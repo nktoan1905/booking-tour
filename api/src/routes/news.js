@@ -9,7 +9,7 @@ router.get('/', newsController.handleGetAllNews);
 
 router.get('/categories',  newsController.handleGetAllNewCategories);
 
-router.post('/register', roleMiddleware.verifyEmployees, newsController.handleCreateNewNews);
+router.post('/register', roleMiddleware.verifyAdminOrEmployee, newsController.handleCreateNewNews);
 
 router.put(
 	'/:newsId',

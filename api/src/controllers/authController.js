@@ -3,6 +3,10 @@ import jwt from 'jsonwebtoken';
 import db from '../models';
 import HttpStatusCode from '../helpers/httpStatusCode';
 import userServices from '../services/userServices';
+import generator from 'generate-password';
+import sendMail from '../services/mailServices';
+import bcrypt from 'bcrypt';
+const salt = bcrypt.genSaltSync(10);
 
 const authController = {
 	handleRegisterUser: async (req, res) => {
@@ -41,14 +45,12 @@ const authController = {
 
 				res.cookie('refreshToken', refreshToken, {
 					httpOnly: true,
-					secure: false,
-					path: '/',
-					sameSite: 'strict',
 				});
 				res.status(HttpStatusCode.OK).json({
 					message: message,
 					data: {
-						accessToken,
+						accessToken: accessToken,
+						user: user,
 					},
 				});
 			}
@@ -94,12 +96,12 @@ const authController = {
 	},
 	handleLogout: async (req, res) => {
 		try {
-			res.clearCookie('refreshToken');
-			await db.RefreshToken.destroy({
-				where: {
-					token: req.cookies.refreshToken,
-				},
-			});
+			// res.clearCookie('refreshToken');
+			// await db.RefreshToken.destroy({
+			// 	where: {
+			// 		token: req.cookies.refreshToken,
+			// 	},
+			// });
 			res.status(HttpStatusCode.OK).json({ message: 'Logout successfully!' });
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
@@ -107,8 +109,25 @@ const authController = {
 	},
 	handleForgotPassword: async (req, res) => {
 		try {
-			const { status, message } = await userServices.findUserByEmail(req.body.email);
-			if (status === false) {
+			console.log(req.body);
+			const { status, message, user } = await userServices.findUserByEmail(req.body.email);
+			if (status) {
+				const password = generator.generate({
+					length: 10,
+					numbers: true,
+				});
+				let hashed = await bcrypt.hash(password, salt);
+
+				await db.User.update({ password: hashed }, { where: { id: user.id } });
+				await sendMail(
+					{
+						subject: 'Reset password',
+						body: `<h4>New password: ${password}</h4>`,
+					},
+					req.body.email,
+				);
+				res.status(HttpStatusCode.OK).json({ message: 'Reset password successfully!' });
+			} else {
 				res.status(HttpStatusCode.NOT_FOUND).json({ message });
 			}
 		} catch (error) {

@@ -359,7 +359,7 @@ const userServices = {
 				if (!user) {
 					resolve({ status: false, message: 'Email not found' });
 				} else {
-					resolve({ status: true, message: 'Email has found' });
+					resolve({ status: true, message: 'Email has found', user });
 				}
 			} catch (error) {
 				reject(error);

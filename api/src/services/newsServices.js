@@ -30,12 +30,12 @@ const newServices = {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const news = await db.New.findAll({
-					attributes: ['id', 'title', 'content', 'userId', 'image', 'imageName', 'status'],
+					attributes: ['id', 'title', 'content', 'userId', 'image', 'imageName', 'status', 'categoryId', 'createdAt'],
 					include: [
 						{
 							model: db.User,
 							as: 'userInfo',
-							attributes: ['fullName', 'email'],
+							attributes: ['fullName', 'email', 'avatar'],
 						},
 						{
 							model: db.NewsCategory,
@@ -52,6 +52,7 @@ const newServices = {
 					resolve({ status: true, message: 'Get all news Successfully.', news });
 				}
 			} catch (error) {
+				
 				console.log(error);
 				reject(error);
 			}
