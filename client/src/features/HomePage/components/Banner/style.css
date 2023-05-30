@@ -1,0 +1,11 @@
+.carousel_img {
+  height: 80vh;
+  object-fit: fill;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 480px){
+  .carousel_img{
+    height: 40vh;
+  }   
+}

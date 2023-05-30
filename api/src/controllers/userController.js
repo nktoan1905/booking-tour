@@ -30,6 +30,7 @@ const userController = {
 	},
 	handleGetAllAdmins: async (req, res) => {
 		try {
+			console.log("abcd")
 			const { status, message, admins } = await userServices.getAllAdmins();
 			if (status) {
 				res.status(HttpStatusCode.OK).json({
@@ -67,8 +68,8 @@ const userController = {
 		}
 	},
 	handleUpdateProfile: async (req, res) => {
+		console.log(req.data);
 		try {
-			console.log(req.body);
 			const { status, message, newUserInfo } = await userServices.updateUserProfile(req.user.id, req.body);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({

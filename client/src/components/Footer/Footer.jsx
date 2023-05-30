@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import { Link } from "react-router-dom";
-import "./styles.css"
+import "./styles.css";
 const Footer = () => {
   const footer = [
     {
@@ -40,9 +40,9 @@ const Footer = () => {
     window.open(url, "_blank");
   };
   return (
-    <div id="footer">
-      <footer className="page-footer font-small blue pt-4 container">
-        <div className="container-fluid text-center text-md-left">
+    <div id="footer" className="bg-dark">
+      <footer className="page-footer font-small blue pt-4 container ">
+        <div className="container-fluid text-md-left">
           <div className="row">
             {footer.map((ok) => (
               <div className="col-md-6 mt-md-0 mt-3" key={ok.id}>
@@ -70,7 +70,7 @@ const Footer = () => {
               <h5 className="text-uppercase text-danger">Links</h5>
               <ul className="list-unstyled">
                 <li>
-                  <Link to="#" className="text-light text-decoration-none">
+                  <Link to="/" className="text-light text-decoration-none">
                     <span className="fa fa-angle-double-right mr-2"></span>
                     Trang chủ
                   </Link>
@@ -84,7 +84,7 @@ const Footer = () => {
                 <li>
                   <Link to="#" className="text-light text-decoration-none">
                     <span className="fa fa-angle-double-right mr-2"></span>
-                    Dịch vụ
+                    Liên hệ
                   </Link>
                 </li>
                 <li>
@@ -100,7 +100,7 @@ const Footer = () => {
               {mxh.map((ok) => (
                 <div key={ok.id} onClick={() => redirectTo(ok.link)}>
                   <div
-                    className="icon_footer"
+                    className="icon_footer mt-2"
                     style={{
                       background: `${ok.color}`,
                       cursor: "pointer",

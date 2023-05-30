@@ -55,6 +55,7 @@ const authController = {
 				});
 			}
 		} catch (error) {
+			console.log(error)
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
@@ -73,7 +74,6 @@ const authController = {
 			if (err) {
 				return res.status(403).json('Refresh token is not valid');
 			}
-
 			await db.RefreshToken.destroy({ where: { token: refreshToken } });
 			const newAccessToken = authServices.generateAccessToken(user);
 			const newRefreshToken = authServices.generateRefreshToken(user);
@@ -96,12 +96,12 @@ const authController = {
 	},
 	handleLogout: async (req, res) => {
 		try {
-			// res.clearCookie('refreshToken');
-			// await db.RefreshToken.destroy({
-			// 	where: {
-			// 		token: req.cookies.refreshToken,
-			// 	},
-			// });
+			res.clearCookie('refreshToken');
+			await db.RefreshToken.destroy({
+				where: {
+					token: req.cookies.refreshToken,
+				},
+			});
 			res.status(HttpStatusCode.OK).json({ message: 'Logout successfully!' });
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
@@ -109,7 +109,6 @@ const authController = {
 	},
 	handleForgotPassword: async (req, res) => {
 		try {
-			console.log(req.body);
 			const { status, message, user } = await userServices.findUserByEmail(req.body.email);
 			if (status) {
 				const password = generator.generate({

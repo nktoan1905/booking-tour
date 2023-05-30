@@ -1,11 +1,9 @@
 import React from "react";
+import CommonLayout from "../../components/Layout/CommonLayout";
 import "./style.css";
-import Footer from "../../components/Footer/Footer";
-import Header from "../../components/Header/Header";
-export default function Error() {
+const Error = () => {
   return (
-    <React.Fragment>
-      <Header></Header>
+    <CommonLayout>
       <main className="error_main">
         <h1 className="error_title">
           4
@@ -15,9 +13,12 @@ export default function Error() {
           4
         </h1>
         <h2 className="error_text">Error: 404 page not found</h2>
-        <p className="error_text-p">Sorry, the page you're looking for cannot be accessed</p>
+        <p className="error_text-p">
+          Sorry, the page you're looking for cannot be accessed
+        </p>
       </main>
-      <Footer></Footer>
-    </React.Fragment>
+    </CommonLayout>
   );
-}
+};
+
+export default Error;
