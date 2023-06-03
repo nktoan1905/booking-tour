@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
+import { getAllAdmins, getAllEmployees, getAllUsers } from "../../../redux/api/userApiHandler";
 
 const UsersFeature = () => {
-  return (
-    <div>UsersFeature</div>
-  )
-}
+  useEffect(() => {
+    document.title = "User Manager";
+  }, []);
 
-export default UsersFeature
+  const dispatch = useDispatch();
+  return (
+    <React.Fragment>
+      <Outlet />
+    </React.Fragment>
+  );
+};
+
+export default UsersFeature;

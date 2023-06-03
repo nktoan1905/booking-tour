@@ -16,45 +16,43 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { loginUser } from "../../../../redux/api/authApiHandler";
 
+
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { registerUser } from "../../../../redux/api/authApiHandler";
+
+const schema = yup
+  .object({
+    email: yup.string().required("Email is required").email("Email is invalid"),
+    password: yup.string().required("Password is required"),
+  })
+  .required();
+
 const theme = createTheme();
 const Login = () => {
   useEffect(() => {
     document.title = "Đăng nhập";
   });
-  const [passowrdError, setPasswordError] = useState({
-    status: false,
-    message: "",
-  });
-  const [emailError, setEmailError] = useState({
-    status: false,
-    message: "",
-  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleSubmit = async (event) => {
+  const {
+    register,
+    formState: { errors, isSubmitSuccessful },
+    reset,
+    handleSubmit,
+  } = useForm({ resolver: yupResolver(schema) });
+  const handleOnSubmit = async (data, event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get("email");
-    const password = data.get("password");
-    if (email === "") {
-      setEmailError({ status: true, message: "Email is required" });
-    } else {
-      setEmailError({ status: false, message: "" });
-    }
-    if (password === "") {
-      setPasswordError({ status: true, message: "Password is required" });
-    } else {
-      setPasswordError({ status: false, message: "" });
-    }
-    if (passowrdError.status === false && emailError.status === false) {
-      await loginUser(
-        { email: email, password: password },
-        dispatch,
-        navigate,
-        toast
-      );
-    }
+    await loginUser(data, dispatch, navigate, toast);
   };
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubmitSuccessful]);
+
 
   return (
     <Grid
@@ -64,7 +62,7 @@ const Login = () => {
       md={5}
       elevation={6}
       square={"true"}
-      style={{ height: "56.5vh" }}
+      style={{ height: "62vh" }}
     >
       <Box
         sx={{
@@ -81,9 +79,8 @@ const Login = () => {
         <Typography component="h1" variant="h5">
           Đăng nhập
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <Box component="form" noValidate onSubmit={handleSubmit(handleOnSubmit)} sx={{ mt: 1 }}>
           <TextField
-            error={emailError.status}
             margin="normal"
             required
             fullWidth
@@ -91,20 +88,25 @@ const Login = () => {
             label="Địa chỉ email"
             name="email"
             autoComplete="email"
-            helperText={emailError.message}
-            autoFocus
+            error={!!errors["email"]}
+            helperText={
+              errors["email"] ? errors["email"].message : ""
+            }
+            {...register("email")}
           />
           <TextField
             margin="normal"
-            error={passowrdError.status}
             required
             fullWidth
             name="password"
             label="Password"
             type="password"
             id="password"
-            helperText={passowrdError.message}
-            autoComplete="current-password"
+            error={!!errors["password"]}
+            helperText={
+              errors["password"] ? errors["password"].message : ""
+            }
+            {...register("password")}
           />
           <Button
             type="submit"

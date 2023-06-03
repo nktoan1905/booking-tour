@@ -18,6 +18,14 @@ const userSlice = createSlice({
       isFetching: false,
       isError: false,
     },
+    update: {
+      isFetching: false,
+      isError: false,
+    },
+    create: {
+      isFetching: false,
+      isError: false,
+    },
   },
   reducers: {
     getAllAdminsStart: (state) => {
@@ -56,6 +64,28 @@ const userSlice = createSlice({
       state.employees.isFetching = false;
       state.employees.isError = true;
     },
+    updateStart: (state) => {
+      state.update.isFetching = true;
+    },
+    updateSuccess: (state) => {
+      state.update.isFetching = false;
+      state.update.isError = false;
+    },
+    updateFailed: (state) => {
+      state.update.isFetching = false;
+      state.update.isError = true;
+    },
+    createStart: (state) => {
+      state.create.isFetching = true;
+    },
+    createSuccess: (state) => {
+      state.create.isFetching = false;
+      state.create.isError = false;
+    },
+    createFailed: (state) => {
+      state.create.isFetching = false;
+      state.create.isError = true;
+    },
   },
 });
 
@@ -69,6 +99,12 @@ export const {
   getAllUsersStart,
   getAllUsersSuccess,
   getAllUsersFailed,
+  updateStart,
+  updateSuccess,
+  updateFailed,
+  createStart,
+  createSuccess,
+  createFailed,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -6,17 +6,18 @@ import multer from 'multer';
 import connectDB from './config/connectDB';
 import initRoutes from './routes/index';
 import db from './models';
+import cors from 'cors';
 dotenv.config();
 
 const app = express();
-
-app.use(function (req, res, next) {
-	res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type, token');
-	res.setHeader('Access-Control-Allow-Credentials', true);
-	next();
-});
+app.use(
+	cors({
+		origin: process.env.CLIENT_URL,
+		methods: 'GET,POST,PUT,DELETE',
+		allowedHeaders: 'X-Requested-With,content-type,token',
+		credentials: true,
+	}),
+);
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

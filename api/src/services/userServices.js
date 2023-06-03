@@ -26,6 +26,7 @@ const userServices = {
 						'dob',
 						'roleId',
 						'status',
+						'createdAt',
 					],
 				});
 				if (members.length <= 0) {
@@ -41,7 +42,6 @@ const userServices = {
 					});
 				}
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});
@@ -62,6 +62,7 @@ const userServices = {
 						'dob',
 						'roleId',
 						'status',
+						'createdAt',
 					],
 				});
 				if (employees <= 0) {
@@ -84,7 +85,6 @@ const userServices = {
 	getAllAdmins: async () => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				console.log('1b');
 				const admins = await db.User.findAll({
 					where: { roleId: UserRole.ADMIN },
 					attributes: [
@@ -98,9 +98,9 @@ const userServices = {
 						'dob',
 						'roleId',
 						'status',
+						'createdAt',
 					],
 				});
-				console.log('🚀 ~ file: userServices.js:100 ~ returnnewPromise ~ admins:', admins);
 				if (admins.length <= 0) {
 					resolve({
 						status: false,
@@ -147,7 +147,6 @@ const userServices = {
 					});
 				}
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});
@@ -196,7 +195,6 @@ const userServices = {
 					});
 				}
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});
@@ -227,7 +225,7 @@ const userServices = {
 				);
 				const newUserInfo = await db.User.findOne({
 					where: { id: id },
-					attributes: ['fullName', 'gender', 'avatar', 'phoneNumber', 'address', 'dob'],
+					attributes: ['fullName', 'gender', 'avatar', 'phoneNumber', 'address', 'dob', 'roleId', 'status'],
 				});
 				if (isUpdate) {
 					resolve({ status: true, message: 'Update was successful', newUserInfo });
@@ -235,12 +233,11 @@ const userServices = {
 					resolve({ status: false, message: 'Update failed' });
 				}
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});
 	},
-	updatePassword: async (id, confirmPassword, newPassword) => {
+	updatePassword: async (id, oldPassword, newPassword) => {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const user = await db.User.findOne({
@@ -249,16 +246,18 @@ const userServices = {
 				if (!user) {
 					resolve({ status: false, message: 'User not found' });
 				}
-				let validPassword = await bcrypt.compare(confirmPassword, user.password);
-
+				let validPassword = await bcrypt.compare(oldPassword, user.password);
 				if (!validPassword) {
 					resolve({ status: false, message: 'Confirm password incorrect' });
 				}
 				let hashed = await bcrypt.hash(newPassword, salt);
 
-				const isUpdated = await db.User.update({
-					password: hashed,
-				});
+				const isUpdated = await db.User.update(
+					{
+						password: hashed,
+					},
+					{ where: { id: id } },
+				);
 				if (isUpdated) {
 					resolve({ status: true, message: 'Password updated successfully' });
 				} else {
@@ -300,26 +299,21 @@ const userServices = {
 			}
 		});
 	},
-	updateMemberRole: async (id, data) => {
+	updateUserRole: async (id, roleId) => {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const user = await db.User.findOne({ where: { id: id } });
 				if (!user) {
 					resolve({ status: false, message: 'This user does not exist.' });
 				}
-				const check = UserHelpers.checkIsMember(user);
-				if (!check) {
-					resolve({ status: false, message: 'This user is not a member.' });
+
+				let isUpdate = await db.User.update({ roleId: roleId }, { where: { id: id } });
+				if (isUpdate) {
+					resolve({ status: true, message: 'Update role is successfully' });
 				} else {
-					let isUpdate = await db.User.update({ roleId: data.roleId }, { where: { id: id } });
-					if (isUpdate) {
-						resolve({ status: true, message: 'Update role is successfully' });
-					} else {
-						resolve({ status: false, message: 'Update role failed' });
-					}
+					resolve({ status: false, message: 'Update role failed' });
 				}
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});
@@ -327,9 +321,9 @@ const userServices = {
 	deleteMemberById: async (id) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const isDelete = await db.User.destroy({ where: { id: id, roleId: UserRole.MEMBERS } });
+				const isDelete = await db.User.destroy({ where: { id: id } });
 				if (isDelete) {
-					resolve({ status: true, message: 'Delete member successfully!' });
+					resolve({ status: true, message: 'Delete user successfully!' });
 				} else {
 					resolve({ status: false, message: 'Delete failed!' });
 				}

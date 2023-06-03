@@ -55,7 +55,6 @@ const authController = {
 				});
 			}
 		} catch (error) {
-			console.log(error)
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},

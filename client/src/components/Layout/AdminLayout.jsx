@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import "./adminStyle.css";
 import {
   getAllAdmins,
@@ -8,15 +8,31 @@ import {
   getAllUsers,
 } from "../../redux/api/userApiHandler";
 import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../redux/api/authApiHandler";
+import { toast } from "react-toastify";
 const AdminLayout = () => {
   const currentUserAccessToken = useSelector(
     (state) => state.auth.login.currentUser?.accessToken
   );
-  console.log(currentUserAccessToken);
+  const currentUser = useSelector(
+    (state) => state.auth.login.currentUser?.user
+  );
   const dispatch = useDispatch();
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (currentUser.roleId === 1) {
+      getAllAdmins(dispatch, currentUserAccessToken);
+      getAllEmployees(dispatch, currentUserAccessToken);
+      getAllUsers(dispatch, currentUserAccessToken);
+    } 
+  }, []);
+
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const handleOnClickOpenMenu = () => {
     setIsOpenMenu(!isOpenMenu);
+  };
+  const handleOnClickLogout = async () => {
+    await logoutUser(currentUserAccessToken, dispatch, navigate, toast);
   };
   const menuSideBar = [
     {
@@ -24,25 +40,24 @@ const AdminLayout = () => {
       name: "Dashboard",
       link: "/admin/",
       icon: "fas fa-user-secret",
+      roleAllowed: [1, 2],
     },
     {
       id: 2,
       name: "Users",
       link: "/admin/users",
       icon: "fa-regular fa-user",
+      roleAllowed: [1],
     },
     {
       id: 3,
       name: "Tours",
       link: "/admin/tours",
       icon: "fa-solid fa-tent",
+      roleAllowed: [1, 2],
     },
   ];
-  useEffect(() => {
-    getAllAdmins(dispatch, currentUserAccessToken);
-    getAllUsers(dispatch, currentUserAccessToken);
-    getAllEmployees(dispatch, currentUserAccessToken);
-  }, []);
+
   return (
     <div className={`d-flex ${isOpenMenu ? "toggled" : ""}`} id="wrapper">
       <div className="bg-white" id="sidebar-wrapper">
@@ -50,15 +65,19 @@ const AdminLayout = () => {
           <i className="fas fa-user-secret me-2"></i>Travel
         </div>
         <div className="list-group list-group-flush my-3">
-          {menuSideBar.map((ok) => (
-            <NavLink
-              key={ok.id}
-              to={ok.link}
-              className="list-group-item list-group-item-action bg-transparent second-text fw-bold"
-            >
-              <i className={`${ok.icon} me-2`}></i> {ok.name}
-            </NavLink>
-          ))}
+          {menuSideBar.map((ok) => {
+            if (ok.roleAllowed.includes(currentUser.roleId)) {
+              return (
+                <NavLink
+                  key={ok.id}
+                  to={ok.link}
+                  className="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+                >
+                  <i className={`${ok.icon} me-2`}></i> {ok.name}
+                </NavLink>
+              );
+            } else return "";
+          })}
           <NavLink
             to="/auth/logout"
             className="list-group-item list-group-item-action bg-transparent text-danger fw-bold"
@@ -101,18 +120,19 @@ const AdminLayout = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  <i className="fas fa-user me-2"></i>John Doe
+                  <i className="fas fa-user me-2"></i>
+                  {currentUser.fullName}
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="/admin/me/profile">
                       Profile
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link className="dropdown-item" onClick={handleOnClickLogout}>
                       Logout
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>

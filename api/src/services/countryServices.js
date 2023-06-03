@@ -34,7 +34,6 @@ const countryServices = {
 					resolve({ status: false, message: 'Get all countries failed!' });
 				}
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});

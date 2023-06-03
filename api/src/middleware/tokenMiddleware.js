@@ -5,7 +5,6 @@ import db from '../models';
 const tokenMiddleware = {
 	verifyToken: async (req, res, next) => {
 		const token = req.headers.token;
-		console.log(token)
 		if (token) {
 			const accessToken = token.split(' ')[1];
 			jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, async (err, user) => {

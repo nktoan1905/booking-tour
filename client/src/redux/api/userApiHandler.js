@@ -1,5 +1,9 @@
 import userApi from "../../api/userApi";
+import { loginSuccess } from "../slice/authSlice";
 import {
+  createFailed,
+  createStart,
+  createSuccess,
   getAllAdminsFailed,
   getAllAdminsStart,
   getAllAdminsSuccess,
@@ -9,6 +13,9 @@ import {
   getAllUsersFailed,
   getAllUsersStart,
   getAllUsersSuccess,
+  updateFailed,
+  updateStart,
+  updateSuccess,
 } from "../slice/userSlice";
 
 export const getAllAdmins = async (dispatch, accessToken) => {
@@ -17,7 +24,6 @@ export const getAllAdmins = async (dispatch, accessToken) => {
     const res = await userApi.getAllAdmins(accessToken);
     dispatch(getAllAdminsSuccess(res.data));
   } catch (error) {
-    console.log(error)
     dispatch(getAllAdminsFailed());
   }
 };
@@ -37,5 +43,59 @@ export const getAllEmployees = async (dispatch, accessToken) => {
     dispatch(getAllEmployeesSuccess(res.data));
   } catch (error) {
     dispatch(getAllEmployeesFailed());
+  }
+};
+
+export const updateUserPassword = async (
+  dispatch,
+  accessToken,
+  newPassword,
+  oldPassword,
+  toast
+) => {
+  dispatch(updateStart());
+  try {
+    const res = await userApi.updatePassowrd(
+      accessToken,
+      newPassword,
+      oldPassword
+    );
+    toast.success("Cập nhất thành công");
+    dispatch(updateSuccess());
+  } catch (error) {
+    toast.error("Cập nhật thất bại");
+    dispatch(updateFailed());
+  }
+};
+
+export const updateUserProfile = async (
+  dispatch,
+  accessToken,
+  navigate,
+  toast,
+  dataUpdate
+) => {
+  dispatch(updateStart());
+  try {
+    const res = await userApi.updateProfile(accessToken, dataUpdate);
+    toast.success("Cập nhật thành công");
+    dispatch(loginSuccess({ accessToken: accessToken, user: res.newData }));
+    dispatch(updateSuccess());
+    navigate("/me/profile");
+  } catch (error) {
+    toast.error("Cập nhật thất bại");
+    dispatch(updateFailed());
+  }
+};
+
+export const createNewEmloyee = async (dispatch, data, toast, accessToken) => {
+  dispatch(createStart());
+  try {
+    const res = await userApi.createNewEmployee(accessToken, data);
+    toast.success("Tạo mới nhân viên thành công");
+    dispatch(createSuccess());
+  } catch (error) {
+    toast.error("Tạo mới nhân viên thất bại");
+    dispatch(createFailed());
   }
 };

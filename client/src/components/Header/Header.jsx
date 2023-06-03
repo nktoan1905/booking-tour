@@ -3,13 +3,20 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Container, Row, Col } from "react-bootstrap";
-import { NavLink, Link } from "react-router-dom";
-import Cookies from "js-cookie";
-import { useSelector } from "react-redux";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { logoutUser } from "../../redux/api/authApiHandler";
+
 const Header = () => {
   const currentUser = useSelector(
     (state) => state.auth.login.currentUser?.user
   );
+  const currentUserAccessToken = useSelector(
+    (state) => state.auth.login.currentUser?.accessToken
+  );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const renderAdminOption = (roleId) => {
     if ((roleId === 1) | (roleId === 2)) {
       return (
@@ -30,7 +37,9 @@ const Header = () => {
       return <React.Fragment></React.Fragment>;
     }
   };
-  console.log(currentUser);
+  const handleOnClickLogout = async () => {
+    await logoutUser(currentUserAccessToken, dispatch, navigate, toast);
+  };
   return (
     <Navbar bg="dark" expand="lg" variant="dark" sticky="top">
       <Container>
@@ -114,10 +123,14 @@ const Header = () => {
               title={
                 <div className="d-inline-flex justify-content-between align-items-center">
                   <img
-                    src={currentUser.avatar}
+                    src={
+                      currentUser.avatar
+                        ? currentUser.avatar
+                        : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                    }
                     style={{
-                      width: "30px",
-                      height: "30px",
+                      width: "40px",
+                      height: "40px",
                       borderRadius: "50%",
                     }}
                     alt={currentUser.fullName}
@@ -175,8 +188,8 @@ const Header = () => {
                 <Row>
                   <Col
                     as={Link}
-                    to="/me/profile"
                     className="text-decoration-none text-black"
+                    onClick={handleOnClickLogout}
                   >
                     Logout
                   </Col>

@@ -16,7 +16,6 @@ const paymentController = {
 				client_secret: paymentIntent.client_secret,
 			});
 		} catch (error) {
-            console.log(error);
 			res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'Faled payment request' });
 		}
 	},

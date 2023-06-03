@@ -14,19 +14,16 @@ router.post('/register/employee', userController.handleCreateNewEmployee);
 // get all employees
 router.get('/employees', userController.handleGetAllEmployees);
 
-// delete employee
-router.delete('/employees/:employeeId', userController.handleDeleteEmployeeById);
-
 // get all members
 router.get('/members', userController.handleGetAllMembers);
 
 // delete user
-router.delete('/members/:memberId', userController.handleDeleteMemberById);
+router.delete('/:userId', userController.handleDeleteUserById);
 
 // update status account Member or Employee
-router.put('/:id', userController.handleUpdateMemberAndEmployeeStatus);
+router.put('/role/:userId', userController.handleUpdateMemberAndEmployeeStatus);
 
 // update member role to siver or golden
-router.put('/members/:id', userController.handleUpdateMemberRole);
+router.put('/status/:userId', userController.handleUpdateUserRole);
 
 export default router;

@@ -30,7 +30,6 @@ const userController = {
 	},
 	handleGetAllAdmins: async (req, res) => {
 		try {
-			console.log("abcd")
 			const { status, message, admins } = await userServices.getAllAdmins();
 			if (status) {
 				res.status(HttpStatusCode.OK).json({
@@ -68,7 +67,6 @@ const userController = {
 		}
 	},
 	handleUpdateProfile: async (req, res) => {
-		console.log(req.data);
 		try {
 			const { status, message, newUserInfo } = await userServices.updateUserProfile(req.user.id, req.body);
 			if (status) {
@@ -85,10 +83,7 @@ const userController = {
 	},
 	handleUpdateMemberAndEmployeeStatus: async (req, res) => {
 		try {
-			if (!req.id) {
-				res.status(HttpStatusCode.BAD_REQUEST);
-			}
-			const { status, message } = await userServices.updateMemberAndEmployeeStatus(req.id);
+			const { status, message } = await userServices.updateMemberAndEmployeeStatus(req.params.userId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json(message);
 			} else {
@@ -98,12 +93,10 @@ const userController = {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
-	handleUpdateMemberRole: async (req, res) => {
+	handleUpdateUserRole: async (req, res) => {
 		try {
-			if (!req.params.id || !req.body) {
-				res.status(HttpStatusCode.BAD_REQUEST);
-			}
-			const { status, message } = await userServices.updateMemberRole(req.params.id, req.body);
+
+			const { status, message } = await userServices.updateUserRole(req.params.userId, req.body.roleId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {
@@ -113,27 +106,12 @@ const userController = {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
-	handleDeleteEmployeeById: async (req, res) => {
+	handleDeleteUserById: async (req, res) => {
 		try {
-			if (!req.params.id) {
+			if (!req.params.userId) {
 				res.status(HttpStatusCode.BAD_REQUEST);
 			}
-			const { status, message } = await userServices.deleteEmployeeById(req.params.emloyeeId);
-			if (status) {
-				res.status(HttpStatusCode.OK).json({ message });
-			} else {
-				res.status(HttpStatusCode.NOT_FOUND).json({ message });
-			}
-		} catch (error) {
-			res.status(HttpStatusCode.BAD_REQUEST).json(error);
-		}
-	},
-	handleDeleteMemberById: async (req, res) => {
-		try {
-			if (!req.params.id) {
-				res.status(HttpStatusCode.BAD_REQUEST);
-			}
-			const { status, message } = await userServices.deleteMemberById(req.params.memberId);
+			const { status, message } = await userServices.deleteMemberById(req.params.userId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {
@@ -147,7 +125,7 @@ const userController = {
 		try {
 			const { status, message } = await userServices.updatePassword(
 				req.user.id,
-				req.body.confirmPassword,
+				req.body.oldPassword,
 				req.body.newPassword,
 			);
 			if (status === true) {

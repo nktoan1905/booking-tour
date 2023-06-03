@@ -182,7 +182,6 @@ const tourServices = {
 					resolve({ status: false, message: 'Add departure day failed' });
 				}
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});

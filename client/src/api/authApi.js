@@ -16,12 +16,13 @@ const authApi = {
       {},
       {
         headers: { token: `Bearer ${accessToken}` },
+        withCredentials: true,
       }
     );
   },
   reset(email) {
     const url = "/v1/auth/forgot-passowrd";
-    return axiosClient.post(url, { email });
+    return axiosClient.post(url, email);
   },
 };
 

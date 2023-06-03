@@ -55,7 +55,6 @@ const cityServices = {
 					resolve({ status: false, message: 'Get all cities failed!' });
 				}
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});

@@ -11,31 +11,49 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { resetPassword } from "../../../../redux/api/authApiHandler";
+const schema = yup
+  .object({
+    email: yup.string().required("Email is required").email("Email is invalid"),
+  })
+  .required();
 const ResetPassword = () => {
   useEffect(() => {
     document.title = "Quên mật khẩu";
   });
-  const [emailError, setEmailError] = useState({
-    status: false,
-    message: "",
-  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleSubmit = async (event) => {
+  const {
+    register,
+    formState: { errors, isSubmitSuccessful },
+    reset,
+    handleSubmit,
+  } = useForm({ resolver: yupResolver(schema) });
+  const handleOnSubmit = async (data, event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get("email");
 
-    if (email === "") {
-      setEmailError({ status: true, message: "Please enter your email" });
-    } else {
-      setEmailError({ status: false, message: "" });
-    }
+    await resetPassword(data, dispatch, navigate, toast);
   };
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubmitSuccessful]);
 
   return (
-    <Grid item xs={12} sm={8} md={5}  elevation={6} square style={{height: "56.5vh"}}>
+    <Grid
+      item
+      xs={12}
+      sm={8}
+      md={5}
+      elevation={6}
+      square
+      style={{ height: "62vh" }}
+    >
       <Box
         sx={{
           my: 8,
@@ -51,9 +69,13 @@ const ResetPassword = () => {
         <Typography component="h1" variant="h5">
           Quên mật khẩu
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={handleSubmit(handleOnSubmit)}
+          sx={{ mt: 1 }}
+        >
           <TextField
-            error={emailError.status}
             margin="normal"
             required
             fullWidth
@@ -61,8 +83,9 @@ const ResetPassword = () => {
             label="Nhập Email bạn đã đăng ký"
             name="email"
             autoComplete="email"
-            helperText={emailError.message}
-            autoFocus
+            error={!!errors["email"]}
+            helperText={errors["email"] ? errors["email"].message : ""}
+            {...register("email")}
           />
           <Button
             type="submit"
@@ -74,7 +97,11 @@ const ResetPassword = () => {
           </Button>
           <Grid container>
             <Grid item>
-              <Link to="/auth/login" variant="body2" className="text-decoration-none">
+              <Link
+                to="/auth/login"
+                variant="body2"
+                className="text-decoration-none"
+              >
                 {"Bạn không có tài khoản? Tạo tài khoản mới"}
               </Link>
             </Grid>
