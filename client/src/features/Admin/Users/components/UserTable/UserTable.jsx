@@ -110,7 +110,6 @@ export default function UserTable({ rows }) {
   );
   const handleClose = () => setOpen(false);
   const handleDeleteUser = async (userId) => {
-    console.log(userId);
     await userApi.deleteUser(currentUserAccessToken, userId);
   };
   //
@@ -185,7 +184,7 @@ export default function UserTable({ rows }) {
               <TableCell align="center">
                 <img
                   src={row.avatar}
-                  style={{ width: "30px", height: "30px", borderRadius: "50%" }}
+                  style={{ width: "60px", height: "60px", borderRadius: "50%" }}
                 ></img>
               </TableCell>
               <TableCell>{row.fullName}</TableCell>

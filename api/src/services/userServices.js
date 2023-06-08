@@ -205,7 +205,7 @@ const userServices = {
 				);
 				const newUserInfo = await db.User.findOne({
 					where: { id: id },
-					attributes: ['fullName', 'gender', 'avatar', 'phoneNumber', 'address', 'dob', 'roleId', 'status'],
+					attributes: ['fullName', 'gender', 'avatar', 'phoneNumber', 'address', 'dob', 'roleId', 'status', 'email'],
 				});
 				if (isUpdate) {
 					resolve({ status: true, message: 'Update was successful', newUserInfo });

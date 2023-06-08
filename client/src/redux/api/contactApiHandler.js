@@ -26,7 +26,6 @@ export const createContact = async (dispatch, toast, data) => {
     );
     dispatch(createSuccess());
   } catch (error) {
-    console.log(error);
     toast.error("Tạo phiếu liên hệ thất bại!");
     dispatch(createFailed());
   }

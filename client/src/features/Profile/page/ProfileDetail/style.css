@@ -3,6 +3,7 @@
   object-fit: cover;
   overflow: hidden;
   height: 240px !important;
+  width: 100% !important;
 }
 @media screen and (max-width: 576px) {
   .img-circle {
@@ -13,7 +14,7 @@
     width: 200px;
   }
 }
-@media screen and (max-width: 992px ) {
+@media screen and (max-width: 992px) {
   .img-circle {
     border-radius: 50% !important;
     object-fit: cover;

@@ -69,6 +69,7 @@ const userController = {
 	handleUpdateProfile: async (req, res) => {
 		try {
 			const { status, message, newUserInfo } = await userServices.updateUserProfile(req.user.id, req.body);
+
 			if (status) {
 				res.status(HttpStatusCode.OK).json({
 					message: message,
@@ -95,7 +96,6 @@ const userController = {
 	},
 	handleUpdateUserRole: async (req, res) => {
 		try {
-
 			const { status, message } = await userServices.updateUserRole(req.params.userId, req.body.roleId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });

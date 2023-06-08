@@ -26,6 +26,10 @@ import { getAllNews, getAllNewsCategories } from "./redux/api/newsApiHandler";
 import NewsFeature from "./features/News/NewsFeature";
 import ListNews from "./features/News/page/ListNews";
 import NewsDetail from "./features/News/page/NewsDetail";
+import AdminNewsFeature from "./features/Admin/News/AdminNewsFeature";
+import AdminListNews from "./features/Admin/News/page/AdminListNews";
+import AddNews from "./features/Admin/News/page/AddNews";
+import EditNews from "./features/Admin/News/page/EditNews";
 
 function App() {
   const dispatch = useDispatch();
@@ -72,6 +76,11 @@ function App() {
             </Route>
             <Route path="contacts" element={<AdminContactFeature />}>
               <Route index element={<ListContacts></ListContacts>}></Route>
+            </Route>
+            <Route path="news" element={<AdminNewsFeature />}>
+              <Route index element={<AdminListNews />}></Route>
+              <Route path="add" element={<AddNews />}></Route>
+              <Route path="edit/:newsId" element={<EditNews />}></Route>
             </Route>
           </Route>
         </Route>

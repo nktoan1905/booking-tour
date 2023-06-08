@@ -60,6 +60,13 @@ const AdminLayout = () => {
     },
     {
       id: 4,
+      name: "News",
+      link: "/admin/news",
+      icon: "fa-solid fa-newspaper",
+      roleAllowed: [1, 2],
+    },
+    {
+      id: 5,
       name: "Tours",
       link: "/admin/tours",
       icon: "fa-solid fa-tent",

@@ -195,23 +195,6 @@ const FormContact = () => {
         </Row>
         <Row>
           <Col sm={12}>
-            {/* <TextField
-              fullWidth
-              margin="normal"
-              label={
-                <span className="d-flex">
-                  Nội dung <p className="text-danger opacity-75">(*)</p>
-                </span>
-              }
-              name="content"
-              size="small"
-              onChange={(e) => console.log(1)}
-              multiline
-              rows={5}
-              error={!!errors["content"]}
-              helperText={errors["content"] ? errors["content"].message : ""}
-              {...register("content")}
-            /> */}
             <Editor value={valueContent} setValue={setValueContent}></Editor>
           </Col>
         </Row>
