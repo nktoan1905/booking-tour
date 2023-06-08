@@ -23,6 +23,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { updateUserPassword } from "../../../../redux/api/userApiHandler";
+import "./style.css";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -54,7 +56,7 @@ const ProfileDetail = () => {
   const [sex, setSex] = useState(dataUser?.gender);
   const [dob, setDob] = useState(dataUser?.dob);
 
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(dataUser.avatar);
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -72,7 +74,7 @@ const ProfileDetail = () => {
     reset,
     handleSubmit,
   } = useForm({ resolver: yupResolver(schema) });
-  
+
   const handleOnSubmit = async (data, event) => {
     event.preventDefault();
     await updateUserPassword(
@@ -95,10 +97,9 @@ const ProfileDetail = () => {
   }, []);
 
   // update avatar
-  const submitImage = () => {
-    const data = new FormData();
-    data.append("file", image);
-    data.append("upload_preset","")
+  const uploadImage = (files) => {
+    setImage(URL.createObjectURL(files));
+    console.log(files);
   };
   return (
     <Container className=" mt-5" style={{ height: "100vh" }}>
@@ -111,17 +112,17 @@ const ProfileDetail = () => {
         <Col sm={3}>
           <div className="text-center">
             <img
-              src={dataUser.avatar}
-              className="avatar img-circle img-thumbnail"
+              src={image}
+              className="avatar  img-thumbnail img-circle"
               alt="avatar"
             />
             <h6 className="text-break">Upload a different photo...</h6>
             <input
               type="file"
               className="text-center center-block file-upload"
-              onChange={(e) => setImage(e.target.files[0])}
+              onChange={(e) => uploadImage(e.target.files[0])}
             />
-            <Button variant="contained" className="mt-3" onClick={submitImage}>
+            <Button variant="contained" className="mt-3">
               Cập nhật ảnh
             </Button>
           </div>

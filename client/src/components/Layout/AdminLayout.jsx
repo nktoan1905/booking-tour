@@ -10,6 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/api/authApiHandler";
 import { toast } from "react-toastify";
+import { getAllContacts } from "../../redux/api/contactApiHandler";
 const AdminLayout = () => {
   const currentUserAccessToken = useSelector(
     (state) => state.auth.login.currentUser?.accessToken
@@ -18,13 +19,14 @@ const AdminLayout = () => {
     (state) => state.auth.login.currentUser?.user
   );
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     if (currentUser.roleId === 1) {
       getAllAdmins(dispatch, currentUserAccessToken);
       getAllEmployees(dispatch, currentUserAccessToken);
       getAllUsers(dispatch, currentUserAccessToken);
-    } 
+    }
+    getAllContacts(dispatch, currentUserAccessToken);
   }, []);
 
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -51,6 +53,13 @@ const AdminLayout = () => {
     },
     {
       id: 3,
+      name: "Contacts",
+      link: "/admin/contacts",
+      icon: "fa-solid fa-phone",
+      roleAllowed: [1, 2],
+    },
+    {
+      id: 4,
       name: "Tours",
       link: "/admin/tours",
       icon: "fa-solid fa-tent",
@@ -61,8 +70,13 @@ const AdminLayout = () => {
   return (
     <div className={`d-flex ${isOpenMenu ? "toggled" : ""}`} id="wrapper">
       <div className="bg-white" id="sidebar-wrapper">
-        <div className="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
-          <i className="fas fa-user-secret me-2"></i>Travel
+        <div
+          className="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom "
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        >
+          <i className="fas fa-user-secret me-2"></i>
+          Travel
         </div>
         <div className="list-group list-group-flush my-3">
           {menuSideBar.map((ok) => {
@@ -130,7 +144,10 @@ const AdminLayout = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" onClick={handleOnClickLogout}>
+                    <Link
+                      className="dropdown-item"
+                      onClick={handleOnClickLogout}
+                    >
                       Logout
                     </Link>
                   </li>

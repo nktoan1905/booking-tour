@@ -46,13 +46,9 @@ const newServices = {
 					raw: true,
 					nest: true,
 				});
-				if (news.length <= 0) {
-					resolve({ status: false, message: 'New not found.' });
-				} else {
-					resolve({ status: true, message: 'Get all news Successfully.', news });
-				}
+
+				resolve({ status: true, message: 'Get all news Successfully.', news });
 			} catch (error) {
-				
 				reject(error);
 			}
 		});
@@ -61,11 +57,7 @@ const newServices = {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const newsCategories = await db.NewsCategory.findAll();
-				if (newsCategories.length > 0) {
-					resolve({ status: true, message: 'Get all news categories successfully!', newsCategories });
-				} else {
-					resolve({ status: false, message: 'Get all news categories false!' });
-				}
+				resolve({ status: true, message: 'Get all news categories successfully!', newsCategories });
 			} catch (error) {
 				reject(error);
 			}

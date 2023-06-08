@@ -330,6 +330,7 @@ const mailTemplate = {
 	},
 	sendBill: () => {},
 	sendComfirmContact: (data) => {
+		console.log(data);
 		return `
     <!DOCTYPE html>
 <html>
@@ -369,6 +370,8 @@ const mailTemplate = {
       <p><strong>Số điện thoại:</strong> <span>${data.phoneNumber}</span></p>
       <p><strong>Email:</strong> <span>${data.email}</span></p>
       <p><strong>Address:</strong> <span>${data.address}</span></p>
+      <p><strong>Tên công ty:</strong> <span>${data.companyName}</span></p>
+      <p><strong>Số người:</strong> <span>${data.countCustomer}</span></p>
       <p><strong>Title:</strong> <span>${data.title}</span></p>
       <p><strong>Content:</strong> <span>${data.content}</span></p>
     </div>

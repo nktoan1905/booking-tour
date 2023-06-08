@@ -19,8 +19,8 @@ app.use(
 	}),
 );
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+app.use(bodyParser.json({ limit: '50mb' }));
 app.use(multer().array());
 
 connectDB(db.sequelize);

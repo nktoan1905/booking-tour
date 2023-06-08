@@ -25,12 +25,20 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
+			countCustomer: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+			},
+			companyName: {
+				type: Sequelize.STRING,
+				allowNull: false,
+			},
 			title: {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
 			content: {
-				type: Sequelize.STRING,
+				type: Sequelize.TEXT,
 				allowNull: false,
 			},
 			typeContact: {

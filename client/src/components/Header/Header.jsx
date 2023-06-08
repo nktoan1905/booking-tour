@@ -76,7 +76,7 @@ const Header = () => {
                 <Row>
                   <Col
                     as={Link}
-                    to="/tin-tuc-du-lich"
+                    to="/news/tin-tuc-du-lich"
                     className="text-decoration-none text-black"
                   >
                     Tin tức du lịch
@@ -86,7 +86,7 @@ const Header = () => {
                 <Row>
                   <Col
                     as={Link}
-                    to="/cam-nang-du-lich"
+                    to="/news/cam-nang-du-lich"
                     className="text-decoration-none text-black"
                   >
                     Cẩm nang du lịch
@@ -96,7 +96,7 @@ const Header = () => {
                 <Row>
                   <Col
                     as={Link}
-                    to="/kinh-nghiem-du-lich"
+                    to="/news/kinh-nghiem-du-lich"
                     className="text-decoration-none text-black"
                   >
                     Kinh Nghiệm du lịch

@@ -43,7 +43,8 @@ const checkIdExistMiddleware = {
 		}
 	},
 	checkIdContactExist: async (req, res, next) => {
-		const isExist = await checkExist.checkNewsIdExist(req.params.contactId);
+		console.log(req.params.contactId);
+		const isExist = await checkExist.checkContactIdExist(req.params.contactId);
 		if (isExist) {
 			next();
 		} else {

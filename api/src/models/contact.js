@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			Contact.belongsTo(models.TypeContact, { as: 'type', foreignKey: 'typeContact' });
-
 		}
 	}
 	Contact.init(
@@ -19,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
 			phoneNumber: DataTypes.STRING,
 			email: DataTypes.STRING,
 			address: DataTypes.STRING,
+			countCustomer: DataTypes.INTEGER,
+			companyName: DataTypes.STRING,
 			title: DataTypes.STRING,
 			content: DataTypes.STRING,
 			typeContact: DataTypes.INTEGER,

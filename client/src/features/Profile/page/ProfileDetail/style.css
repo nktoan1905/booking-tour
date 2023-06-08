@@ -1,0 +1,23 @@
+.img-circle {
+  border-radius: 50% !important;
+  object-fit: cover;
+  overflow: hidden;
+  height: 240px !important;
+}
+@media screen and (max-width: 576px) {
+  .img-circle {
+    border-radius: 50% !important;
+    object-fit: cover;
+    overflow: hidden;
+    height: 200px !important;
+    width: 200px;
+  }
+}
+@media screen and (max-width: 992px ) {
+  .img-circle {
+    border-radius: 50% !important;
+    object-fit: cover;
+    overflow: hidden;
+    height: 150px !important;
+  }
+}

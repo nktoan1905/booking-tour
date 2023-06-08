@@ -29,18 +29,11 @@ const userServices = {
 						'createdAt',
 					],
 				});
-				if (members.length <= 0) {
-					resolve({
-						status: false,
-						message: 'No members were found!',
-					});
-				} else {
-					resolve({
-						status: true,
-						message: 'Get all members successfully!',
-						members,
-					});
-				}
+				resolve({
+					status: true,
+					message: 'Get all members successfully!',
+					members,
+				});
 			} catch (error) {
 				reject(error);
 			}
@@ -65,18 +58,12 @@ const userServices = {
 						'createdAt',
 					],
 				});
-				if (employees <= 0) {
-					resolve({
-						status: false,
-						message: 'No employees were found!',
-					});
-				} else {
-					resolve({
-						status: true,
-						message: 'Get all employees successfully!',
-						employees,
-					});
-				}
+
+				resolve({
+					status: true,
+					message: 'Get all employees successfully!',
+					employees,
+				});
 			} catch (error) {
 				reject(error);
 			}
@@ -101,18 +88,11 @@ const userServices = {
 						'createdAt',
 					],
 				});
-				if (admins.length <= 0) {
-					resolve({
-						status: false,
-						message: 'No admins were found!',
-					});
-				} else {
-					resolve({
-						status: true,
-						message: 'Get all admins successfully!',
-						admins,
-					});
-				}
+				resolve({
+					status: true,
+					message: 'Get all admins successfully!',
+					admins,
+				});
 			} catch (error) {
 				reject(error);
 			}

@@ -9,8 +9,10 @@ const contactServices = {
 					phoneNumber: data.phoneNumber,
 					email: data.email,
 					address: data.address,
+					countCustomer: data.countCustomer,
+					companyName: data.companyName,
 					title: data.title,
-					content: data.content,
+					content: data.content.replace(/\n/g, '\\n'),
 					typeContact: data.typeContact,
 					status: 1,
 				});
@@ -34,6 +36,8 @@ const contactServices = {
 						'phoneNumber',
 						'email',
 						'address',
+						'countCustomer',
+						'companyName',
 						'title',
 						'content',
 						'typeContact',
@@ -50,11 +54,8 @@ const contactServices = {
 					raw: true,
 					nest: true,
 				});
-				if (contacts.length > 0) {
-					resolve({ status: true, message: 'Get all contacts successfully', contacts });
-				} else {
-					resolve({ status: false, message: 'Get all contacts failed' });
-				}
+
+				resolve({ status: true, message: 'Get all contacts successfully', contacts });
 			} catch (error) {
 				reject(error);
 			}
@@ -77,6 +78,7 @@ const contactServices = {
 	updateStatusContact: async (contactId, status) => {
 		return new Promise(async (resolve, reject) => {
 			try {
+				console.log(contactId);
 				const isUpdate = await db.Contact.update({ status: status }, { where: { id: contactId } });
 				if (isUpdate) {
 					resolve({ status: true, message: 'Update status successfully' });

@@ -32,7 +32,6 @@ const ListUsers = () => {
     (state) => state.auth.login.currentUser?.accessToken
   );
   useEffect(() => {
-    console.log(refersh)
     getAllAdmins(dispatch, currentUserAccessToken);
     getAllEmployees(dispatch, currentUserAccessToken);
     getAllUsers(dispatch, currentUserAccessToken);
@@ -45,21 +44,21 @@ const ListUsers = () => {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Admins" value="1" />
-            <Tab label="Emloyees" value="2" />
+            <Tab label="Emloyees" value="1" />
+            <Tab label="Admins" value="2" />
             <Tab label="Members" value="3" />
           </TabList>
         </Box>
-        <TabPanel value="1">
-          <UserTable rows={rowsAdmins}></UserTable>
-        </TabPanel>
-        <TabPanel value="2" className="d-flex align-items-end flex-column ">
+        <TabPanel value="1" className="d-flex align-items-end flex-column ">
           <ModalCreateEmloyee
             open={open}
             handleClose={handleClose}
             handleOpen={handleOpen}
           />
           <UserTable rows={rowEmloyees}></UserTable>
+        </TabPanel>
+        <TabPanel value="2">
+          <UserTable rows={rowsAdmins}></UserTable>
         </TabPanel>
         <TabPanel value="3">
           <UserTable rows={rowMembers}></UserTable>

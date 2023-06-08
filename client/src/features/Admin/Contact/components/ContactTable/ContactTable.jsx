@@ -15,14 +15,16 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
-import { Button, TableHead } from "@mui/material";
+import { TableHead } from "@mui/material";
 import moment from "moment";
-import dayjs from "dayjs";
-import ModalUpdateUser from "../ModalUpdateUser/ModalUpdateUser";
-import EditIcon from "@mui/icons-material/Edit";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import DeleteIcon from "@mui/icons-material/Delete";
-import userApi from "../../../../../api/userApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Button } from "react-bootstrap";
+import ModalContactDetail from "../ModalContactDetail/ModalContactDetail";
+import ModalComfirm from "../../../../../components/ModalConfirm/ModalConfirm";
+import { deleteContact } from "../../../../../redux/api/contactApiHandler";
+import { toast } from "react-toastify";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -92,38 +94,41 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-export default function UserTable({ rows }) {
+export default function ContactTable({ rows }) {
   const [tableRows, setTableRows] = React.useState(rows);
   const [value, setValue] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpen = (data) => {
+    setOpen(true);
+    setValue(data);
+  };
+  const handleClose = () => setOpen(false);
+
+  const handleOpenModalConfirm = (itemId) => {
+    setOpenModalConfirm(true);
+    setValue(itemId);
+  };
+  const handleCloseModalConfirm = () => {
+    setOpenModalConfirm(false);
+  };
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     setTableRows(rows);
   }, [rows]);
   //
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = (data) => {
-    setOpen(true);
-    setValue(data);
-  };
   const currentUserAccessToken = useSelector(
     (state) => state.auth.login.currentUser?.accessToken
   );
-  const handleClose = () => setOpen(false);
-  const handleDeleteUser = async (userId) => {
-    console.log(userId);
-    await userApi.deleteUser(currentUserAccessToken, userId);
+  const handleOnDelete = async (contactId) => {
+    await deleteContact(dispatch, toast, currentUserAccessToken, contactId);
+    setValue("");
   };
   //
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const UserRole = Object.freeze({
-    ADMIN: 1,
-    EMPLOYEE: 2,
-    MEMBERS: 3,
-    SLIVER_MEMBER: 4,
-    GOLDEN_MEMBER: 5,
-  });
-  // Avoid a layout jump when reaching the last page with empty rows.
+
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -135,98 +140,84 @@ export default function UserTable({ rows }) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const roleRender = (roleId) => {
-    switch (roleId) {
-      case UserRole.ADMIN:
-        return "Admin";
-      case UserRole.EMPLOYEE:
-        return "Employee";
-      case UserRole.MEMBERS:
-        return "Member";
-      case UserRole.SLIVER_MEMBER:
-        return "Sliver member";
-      case UserRole.GOLDEN_MEMBER:
-        return "Golden member";
-      default:
-        break;
-    }
-  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
-            <TableCell style={{ minWidth: "50px" }}>ID</TableCell>
-            <TableCell style={{ minWidth: "50px" }}>Avatar</TableCell>
-            <TableCell style={{ minWidth: "200px" }}>Full name</TableCell>
-            <TableCell style={{ minWidth: "100px" }}>Gender</TableCell>
-            <TableCell style={{ minWidth: "100px" }}>Gmail</TableCell>
-            <TableCell style={{ minWidth: "250px" }}>Address</TableCell>
-            <TableCell style={{ minWidth: "150px" }}>Phone number</TableCell>
-            <TableCell style={{ minWidth: "150px" }}>Birth day</TableCell>
-            <TableCell>Role</TableCell>
+            <TableCell style={{ minWidth: "20px" }} align="center">
+              ID
+            </TableCell>
+            <TableCell style={{ minWidth: "150px" }}>Full Name</TableCell>
+            <TableCell style={{ minWidth: "150px" }}>Email Address</TableCell>
+            <TableCell style={{ minWidth: "125px" }}>Phone Number</TableCell>
+            <TableCell style={{ minWidth: "150px" }} align="center">
+              Company Name
+            </TableCell>
+            <TableCell align="center">Count Customer</TableCell>
+            <TableCell style={{ minWidth: "300px" }}>Address</TableCell>
             <TableCell>Status</TableCell>
-            <TableCell style={{ minWidth: "140px" }}>Created day</TableCell>
-            <TableCell>Action</TableCell>
+            <TableCell style={{ minWidth: "100px" }}>Created day</TableCell>
+            <TableCell style={{ minWidth: "150px" }}>Action</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {(rowsPerPage > 0
-            ? tableRows.slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage
-              )
-            : tableRows
-          ).map((row) => (
-            <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                {row.id}
-              </TableCell>
-              <TableCell align="center">
-                <img
-                  src={row.avatar}
-                  style={{ width: "30px", height: "30px", borderRadius: "50%" }}
-                ></img>
-              </TableCell>
-              <TableCell>{row.fullName}</TableCell>
-              <TableCell>{row.gender === 1 ? "Nam" : "Nữ"}</TableCell>
-              <TableCell style={{ minWidth: "250px" }}>{row.email}</TableCell>
-              <TableCell style={{ minWidth: "250px" }}>
-                {row.address || "Chưa có"}
-              </TableCell>
-              <TableCell>{row.phoneNumber || "Chưa có"}</TableCell>
-              <TableCell align={"center"}>
-                {dayjs(row.dob).format("DD-MM-YYYY")}
-              </TableCell>
-              <TableCell>{roleRender(row.roleId)}</TableCell>
-              <TableCell align="center">
-                {row.status === 1 ? "Active" : "Inactive"}
-              </TableCell>
-              <TableCell>{moment(row.createdAt).fromNow()}</TableCell>
-              <TableCell>
-                <Button
-                  onClick={() => handleOpen(row)}
-                  disabled={row.roleId === 1}
-                >
-                  <EditIcon></EditIcon>
-                </Button>
-                <Button
-                  disabled={row.roleId === 1}
-                  color="error"
-                  onClick={() => handleDeleteUser(row.id)}
-                >
-                  <DeleteIcon></DeleteIcon>
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+        {tableRows.length === 0 ? (
+          <TableBody>
+            <TableCell align="center"  colSpan={10}>
+              Không có dữ liệu
+            </TableCell>
+          </TableBody>
+        ) : (
+          <TableBody>
+            {(rowsPerPage > 0
+              ? tableRows.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
+              : tableRows
+            ).map((row) => (
+              <TableRow key={row.id}>
+                <TableCell component="th" scope="row">
+                  {row.id}
+                </TableCell>
+                <TableCell>{row.fullName}</TableCell>
+                <TableCell>{row.email}</TableCell>
+                <TableCell>{row.phoneNumber}</TableCell>
+                <TableCell align="center">
+                  {row.companyName ? row.companyName : "-------"}
+                </TableCell>
+                <TableCell align="center">
+                  {row.countCustomer ? row.countCustomer : "-------"}
+                </TableCell>
+                <TableCell>{row.address ? row.address : "-------"}</TableCell>
+                <TableCell>{row.status ? "Active" : "Done"}</TableCell>
+                <TableCell>{moment(row.createdAt).fromNow()}</TableCell>
+                <TableCell className="d-flex justify-content-around">
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => handleOpen(row)}
+                  >
+                    <RemoveRedEyeIcon></RemoveRedEyeIcon>
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleOpenModalConfirm(row.id)}
+                  >
+                    <DeleteIcon></DeleteIcon>
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
 
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
-        </TableBody>
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+        )}
         <TableFooter>
           <TableRow>
             <TablePagination
@@ -248,12 +239,18 @@ export default function UserTable({ rows }) {
           </TableRow>
         </TableFooter>
       </Table>
-      <ModalUpdateUser
+      <ModalContactDetail
+        value={value}
         open={open}
         handleClose={handleClose}
-        handleOpen={handleOpen}
-        value={value}
-      ></ModalUpdateUser>
+      ></ModalContactDetail>
+      <ModalComfirm
+        open={openModalConfirm}
+        handleClose={handleCloseModalConfirm}
+        title={"Xác nhận xóa"}
+        deleteCallback={handleOnDelete}
+        itemId={value}
+      ></ModalComfirm>
     </TableContainer>
   );
 }

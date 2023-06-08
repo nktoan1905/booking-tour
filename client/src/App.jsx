@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -17,11 +17,23 @@ import Error from "./features/Error/Error";
 import AdminLayout from "./components/Layout/AdminLayout";
 import UsersFeature from "./features/Admin/Users/UsersFeature";
 import ListUsers from "./features/Admin/Users/page/ListUsers/ListUsers";
-import AdminErrorPage from "./features/Admin/Error/AdminErrorPage";
+import ContactFeature from "./features/Contact/ContactFeature";
+import { useDispatch } from "react-redux";
+import { getAllContactType } from "./redux/api/contactApiHandler";
+import AdminContactFeature from "./features/Admin/Contact/AdminContactFeature";
+import ListContacts from "./features/Admin/Contact/page/ListContact/ListContacts";
+import { getAllNews, getAllNewsCategories } from "./redux/api/newsApiHandler";
+import NewsFeature from "./features/News/NewsFeature";
+import ListNews from "./features/News/page/ListNews";
+import NewsDetail from "./features/News/page/NewsDetail";
 
 function App() {
-  const [count, setCount] = useState(0);
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getAllContactType(dispatch);
+    getAllNews(dispatch);
+    getAllNewsCategories(dispatch);
+  }, []);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Routes>
@@ -46,8 +58,11 @@ function App() {
             <Route path="update" element={<ProfileEdit />}></Route>
           </Route>
         </Route>
-        <Route path="/news"></Route>
-
+        <Route path="/contact" element={<ContactFeature />}></Route>
+        <Route path="/news" element={<NewsFeature></NewsFeature>}>
+          <Route path=":newsCategoryId" element={<ListNews />} />
+          <Route path=":newsCategoryId/:newsId" element={<NewsDetail />} />
+        </Route>
         <Route
           element={<PrivateRoute isAdmin={true} redirectPath="/not-found" />}
         >
@@ -55,9 +70,11 @@ function App() {
             <Route path="users" element={<UsersFeature />}>
               <Route index element={<ListUsers></ListUsers>}></Route>
             </Route>
+            <Route path="contacts" element={<AdminContactFeature />}>
+              <Route index element={<ListContacts></ListContacts>}></Route>
+            </Route>
           </Route>
         </Route>
-        <Route path="/not-found" element={<Error />}></Route>
         <Route path="/*" element={<Error />}></Route>
       </Routes>
     </LocalizationProvider>
