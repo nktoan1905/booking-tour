@@ -16,15 +16,11 @@ const NewsCard = () => {
       <div className="info">
         <Link
           rel="noopener noreferrer"
-          to="#"
+          to="/admin/news/1"
           className="block text-decoration-none"
         >
           <span className="title">Facere ipsa nulla corrupti praesentium </span>
         </Link>
-        <p className="description">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat,
-          excepturi. Lorem ipsum dolor sit ...
-        </p>
         <div className="footer">
           <img
             src="https://cdn-icons-png.flaticon.com/512/149/149071.png"

@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import SendIcon from "@mui/icons-material/Send";
@@ -16,7 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { createContact } from "../../../../redux/api/contactApiHandler";
 import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
-import Editor from "../../../../components/Editor/EditorInput";
+import Editor from "../../../../components/Editor/JoiEditor";
+import JoiEditor from "../../../../components/Editor/JoiEditor";
 const schema = yup
   .object({
     fullName: yup.string().required("Full name is required."),
@@ -50,11 +51,11 @@ const FormContact = () => {
 
   const handleOnSubmit = async (data, event) => {
     event.preventDefault();
-    await createContact(dispatch, toast, {...data, content: valueContent});
+    await createContact(dispatch, toast, { ...data, content: valueContent });
   };
   useEffect(() => {
     if (isSubmitSuccessful) {
-      setValueContent("")
+      setValueContent("");
       reset();
     }
   }, [isSubmitSuccessful]);
@@ -75,7 +76,9 @@ const FormContact = () => {
                 {...register("typeContact")}
               >
                 {contacTypes.map((type) => (
-                  <MenuItem value={type.id}>{type.name}</MenuItem>
+                  <MenuItem value={type.id} key={type.id}>
+                    {type.name}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -195,7 +198,10 @@ const FormContact = () => {
         </Row>
         <Row>
           <Col sm={12}>
-            <Editor value={valueContent} setValue={setValueContent}></Editor>
+            <JoiEditor
+              content={valueContent}
+              setContent={setValueContent}
+            ></JoiEditor>
           </Col>
         </Row>
         <Row className="my-4">

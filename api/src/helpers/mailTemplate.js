@@ -373,9 +373,13 @@ const mailTemplate = {
       <p><strong>Tên công ty:</strong> <span>${data.companyName}</span></p>
       <p><strong>Số người:</strong> <span>${data.countCustomer}</span></p>
       <p><strong>Title:</strong> <span>${data.title}</span></p>
-      <p><strong>Content:</strong> <span>${data.content}</span></p>
+      <p><strong>Content:</strong> <span id="content"></span></p>
     </div>
     <h2>Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất!</h2>
+    <script>
+    console.log(data.content)
+      document.getElementById("content").innerHTML = ${data.content};
+    </script>
   </body>`;
 	},
 };

@@ -14,7 +14,7 @@ const newServices = {
 					image: data.image,
 					imageName: data.imageName,
 					categoryId: data.categoryId,
-					status: Status.ACTIVE,
+					status: Status.WATTING,
 				});
 				if (news) {
 					resolve({ status: true, message: 'Create news successfully!' });

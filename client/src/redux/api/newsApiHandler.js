@@ -1,4 +1,7 @@
 import newsApi from "../../api/newsApi";
+import { createFailed } from "../slice/newSlice";
+import { createSuccess } from "../slice/newSlice";
+import { createStart } from "../slice/newSlice";
 import {
   deleteFailed,
   deleteStart,
@@ -66,14 +69,43 @@ export const updateNewsStatus = async (
     dispatch(updateFailed());
   }
 };
-export const deleteNews = async (dispatch, toast, accessToken, newsId) => {
+export const deleteNews = async (
+  dispatch,
+  toast,
+  navigate,
+  accessToken,
+  newsId
+) => {
   dispatch(deleteStart());
   try {
     const res = await newsApi.delete(newsId, accessToken);
+    const reGetAllNewsRes = await newsApi.getAllNews();
+    dispatch(getNewsSuccess(reGetAllNewsRes.data.data));
     toast.success("Xóa thành công");
+    navigate("/admin/news");
     dispatch(deleteSuccess());
   } catch (error) {
     toast.error("Xóa thất bại");
     dispatch(deleteFailed());
+  }
+};
+export const createNews = async (
+  dispatch,
+  toast,
+  navigate,
+  data,
+  accessToken
+) => {
+  dispatch(createStart());
+  try {
+    const res = await newsApi.create(data, accessToken);
+    const reGetAllNewsRes = await newsApi.getAllNews();
+    dispatch(createSuccess());
+    dispatch(getNewsSuccess(reGetAllNewsRes.data.data));
+    navigate("/admin/news");
+    toast.success("Tạo thành công!");
+  } catch (error) {
+    toast.error("Tạo thành thất bại!");
+    dispatch(createFailed());
   }
 };

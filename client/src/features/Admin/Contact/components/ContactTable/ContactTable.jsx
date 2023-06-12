@@ -163,7 +163,7 @@ export default function ContactTable({ rows }) {
         </TableHead>
         {tableRows.length === 0 ? (
           <TableBody>
-            <TableCell align="center"  colSpan={12}>
+            <TableCell align="center" colSpan={12}>
               Không có dữ liệu
             </TableCell>
           </TableBody>

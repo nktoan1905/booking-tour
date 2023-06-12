@@ -13,6 +13,9 @@ import { useForm } from "react-hook-form";
 import { updateContact } from "../../../../../redux/api/contactApiHandler";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+
+import HTMLReactParser from "html-react-parser";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -51,7 +54,12 @@ const ModalContactDetail = ({ open, handleClose, value }) => {
         aria-describedby="modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-title" variant="h3" component="h2">
+          <Typography
+            id="modal-title"
+            variant="h3"
+            component="h2"
+            style={{ overflow: "scroll" }}
+          >
             {value.title}
           </Typography>
           <Typography
@@ -64,10 +72,7 @@ const ModalContactDetail = ({ open, handleClose, value }) => {
               overflow: "scroll",
             }}
           >
-            <div
-              className="ql-editor"
-              dangerouslySetInnerHTML={{ __html: value.content }}
-            ></div>
+            {HTMLReactParser(value.content ? value.content : "")}
           </Typography>
           <Typography
             component="form"

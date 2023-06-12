@@ -30,6 +30,8 @@ import AdminNewsFeature from "./features/Admin/News/AdminNewsFeature";
 import AdminListNews from "./features/Admin/News/page/AdminListNews";
 import AddNews from "./features/Admin/News/page/AddNews";
 import EditNews from "./features/Admin/News/page/EditNews";
+import JoiEditor from "./features/Test/JoiEditor";
+import DetailNews from "./features/Admin/News/page/DetailNews";
 
 function App() {
   const dispatch = useDispatch();
@@ -63,6 +65,8 @@ function App() {
           </Route>
         </Route>
         <Route path="/contact" element={<ContactFeature />}></Route>
+        <Route path="/test" element={<JoiEditor />}></Route>
+
         <Route path="/news" element={<NewsFeature></NewsFeature>}>
           <Route path=":newsCategoryId" element={<ListNews />} />
           <Route path=":newsCategoryId/:newsId" element={<NewsDetail />} />
@@ -79,6 +83,7 @@ function App() {
             </Route>
             <Route path="news" element={<AdminNewsFeature />}>
               <Route index element={<AdminListNews />}></Route>
+              <Route path=":newsId" element={<DetailNews></DetailNews>}></Route>
               <Route path="add" element={<AddNews />}></Route>
               <Route path="edit/:newsId" element={<EditNews />}></Route>
             </Route>

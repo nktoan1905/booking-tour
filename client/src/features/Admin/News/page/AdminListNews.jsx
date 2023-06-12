@@ -1,8 +1,34 @@
 import React from "react";
 import VerticalsTabs from "../components/VerticalsTabs";
-
+import { Button } from "@mui/material";
+import { Container, Row, Col } from "react-bootstrap";
+import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
 const AdminListNews = () => {
-  return <VerticalsTabs />;
+  const navigate = useNavigate();
+  return (
+    <React.Fragment>
+      <Container fluid>
+        <Row>
+          <Col sx={12}>
+            <Button
+              variant="contained"
+              style={{ marginBottom: "8px", float: "right" }}
+              endIcon={<AddIcon />}
+              onClick={() => navigate("/admin/news/add")}
+            >
+              Add
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12}>
+            <VerticalsTabs />
+          </Col>
+        </Row>
+      </Container>
+    </React.Fragment>
+  );
 };
 
 export default AdminListNews;
