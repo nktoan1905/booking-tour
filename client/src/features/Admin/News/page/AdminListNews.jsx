@@ -6,6 +6,9 @@ import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 const AdminListNews = () => {
   const navigate = useNavigate();
+  React.useEffect(() => {
+    document.title = "List News";
+  });
   return (
     <React.Fragment>
       <Container fluid>

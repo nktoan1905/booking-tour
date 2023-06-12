@@ -10,7 +10,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/api/authApiHandler";
 import { toast } from "react-toastify";
-import { getAllContacts } from "../../redux/api/contactApiHandler";
+import { getAllContactType, getAllContacts } from "../../redux/api/contactApiHandler";
+import { getAllNews, getAllNewsCategories } from "../../redux/api/newsApiHandler";
 const AdminLayout = () => {
   const currentUserAccessToken = useSelector(
     (state) => state.auth.login.currentUser?.accessToken
@@ -26,6 +27,9 @@ const AdminLayout = () => {
       getAllEmployees(dispatch, currentUserAccessToken);
       getAllUsers(dispatch, currentUserAccessToken);
     }
+    getAllContactType(dispatch);
+    getAllNews(dispatch);
+    getAllNewsCategories(dispatch);
     getAllContacts(dispatch, currentUserAccessToken);
   }, []);
 

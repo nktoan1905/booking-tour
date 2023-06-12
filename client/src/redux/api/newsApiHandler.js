@@ -39,13 +39,17 @@ export const updateNewsContent = async (
   dispatch,
   toast,
   accessToken,
+  navigate,
   newsId,
   data
 ) => {
   dispatch(updateStart());
   try {
     const res = await newsApi.updateContent(data, newsId, accessToken);
+    const reGetNews = await newsApi.getAllNews();
     toast.success("Cập nhật thành công");
+    navigate(-1);
+    dispatch(getNewsSuccess(reGetNews.data.data));
     dispatch(updateSuccess());
   } catch (error) {
     toast.error("Cập nhật thất bại");
@@ -82,9 +86,10 @@ export const deleteNews = async (
     const reGetAllNewsRes = await newsApi.getAllNews();
     dispatch(getNewsSuccess(reGetAllNewsRes.data.data));
     toast.success("Xóa thành công");
-    navigate("/admin/news");
+    navigate(-1);
     dispatch(deleteSuccess());
   } catch (error) {
+    console.log(error);
     toast.error("Xóa thất bại");
     dispatch(deleteFailed());
   }

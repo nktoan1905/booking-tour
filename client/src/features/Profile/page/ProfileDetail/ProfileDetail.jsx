@@ -112,7 +112,6 @@ const ProfileDetail = () => {
     var newImageLink;
     if (dataUser.avatar) {
       const publicId = getImagePublicId(dataUser.avatar);
-      console.log(publicId);
       const cloudName = "dlu4c764b";
       const timestamp = Math.round(new Date().getTime() / 1000);
       const apiKey = "645973345167519";

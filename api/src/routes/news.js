@@ -13,7 +13,7 @@ router.post('/register', roleMiddleware.verifyAdminOrEmployee, newsController.ha
 
 router.put(
 	'/:newsId',
-	roleMiddleware.verifyEmployees,
+	roleMiddleware.verifyAdminOrEmployee,
 	checkIdExistMiddleware.checkIdNewsExist,
 	newsController.handleUpdateNews,
 );

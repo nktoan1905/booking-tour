@@ -31,11 +31,12 @@ const newServices = {
 			try {
 				const news = await db.New.findAll({
 					attributes: ['id', 'title', 'content', 'userId', 'image', 'imageName', 'status', 'categoryId', 'createdAt'],
+					order: [['createdAt', 'DESC']],
 					include: [
 						{
 							model: db.User,
 							as: 'userInfo',
-							attributes: ['fullName', 'email', 'avatar'],
+							attributes: ['id', 'fullName', 'email', 'avatar'],
 						},
 						{
 							model: db.NewsCategory,

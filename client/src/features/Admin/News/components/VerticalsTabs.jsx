@@ -19,7 +19,21 @@ const VerticalsTabs = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const newsList = useSelector((state) => state.news.news.listNews);
+  const news1 = [];
+  const news2 = [];
+  const news3 = [];
+  for (const newItem of newsList) {
+    const typeId = newItem.type.id;
 
+    if (typeId === 1) {
+      news1.push(newItem);
+    } else if (typeId === 2) {
+      news2.push(newItem);
+    } else if (typeId === 3) {
+      news3.push(newItem);
+    }
+  }
   return (
     <Box
       sx={{
@@ -27,7 +41,6 @@ const VerticalsTabs = () => {
         bgcolor: "background.paper",
         display: "flex",
         minHeight: "100vh",
-        
       }}
     >
       <Tabs
@@ -43,13 +56,13 @@ const VerticalsTabs = () => {
         ))}
       </Tabs>
       <TabPanelCustom value={value} index={0}>
-        <ListNews></ListNews>
+        <ListNews dataInfo={news1}></ListNews>
       </TabPanelCustom>
       <TabPanelCustom value={value} index={1}>
-        Item Two
+        <ListNews dataInfo={news2}></ListNews>
       </TabPanelCustom>
       <TabPanelCustom value={value} index={2}>
-        Item Three
+        <ListNews dataInfo={news3}></ListNews>
       </TabPanelCustom>
     </Box>
   );

@@ -1,34 +1,43 @@
 import React from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
-
-const NewsCard = () => {
+import moment from "moment";
+const NewsCard = ({ data }) => {
+  const fullName = data.userInfo.fullName.split(' ');
+  const name = fullName[fullName.length - 1];
   return (
     <div className="card">
       <div className="header">
-        <div className="image">
-          <span className="tag">Art</span>
+        <div
+          className="image"
+          style={{
+            backgroundImage: `url(${data.image})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }}
+        >
+          <span className="tag">{data.type.name}</span>
         </div>
         <div className="date">
-          <span>6 min ago</span>
+          <span>{moment(data.createdAt).fromNow()}</span>
         </div>
       </div>
       <div className="info">
         <Link
           rel="noopener noreferrer"
-          to="/admin/news/1"
+          to={`/admin/news/${data.id}`}
           className="block text-decoration-none"
         >
-          <span className="title">Facere ipsa nulla corrupti praesentium </span>
+          <span className="title">{data.title}</span>
         </Link>
         <div className="footer">
           <img
-            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+            src={"https://cdn-icons-png.flaticon.com/512/149/149071.png"}
             className="avatar"
           ></img>
-          <p class="footer-info">
-            Tạo bởi <span class="by-name">John Doe</span> vào{" "}
-            <span class="date">25/05/23</span>
+          <p className="footer-info">
+            Tạo bởi <span className="by-name">{name}</span> vào{" "}
+            <span className="date">{moment(data.createdAt).format("L")}</span>
           </p>
         </div>
       </div>
