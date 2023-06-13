@@ -1,6 +1,14 @@
-body, html{
-    font-family: "Roboto" !important;
+body,
+html {
+  font-family: "Roboto" !important;
 }
-p{
-    margin-bottom: 0 !important;
+p {
+  margin-bottom: 0 !important;
+}
+img {
+  max-width: 100%;
+}
+
+a:hover {
+  color: #4d4aef;
 }

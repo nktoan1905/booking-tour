@@ -24,14 +24,15 @@ import AdminContactFeature from "./features/Admin/Contact/AdminContactFeature";
 import ListContacts from "./features/Admin/Contact/page/ListContact/ListContacts";
 import { getAllNews, getAllNewsCategories } from "./redux/api/newsApiHandler";
 import NewsFeature from "./features/News/NewsFeature";
-import ListNews from "./features/News/page/ListNews";
-import NewsDetail from "./features/News/page/NewsDetail";
 import AdminNewsFeature from "./features/Admin/News/AdminNewsFeature";
 import AdminListNews from "./features/Admin/News/page/AdminListNews";
 import AddNews from "./features/Admin/News/page/AddNews";
 import EditNews from "./features/Admin/News/page/EditNews";
-import JoiEditor from "./features/Test/JoiEditor";
 import DetailNews from "./features/Admin/News/page/DetailNews";
+import ListNewsPage from "./features/News/page/ListNewsPage";
+import NewsDetailPage from "./features/News/page/NewsDetailPage";
+import AdminTourFeature from "./features/Admin/Tours/page/AdminTourFeature";
+import InfoManager from "./features/Admin/Tours/page/InfoManger/InfoManager";
 
 function App() {
   const dispatch = useDispatch();
@@ -65,11 +66,10 @@ function App() {
           </Route>
         </Route>
         <Route path="/contact" element={<ContactFeature />}></Route>
-        <Route path="/test" element={<JoiEditor />}></Route>
 
         <Route path="/news" element={<NewsFeature></NewsFeature>}>
-          <Route path=":newsCategoryId" element={<ListNews />} />
-          <Route path=":newsCategoryId/:newsId" element={<NewsDetail />} />
+          <Route path=":newsCategoryId" element={<ListNewsPage />} />
+          <Route path=":newsCategoryId/:newsId" element={<NewsDetailPage />} />
         </Route>
         <Route
           element={<PrivateRoute isAdmin={true} redirectPath="/not-found" />}
@@ -86,6 +86,9 @@ function App() {
               <Route path=":newsId" element={<DetailNews></DetailNews>}></Route>
               <Route path="add" element={<AddNews />}></Route>
               <Route path="edit/:newsId" element={<EditNews />}></Route>
+            </Route>
+            <Route path="tours" element={<AdminTourFeature></AdminTourFeature>}>
+              <Route index element={<InfoManager></InfoManager>}></Route>
             </Route>
           </Route>
         </Route>

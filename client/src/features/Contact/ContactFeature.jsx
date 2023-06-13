@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CommonLayout from "../../components/Layout/CommonLayout";
 import { Container, Row, Col } from "react-bootstrap";
 import FormContact from "./components/FormContact/FormContact";
 
 
 const ContactFeature = () => {
-
+  useEffect(()=>{
+    document.title = "Contact"
+  },[])
   return (
     <CommonLayout>
       <Container style={{ marginBottom: "50px" }}>
