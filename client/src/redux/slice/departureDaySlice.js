@@ -8,6 +8,11 @@ const departureDaySlice = createSlice({
       isError: false,
       departureDays: null,
     },
+    departureDaysAndTours: {
+      isFetching: false,
+      isError: false,
+      departureDaysAndTours: null,
+    },
     create: {
       isFetching: false,
       isError: false,
@@ -33,6 +38,18 @@ const departureDaySlice = createSlice({
     getAllDepartureDaysFailed: (state) => {
       state.departureDays.isFetching = false;
       state.departureDays.isError = true;
+    },
+    getAllDepartureDaysAndToursStart: (state) => {
+      state.departureDaysAndTours.isFetching = true;
+    },
+    getAllDepartureDaysAndToursSuccess: (state, action) => {
+      state.departureDaysAndTours.isFetching = false;
+      state.departureDaysAndTours.isError = false;
+      state.departureDaysAndTours.departureDaysAndTours = action.payload;
+    },
+    getAllDepartureDaysAndToursFailed: (state) => {
+      state.departureDaysAndTours.isFetching = false;
+      state.departureDaysAndTours.isError = true;
     },
     createStart(state) {
       state.create.isFetching = true;
@@ -73,6 +90,9 @@ export const {
   getAllDepartureDaysStart,
   getAllDepartureDaysSuccess,
   getAllDepartureDaysFailed,
+  getAllDepartureDaysAndToursStart,
+  getAllDepartureDaysAndToursSuccess,
+  getAllDepartureDaysAndToursFailed,
   createStart,
   createSuccess,
   createFailed,

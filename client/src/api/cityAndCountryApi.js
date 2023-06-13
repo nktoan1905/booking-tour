@@ -6,7 +6,7 @@ const cityAndCountryApi = {
     return axiosClient.get(url);
   },
   getCountryAndCity() {
-    const url = `/v1/coutries/`;
+    const url = `/v1/countries/`;
     return axiosClient.get(url);
   },
   createCountry(data, accessToken) {

@@ -45,7 +45,7 @@ const CardNews = ({ data }) => {
           <div className="card-body">
             <h3 className="card-title h2 h3-sm h2-md fw-bold mb-3">
               <Link
-                className="text-decoration-none"
+                className="text-decoration-none fs-5"
                 to={`/news/${data.type.url}/${data.id}`}
               >
                 {data.title}

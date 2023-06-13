@@ -69,6 +69,19 @@ const promotionSlice = createSlice({
   },
 });
 
-export const {} = promotionSlice.actions;
+export const {
+  getAllPromotionsStart,
+  getAllPromotionsSuccess,
+  getAllPromotionsFailed,
+  createStart,
+  createSuccess,
+  createFailed,
+  updateStart,
+  updateSuccess,
+  updateFailed,
+  deleteStart,
+  deleteSuccess,
+  deleteFailed,
+} = promotionSlice.actions;
 
 export default promotionSlice.reducer;

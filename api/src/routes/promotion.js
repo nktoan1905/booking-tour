@@ -8,7 +8,7 @@ const router = express.Router();
 // register
 router.post('/register', roleMiddleware.verifyAdminOrEmployee, promotionController.handleCreateNewPromotion);
 
-router.get('/', roleMiddleware.verifyAdminOrEmployee, promotionController.handleGetAllPromotions);
+router.get('/', promotionController.handleGetAllPromotions);
 
 router.put(
 	'/:promotionId',

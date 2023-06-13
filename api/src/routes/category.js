@@ -8,7 +8,7 @@ const router = express.Router();
 // register
 router.post('/register', roleMiddleware.verifyAdminOrEmployee, categoryController.handleCreateNewCategory);
 
-router.get('/', roleMiddleware.verifyAdminOrEmployee, categoryController.handleGetAllCategories);
+router.get('/',  categoryController.handleGetAllCategories);
 
 router.put(
 	'/:categoryId',

@@ -30,11 +30,8 @@ const promotionServices = {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let promotions = await db.Promotion.findAll({ atributes: ['id', 'name', 'promotion', 'status'] });
-				if (promotion.length <= 0) {
-					resolve({ status: false, message: 'Get all promotions failed!' });
-				} else {
-					resolve({ status: true, message: 'Get all promotions successfully!', promotions: promotions });
-				}
+
+				resolve({ status: true, message: 'Get all promotions successfully!', promotions: promotions });
 			} catch (error) {
 				reject(error);
 			}

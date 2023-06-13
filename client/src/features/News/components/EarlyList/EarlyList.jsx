@@ -26,7 +26,7 @@ const EarlyList = ({ data }) => {
             <h3 className="card-title news__new-thread__title fw-bold mb-3 h2 h3-sm h2-md">
               <Link
                 to={`/news/${data[0].type.url}/${data[0].id}`}
-                className="text-decoration-none"
+                className="text-decoration-none fs-3"
               >
                 {data[0].title}
               </Link>
@@ -62,7 +62,7 @@ const EarlyList = ({ data }) => {
                         {item.type.name}
                       </div>
                       <h3 className="card-title news__new-thread__small__title h5 h6-sm h5-md fw-bold mb-2">
-                        <Link to={`/news/${item.type.url}/${item.id}`} className="text-decoration-none">
+                        <Link to={`/news/${item.type.url}/${item.id}`} className="text-decoration-none fs-6">
                           {item.title}
                         </Link>
                       </h3>

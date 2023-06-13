@@ -28,11 +28,8 @@ const countryServices = {
 						countries[i].cites = cities;
 					}
 				}
-				if (countries.length > 0) {
-					resolve({ status: true, message: 'Get all countries sucessfully!', countries: countries });
-				} else {
-					resolve({ status: false, message: 'Get all countries failed!' });
-				}
+
+				resolve({ status: true, message: 'Get all countries sucessfully!', countries: countries });
 			} catch (error) {
 				reject(error);
 			}
@@ -58,6 +55,10 @@ const countryServices = {
 	deleteCountryByCountryId: async (countryId) => {
 		return new Promise(async (resolve, reject) => {
 			try {
+				const isSet = await db.City.findAll({ where: { countryId: countryId } });
+				if (isSet.length !== 0) {
+					resolve({ status: false, message: 'Delete country failed!' });
+				}
 				const isDelete = await db.Country.destroy({ where: { id: countryId } });
 				if (isDelete) {
 					resolve({ status: true, message: 'Delete country successfully!' });

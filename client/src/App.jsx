@@ -33,6 +33,17 @@ import ListNewsPage from "./features/News/page/ListNewsPage";
 import NewsDetailPage from "./features/News/page/NewsDetailPage";
 import AdminTourFeature from "./features/Admin/Tours/page/AdminTourFeature";
 import InfoManager from "./features/Admin/Tours/page/InfoManger/InfoManager";
+import { getAllCategories } from "./redux/api/categoryApiHandler";
+import {
+  getAllCites,
+  getAllCountries,
+} from "./redux/api/cityAndCountryApiHandler";
+import {
+  getAllDepartureDay,
+  getAllDepartureDaysAndTours,
+} from "./redux/api/departureDayApiHandler";
+import { getAllPromotions } from "./redux/api/promotionApiHandler";
+import { getAllServices } from "./redux/api/serviceApiHandler";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +51,13 @@ function App() {
     getAllContactType(dispatch);
     getAllNews(dispatch);
     getAllNewsCategories(dispatch);
+    getAllCategories(dispatch);
+    getAllCites(dispatch);
+    getAllCountries(dispatch);
+    getAllDepartureDay(dispatch);
+    getAllDepartureDaysAndTours(dispatch);
+    getAllPromotions(dispatch);
+    getAllServices(dispatch)
   }, []);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

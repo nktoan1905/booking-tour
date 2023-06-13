@@ -21,12 +21,6 @@ const departureDayApi = {
       headers: { token: `Bearer ${accessToken}` },
     });
   },
-  updateDayStartDepartureDay(data, departureDayId, accessToken) {
-    const url = `/v1/departure-day/${departureDayId}/day-start`;
-    return axiosClient.post(url, data, {
-      headers: { token: `Bearer ${accessToken}` },
-    });
-  },
   deleteDePartureDay(departureDayId, accessToken) {
     const url = `/v1/departure-day/${departureDayId}`;
     return axiosClient.delete(url, {
