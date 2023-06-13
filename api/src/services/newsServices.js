@@ -14,7 +14,7 @@ const newServices = {
 					image: data.image,
 					imageName: data.imageName,
 					categoryId: data.categoryId,
-					status: Status.WATTING,
+					status: Status.INACTIVE,
 				});
 				if (news) {
 					resolve({ status: true, message: 'Create news successfully!' });
@@ -97,7 +97,7 @@ const newServices = {
 		// 3 status Waiting, Aproved, Deny
 		return new Promise(async (resolve, reject) => {
 			try {
-				const isUpdate = await db.New.update({ stauts: status }, { where: { id: newsId } });
+				const isUpdate = await db.New.update({ status: status }, { where: { id: newsId } });
 				if (isUpdate) {
 					resolve({ status: true, message: 'Update new successfully!' });
 				} else {

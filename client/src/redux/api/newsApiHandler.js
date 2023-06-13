@@ -66,8 +66,10 @@ export const updateNewsStatus = async (
   dispatch(updateStart());
   try {
     const res = await newsApi.updateStatus(data.status, newsId, accessToken);
+    const reGetNews = await newsApi.getAllNews();
     toast.success("Cập nhật thành công");
     dispatch(updateSuccess());
+    dispatch(getNewsSuccess(reGetNews.data.data));
   } catch (error) {
     toast.error("Cập nhật thất bại");
     dispatch(updateFailed());

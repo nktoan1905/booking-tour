@@ -14,14 +14,24 @@ import ModalConfirm from "../../../../components/ModalConfirm/ModalConfirm";
 import { deleteNews } from "../../../../redux/api/newsApiHandler";
 import { toast } from "react-toastify";
 import axios from "axios";
+import ModalChangeStatus from "../components/ModalChangeStatus/ModalChangeStatus";
 
 const DetailNews = () => {
   const [open, setOpen] = useState(false);
+  const [value, setvalue] = useState(null);
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const [openModalChangeStatus, setOpenModalChangeStatus] = useState(false);
+  const handleOpenModalChangeStatus = (value) => {
+    setOpenModalChangeStatus(true);
+    setvalue(value);
+  };
+  const handleCloseModalChangeStatus = () => {
+    setOpenModalChangeStatus(false);
   };
   const { newsId } = useParams();
   const dispatch = useDispatch();
@@ -68,6 +78,7 @@ const DetailNews = () => {
             variant="contained"
             endIcon={<EditIcon />}
             className="mb-3  mx-2 float-end"
+            onClick={() => handleOpenModalChangeStatus(dataNews)}
           >
             Update Status
           </Button>
@@ -97,6 +108,7 @@ const DetailNews = () => {
             variant="contained"
             endIcon={<EditIcon />}
             className="mb-3 float-end"
+            onClick={() => handleOpenModalChangeStatus(dataNews)}
           >
             Update Status
           </Button>
@@ -170,6 +182,11 @@ const DetailNews = () => {
         title={`Bạn có muốn xóa bài viết này không`}
         itemId={dataNews?.id}
       ></ModalConfirm>
+      <ModalChangeStatus
+        open={openModalChangeStatus}
+        handleClose={handleCloseModalChangeStatus}
+        value={value}
+      ></ModalChangeStatus>
     </Container>
   );
 };

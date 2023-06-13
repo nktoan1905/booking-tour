@@ -56,7 +56,7 @@ const newsController = {
 	},
 	handleUpdateStatusNews: async (req, res) => {
 		try {
-			const { status, message } = await newServices.updateStatusNews(req.params.newsId, req.body);
+			const { status, message } = await newServices.updateStatusNews(req.params.newsId, req.body.status);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {

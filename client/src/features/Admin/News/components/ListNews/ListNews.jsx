@@ -17,29 +17,27 @@ const ListNews = ({ dataInfo }) => {
   const { register, handleSubmit } = useForm();
   const handleOnSubmit = (data, e) => {
     e.preventDefault();
-    console.log(data);
-    if (data.newsName !== "" && data.status !== 2) {
-      console.log(1);
-      const newData = dataValue.filter((item) =>
+    if (data.newsName !== "" && Number(data.status) !== 2) {
+      const newData = dataInfo.filter((item) =>
         item.title
           .toLowerCase()
-          .includes(data.newsName.toLowerCase() && item.status === status)
+          .includes(
+            data.newsName.toLowerCase() && item.status === Number(data.status)
+          )
       );
       setDataValue(newData);
-    } else if (data.newsName !== "" && data.status === 2) {
-      console.log(2);
-      const newData = dataValue.filter((item) =>
+    } else if (data.newsName !== "" && Number(data.status) === 2) {
+      const newData = dataInfo.filter((item) =>
         item.title.toLowerCase().includes(data.newsName.toLowerCase())
       );
       setDataValue(newData);
-    } else if (dataValue.newsName === "" && data.status !== 2) {
-      console.log(3);
-
-      const newData = dataValue.filter((item) => item.status === status);
+    } else if (data.newsName.length === 0 && Number(data.status) !== 2) {
+      const newData = dataInfo.filter((item) => {
+        return item.status === Number(data.status);
+      });
       setDataValue(newData);
-    } else if (dataValue.newsName === "" && data.status === 2) {
-      console.log(4);
-      setDataValue(data);
+    } else if (data.newsName.length === 0 && Number(data.status) === 2) {
+      setDataValue(dataInfo);
     }
   };
   return (
