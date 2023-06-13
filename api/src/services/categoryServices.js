@@ -53,7 +53,8 @@ const categoryServices = {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let isDelete = await db.Category.destroy({ where: { id: id } });
-				if (isDelete) {
+				let deleteTourCategory = await db.TourCategory.destroy({ where: { categoryId: id } });
+				if (isDelete && deleteTourCategory) {
 					resolve({ status: false, message: 'Delete category successfully!' });
 				} else {
 					resolve({ status: false, message: 'Delete category failed!' });

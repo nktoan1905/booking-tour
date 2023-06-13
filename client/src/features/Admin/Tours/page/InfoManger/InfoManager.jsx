@@ -23,7 +23,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 3, minWidth: "100%" }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -66,7 +66,7 @@ export default function InfoManager() {
         value={value}
         onChange={handleChange}
         aria-label="Vertical tabs example"
-        sx={{ borderRight: 1, borderColor: "divider" }}
+        sx={{ borderRight: 1, borderColor: "divider", minWidth: "200px" }}
       >
         <Tab label="Tours" {...a11yProps(0)} />
         <Tab label="Category" {...a11yProps(1)} />

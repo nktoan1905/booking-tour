@@ -20,7 +20,7 @@ const countryServices = {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let countries = await db.Country.findAll({
-					attributes: ['id', 'name', 'status'],
+					attributes: ['id', 'name', 'status', 'createdAt'],
 				});
 				if (countries) {
 					for (let i = 0; i < countries.length; i++) {

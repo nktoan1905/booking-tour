@@ -24,7 +24,7 @@ const serviceServices = {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const services = await db.Service.findAll({
-					attributes: ['id', 'name', 'description', 'icon', 'status', 'createdAt'],
+					attributes: ['id', 'name', 'description', 'icon', 'status', 'createdAt', 'loadhome'],
 				});
 				if (services.length > 0) {
 					resolve({ status: true, message: 'Get all services successfully!', services });

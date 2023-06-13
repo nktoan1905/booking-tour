@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -16,9 +15,10 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
-import Button from "react-bootstrap/Button";
-import moment from "moment";
 import { TableHead } from "@mui/material";
+import moment from "moment";
+import Button from "react-bootstrap/Button";
+import { useSelector } from "react-redux";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -88,20 +88,15 @@ TablePaginationActions.propTypes = {
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
-const ListDepartureDay = () => {
-  const listDepartureDays = useSelector(
-    (state) => state.departureDays.departureDays.departureDays
-  );
-  // console.log(listDepartureDays);
-  // const listDepartureDaysAndTour = useSelector((state) => state.departureDays.departureDaysAndTours.departureDaysAndTours);
-  // console.log(listDepartureDaysAndTour);
+
+const TableCites = ({ data }) => {
   const currentUser = useSelector((state) => state.auth.login.currentUser.user);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - listDepartureDays.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -113,13 +108,21 @@ const ListDepartureDay = () => {
   };
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: "500px" }} aria-label="custom pagination table">
+      <Table aria-label="custom pagination table">
         <TableHead>
           <TableRow>
             <TableCell style={{ width: "40px" }} align="center">
               ID
             </TableCell>
-            <TableCell align="center">Day Start</TableCell>
+            <TableCell style={{ width: "200px" }} align="center">
+              Name
+            </TableCell>
+            <TableCell style={{ width: "100px" }} align="center">
+              Status
+            </TableCell>
+            <TableCell style={{ width: "150px" }} align="center">
+              Country name
+            </TableCell>
             <TableCell align="center">Created at</TableCell>
             <TableCell align="center">Action</TableCell>
             <TableCell align="center">
@@ -131,15 +134,21 @@ const ListDepartureDay = () => {
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? listDepartureDays.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : listDepartureDays
+            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : data
           ).map((row) => (
             <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" align="center">
                 {row.id}
               </TableCell>
               <TableCell component="th" scope="row">
-                {moment(row.dayStart).format("L")}
+                {row.name}
+              </TableCell>
+              <TableCell component="th" scope="row" align="center">
+                {row.status ? "Active" : "Inactive"}
+              </TableCell>
+              <TableCell component="th" scope="row" align="center">
+                {row.countryInfo.name}
               </TableCell>
               <TableCell component="th" scope="row" align="center">
                 {moment(row.createdAt).format("L")}
@@ -169,8 +178,8 @@ const ListDepartureDay = () => {
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-              colSpan={7}
-              count={listDepartureDays.length}
+              colSpan={10}
+              count={data.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
@@ -190,4 +199,4 @@ const ListDepartureDay = () => {
   );
 };
 
-export default ListDepartureDay;
+export default TableCites;

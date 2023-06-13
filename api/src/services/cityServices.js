@@ -38,12 +38,12 @@ const cityServices = {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let cities = await db.City.findAll({
-					attributes: ['name', 'status'],
+					attributes: ['id', 'name', 'status', 'createdAt'],
 					include: [
 						{
 							model: db.Country,
 							as: 'countryInfo',
-							attributes: ['name', 'status'],
+							attributes: ['id', 'name', 'status'],
 						},
 					],
 					nest: true,

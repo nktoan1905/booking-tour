@@ -24,7 +24,7 @@ const departureDayServices = {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const departureDays = await db.DepartureDay.findAll({
-					attributes: ['id', 'dayStart', 'status'],
+					attributes: ['id', 'dayStart', 'status', 'createdAt'],
 				});
 				if (departureDays.length > 0) {
 					resolve({ status: true, message: 'Get all Departure day successfully!', departureDays });
@@ -73,7 +73,8 @@ const departureDayServices = {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const isDelete = await db.DepartureDay.destroy({ where: { id: departureDayId } });
-				if (isDelete) {
+				const deleteDepartureDayTour = await db.TourDepartureDay.destroy({ where: { dayStartId: departureDayId } });
+				if (isDelete && deleteDepartureDayTour) {
 					resolve({ status: true, message: 'Delete successful!' });
 				} else {
 					resolve({ status: false, message: 'Delete failed!' });
