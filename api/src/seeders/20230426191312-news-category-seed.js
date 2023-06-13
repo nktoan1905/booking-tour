@@ -18,18 +18,21 @@ module.exports = {
 				{
 					status: 1,
 					name: 'Tin tức du lịch',
+					url:"tin-tuc-du-lich",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
 				{
 					status: 1,
 					name: 'Cẩm nang du lịch',
+					url:"cam-nang-du-lich",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
 				{
 					status: 1,
 					name: 'Kinh nghiệm du lịch',
+					url:"kinh-nghiem-du-lic",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},

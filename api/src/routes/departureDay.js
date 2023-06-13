@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.post('/register', roleMiddleware.verifyAdminOrEmployee, departureDayController.handleCreateNewDepartureDay);
 
-router.get('/', roleMiddleware.verifyAdminOrEmployee, departureDayController.handleGetAllDepartureDay);
-router.get('/tours', roleMiddleware.verifyAdminOrEmployee, departureDayController.handleGetAllDepartureDaysAndTours);
+router.get('/', departureDayController.handleGetAllDepartureDay);
+router.get('/tours', departureDayController.handleGetAllDepartureDaysAndTours);
 
 router.put(
 	'/:departureDayId/day-start',

@@ -41,7 +41,7 @@ const newServices = {
 						{
 							model: db.NewsCategory,
 							as: 'type',
-							attributes: ['id', 'name'],
+							attributes: ['id', 'name', 'url'],
 						},
 					],
 					raw: true,

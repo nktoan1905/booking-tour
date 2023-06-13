@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/register', roleMiddleware.verifyAdminOrEmployee, cityController.handleCreateNewCity);
 
-router.get('/', roleMiddleware.verifyAdminOrEmployee, cityController.handleGetAllCity);
+router.get('/', cityController.handleGetAllCity);
 
 router.put(
 	'/:cityId',
