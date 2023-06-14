@@ -44,6 +44,7 @@ const contactServices = {
 						'status',
 						'createdAt',
 					],
+					order: [['createdAt', 'DESC']],
 					include: [
 						{
 							model: db.TypeContact,

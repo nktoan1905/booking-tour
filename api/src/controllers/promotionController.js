@@ -37,9 +37,6 @@ const promotionController = {
 	},
 	handleDeletePromotion: async (req, res) => {
 		try {
-			if (!req.params.promotionId) {
-				res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'Not found' });
-			}
 			const { status, message } = await promotionServices.deletePromotionById(req.params.promotionId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });

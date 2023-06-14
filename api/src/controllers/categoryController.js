@@ -37,14 +37,12 @@ const categoryController = {
 	},
 	handleDeleteCategory: async (req, res) => {
 		try {
-			if (!req.params.categoryId) {
-				res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'Not found' });
-            }
-				const { status, message } = await categoryServices.deleteCategoryById(req.params.categoryId);
-				if (status) {
-					res.status(HttpStatusCode.OK).json({ message });
-				} else res.status(HttpStatusCode.BAD_REQUEST).json({ message });
-			
+			console.log(req.params.categoryId);
+			const { status, message } = await categoryServices.deleteCategoryById(req.params.categoryId);
+			console.log(status);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}

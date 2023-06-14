@@ -28,6 +28,7 @@ const userServices = {
 						'status',
 						'createdAt',
 					],
+					order: [['createdAt', 'DESC']],
 				});
 				resolve({
 					status: true,

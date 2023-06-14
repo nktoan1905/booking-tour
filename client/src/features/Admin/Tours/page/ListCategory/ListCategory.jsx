@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -19,6 +19,10 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import { TableHead } from "@mui/material";
 import Button from "react-bootstrap/Button";
 import moment from "moment";
+import ModalCreateCateogry from "../../components/ModalCreateCategory/ModalCreateCateogry";
+import ModalUpdateCategory from "../../components/ModalUpdateCategory/ModalUpdateCategory";
+import { deleteCategory } from "../../../../../redux/api/categoryApiHandler";
+import { toast } from "react-toastify";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -92,21 +96,41 @@ TablePaginationActions.propTypes = {
 const ListCategory = () => {
   const lists = useSelector((state) => state.categories.categories.categories);
   const currentUser = useSelector((state) => state.auth.login.currentUser.user);
-
+  const currentUserAccessToken = useSelector(
+    (state) => state.auth.login.currentUser.accessToken
+  );
+  const dispatch = useDispatch();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [openCreate, setOpenCreate] = React.useState(false);
+  const [openUpdate, setOpenUpdate] = React.useState(false);
+  const [value, setValue] = React.useState("");
+  const handleOpenCreate = () => {
+    setOpenCreate(true);
+  };
+  const handleCloseCreate = () => {
+    setOpenCreate(false);
+  };
+  const handleOpenUpdate = (value) => {
+    setOpenUpdate(true);
+    setValue(value);
+  };
+  const handleCloseUpdate = () => {
+    setOpenUpdate(false);
+  };
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - lists.length) : 0;
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+  const handleOnDelete = async (id) => {
+    await deleteCategory(dispatch, toast, id, currentUserAccessToken);
+    console.log(id);
   };
   return (
     <TableContainer component={Paper} style={{ minWidth: "1200px" }}>
@@ -119,7 +143,11 @@ const ListCategory = () => {
             <TableCell align="center">Created At</TableCell>
             <TableCell align="center">Action</TableCell>
             <TableCell align="center">
-              <Button variant="primary" size="sm">
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => handleOpenCreate()}
+              >
                 +
               </Button>
             </TableCell>
@@ -148,11 +176,20 @@ const ListCategory = () => {
                 {moment(row.createdAt).format("L")}
               </TableCell>
               <TableCell component="th" scope="row" align="center">
-                <Button variant="primary" size="sm" className="me-2">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="me-2"
+                  onClick={() => handleOpenUpdate(row)}
+                >
                   Update
                 </Button>
                 {currentUser.roleId === 1 ? (
-                  <Button variant="danger" size="sm">
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleOnDelete(row.id)}
+                  >
                     Delete
                   </Button>
                 ) : (
@@ -163,7 +200,7 @@ const ListCategory = () => {
           ))}
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
+              <TableCell colSpan={5} />
             </TableRow>
           )}
         </TableBody>
@@ -188,6 +225,12 @@ const ListCategory = () => {
           </TableRow>
         </TableFooter>
       </Table>
+      <ModalCreateCateogry open={openCreate} handleClose={handleCloseCreate} />
+      <ModalUpdateCategory
+        open={openUpdate}
+        handleClose={handleCloseUpdate}
+        value={value}
+      />
     </TableContainer>
   );
 };

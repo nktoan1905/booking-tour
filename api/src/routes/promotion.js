@@ -12,7 +12,7 @@ router.get('/', promotionController.handleGetAllPromotions);
 
 router.put(
 	'/:promotionId',
-	roleMiddleware.verifyAdminOrEmployee,
+	roleMiddleware.verifyAdmin,
 	checkIdExistMiddleware.checkIdPromotionExist,
 	promotionController.handleUpdatePromotion,
 );

@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -20,6 +20,10 @@ import { TableHead } from "@mui/material";
 import Button from "react-bootstrap/Button";
 import moment from "moment";
 import { getRoleName } from "../../../../../Helper/RoleHelper";
+import ModalCreatePromotion from "../../components/ModalCreatePromotion/ModalCreatePromotion";
+import ModalUpdatePromotion from "../../components/ModalUpdatePromotion/ModalUpdatePromotion";
+import { deletePromotion } from "../../../../../redux/api/promotionApiHandler";
+import { toast } from "react-toastify";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -93,6 +97,26 @@ TablePaginationActions.propTypes = {
 const ListPromotion = () => {
   const lists = useSelector((state) => state.promotions.promotions.promotions);
   const currentUser = useSelector((state) => state.auth.login.currentUser.user);
+  const currentUserAccessToken = useSelector(
+    (state) => state.auth.login.currentUser.accessToken
+  );
+  const dispatch = useDispatch();
+  const [openCreate, setOpenCreate] = useState(false);
+  const handleOpenCreate = () => {
+    setOpenCreate(true);
+  };
+  const handleCloseCreate = () => {
+    setOpenCreate(false);
+  };
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [value, setValue] = useState("");
+  const handleOpenUpdate = (value) => {
+    setOpenUpdate(true);
+    setValue(value);
+  };
+  const handleCloseUpdate = () => {
+    setOpenUpdate(false);
+  };
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -108,7 +132,9 @@ const ListPromotion = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
+  const handleOnDelete = async (id) => {
+    await deletePromotion(dispatch, toast, id, currentUserAccessToken);
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: "1000px" }} aria-label="custom pagination table">
@@ -129,11 +155,15 @@ const ListPromotion = () => {
             <TableCell align="center">Status</TableCell>
             <TableCell align="center">Created at</TableCell>
             <TableCell align="center">Action</TableCell>
-            <TableCell align="center">
-              <Button variant="primary" size="sm">
-                +
-              </Button>
-            </TableCell>
+            {currentUser.roleId === 1 ? (
+              <TableCell align="center">
+                <Button variant="primary" size="sm" onClick={handleOpenCreate}>
+                  +
+                </Button>
+              </TableCell>
+            ) : (
+              <React.Fragment />
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -161,13 +191,24 @@ const ListPromotion = () => {
                 {moment(row.createdAt).format("L")}
               </TableCell>
               <TableCell component="th" scope="row" align="center">
-                <Button variant="primary" size="sm" className="me-2">
-                  Update
-                </Button>
                 {currentUser.roleId === 1 ? (
-                  <Button variant="danger" size="sm">
-                    Delete
-                  </Button>
+                  <React.Fragment>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      className="me-2"
+                      onClick={() => handleOpenUpdate(row)}
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => handleOnDelete(row.id)}
+                    >
+                      Delete
+                    </Button>
+                  </React.Fragment>
                 ) : (
                   ""
                 )}
@@ -202,6 +243,12 @@ const ListPromotion = () => {
           </TableRow>
         </TableFooter>
       </Table>
+      <ModalCreatePromotion open={openCreate} handleClose={handleCloseCreate} />
+      <ModalUpdatePromotion
+        open={openUpdate}
+        handleClose={handleCloseUpdate}
+        value={value}
+      />
     </TableContainer>
   );
 };

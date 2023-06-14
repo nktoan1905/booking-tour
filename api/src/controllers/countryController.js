@@ -16,7 +16,6 @@ const countryController = {
 	},
 	handleGetAllCountryAndCity: async (req, res) => {
 		try {
-			console.log("Asdasd")
 			const { status, message, countries } = await countryServices.getAllCountryAndCity();
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message: message, data: countries });

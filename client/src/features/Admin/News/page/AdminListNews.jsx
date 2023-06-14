@@ -13,18 +13,6 @@ const AdminListNews = () => {
     <React.Fragment>
       <Container fluid>
         <Row>
-          <Col sx={12}>
-            <Button
-              variant="contained"
-              style={{ marginBottom: "8px", float: "right" }}
-              endIcon={<AddIcon />}
-              onClick={() => navigate("/admin/news/add")}
-            >
-              Add
-            </Button>
-          </Col>
-        </Row>
-        <Row>
           <Col sm={12}>
             <VerticalsTabs />
           </Col>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import NewsCard from "../NewsCard/NewsCard";
 import {
+  Button,
   FormControl,
   IconButton,
   InputBase,
@@ -11,9 +12,14 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+
+
 const ListNews = ({ dataInfo }) => {
   const [dataValue, setDataValue] = useState(dataInfo);
   const [status, setStatus] = React.useState(2);
+  const navigate = useNavigate()
   const { register, handleSubmit } = useForm();
   const handleOnSubmit = (data, e) => {
     e.preventDefault();
@@ -82,7 +88,16 @@ const ListNews = ({ dataInfo }) => {
             <SearchIcon />
           </IconButton>
         </Col>
-        <Col xs={3}></Col>
+        <Col xs={6}>
+          <Button
+            variant="contained"
+            style={{ marginBottom: "8px", float: "right" }}
+            endIcon={<AddIcon />}
+            onClick={() => navigate("/admin/news/add")}
+          >
+            Add
+          </Button>
+        </Col>
       </Row>
       <Row>
         {dataValue &&

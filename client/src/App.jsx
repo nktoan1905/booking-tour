@@ -44,6 +44,7 @@ import {
 } from "./redux/api/departureDayApiHandler";
 import { getAllPromotions } from "./redux/api/promotionApiHandler";
 import { getAllServices } from "./redux/api/serviceApiHandler";
+import DashboardPage from "./features/Admin/Dashboard/DashboardPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -93,6 +94,7 @@ function App() {
           element={<PrivateRoute isAdmin={true} redirectPath="/not-found" />}
         >
           <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<DashboardPage/>}></Route>
             <Route path="users" element={<UsersFeature />}>
               <Route index element={<ListUsers></ListUsers>}></Route>
             </Route>

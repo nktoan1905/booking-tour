@@ -63,9 +63,10 @@ const promotionServices = {
 	deletePromotionById: async (id) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				let isDelete = await db.Promotion.destroy({ where: { id: id } });
+				const isDelete = await db.Promotion.destroy({ where: { id: id } });
+				const deleteTourPromotion = await db.TourPromotion.destroy({ where: { promotionId: id } });
 				if (isDelete) {
-					resolve({ status: false, message: 'Delete promotion successfully!' });
+					resolve({ status: true, message: 'Delete promotion successfully!' });
 				} else {
 					resolve({ status: false, message: 'Delete promotion failed!' });
 				}
