@@ -47,6 +47,7 @@ module.exports = (sequelize, DataTypes) => {
 			map: DataTypes.STRING,
 			duration: DataTypes.INTEGER,
 			amount: DataTypes.INTEGER,
+			startPlace: DataTypes.STRING,
 			status: DataTypes.BOOLEAN,
 		},
 		{

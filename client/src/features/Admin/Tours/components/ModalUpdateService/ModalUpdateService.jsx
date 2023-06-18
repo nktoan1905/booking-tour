@@ -19,6 +19,8 @@ import {
   updateCategory,
 } from "../../../../../redux/api/categoryApiHandler";
 import { toast } from "react-toastify";
+import { updatePromotion } from "../../../../../redux/api/promotionApiHandler";
+import { updateService } from "../../../../../redux/api/serviceApiHandler";
 
 const style = {
   position: "absolute",
@@ -33,11 +35,13 @@ const style = {
 };
 const schema = yup
   .object({
-    name: yup.string().required("Category name is required"),
+    name: yup.string().required("Promotion name is required"),
+    description: yup.string().required("Description is required"),
+    icon: yup.string().required("Icon class is required"),
   })
   .required();
-const ModalUpdateCategory = ({ open, handleClose, value }) => {
-  // ...
+
+const ModalUpdateService = ({ open, handleClose, value }) => {
   const {
     register,
     formState: { errors, isSubmitSuccessful },
@@ -50,8 +54,8 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
   );
   const handleOnSubmit = async (data, event) => {
     event.preventDefault();
-    // await createNewCategory(dispatch, toast, data, currentUserAccessToken);
-    await updateCategory(
+    // console.log(data);
+    await updateService(
       dispatch,
       toast,
       data,
@@ -71,6 +75,8 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
     // Cập nhật giá trị defaultValue khi selectedCategory thay đổi
     reset({
       name: value?.name || "", // Giá trị mặc định là rỗng nếu không có selectedCategory hoặc selectedCategory không có trường name
+      description: value?.description || "",
+      icon: value?.icon || "",
     });
   }, [reset, value]);
   return (
@@ -82,7 +88,7 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Update category
+          Update service
         </Typography>
         <Typography
           id="modal-modal-description"
@@ -93,15 +99,56 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
           <TextField
             margin="normal"
             fullWidth
-            label="Category name"
+            label="Service name"
             name="name"
-            defaultValue={value?.name}
+            defaultValue={value.name}
             error={!!errors["name"]}
             helperText={errors["name"] ? errors["name"].message : ""}
             {...register("name")}
           />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Icon name"
+            name="icon"
+            defaultValue={value.icon}
+            error={!!errors["icon"]}
+            helperText={errors["icon"] ? errors["icon"].message : ""}
+            {...register("icon")}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            type="number"
+            label="Description"
+            name="description"
+            multiline
+            rows={3}
+            defaultValue={value.description}
+            error={!!errors["description"]}
+            helperText={
+              errors["description"] ? errors["description"].message : ""
+            }
+            {...register("description")}
+          />
           <FormControl fullWidth className="mt-3">
-            <InputLabel id="status">status</InputLabel>
+            <InputLabel id="status">Load home</InputLabel>
+            <Select
+              fullWidth
+              label="Status"
+              labelId="Load home"
+              name="loadhome"
+              defaultValue={value.loadhome}
+              error={!!errors["loadhome"]}
+              helpertext={errors["loadhome"] ? errors["loadhome"].message : ""}
+              {...register("loadhome")}
+            >
+              <MenuItem value={1}>Active</MenuItem>
+              <MenuItem value={0}>Inactive</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth className="mt-3">
+            <InputLabel id="status">Status</InputLabel>
             <Select
               fullWidth
               label="Status"
@@ -109,9 +156,7 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
               name="status"
               defaultValue={value.status}
               error={!!errors["status"]}
-              helpertext={
-                errors["status"] ? errors["status"].message : ""
-              }
+              helpertext={errors["status"] ? errors["status"].message : ""}
               {...register("status")}
             >
               <MenuItem value={1}>Active</MenuItem>
@@ -132,4 +177,4 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
   );
 };
 
-export default ModalUpdateCategory;
+export default ModalUpdateService;

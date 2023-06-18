@@ -101,8 +101,8 @@ const ListNews = ({ dataInfo }) => {
       </Row>
       <Row>
         {dataValue &&
-          dataValue.map((row) => (
-            <Col xs={3} className="p-1">
+          dataValue.map((row, index) => (
+            <Col xs={3} className="p-1" key={index}>
               <NewsCard data={row}></NewsCard>
             </Col>
           ))}

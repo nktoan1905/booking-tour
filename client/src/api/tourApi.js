@@ -6,7 +6,7 @@ const tourApi = {
     return axiosClient.get(url);
   },
   createNewsTour(data, accessToken) {
-    const url = `/v1/tours/register`;
+    const url = `/v1/tours/resgister`;
     return axiosClient.post(url, data, {
       headers: { token: `Bearer ${accessToken}` },
     });

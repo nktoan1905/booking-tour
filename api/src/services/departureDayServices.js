@@ -5,7 +5,7 @@ const departureDayServices = {
 	createNewDepartureDay: async (data) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const departureDay = await db.DepartureDay.findOne({ where: { dayStart: data.dayStart } });
+				const departureDay = await db.DepartureDay.findOne({ where: { dayStart: new Date(data.dayStart) } });
 				if (departureDay) {
 					resolve({ status: false, message: 'Departure Day already exists.' });
 				} else {
@@ -16,6 +16,7 @@ const departureDayServices = {
 					resolve({ status: true, message: 'Create new departure Day successfully.' });
 				}
 			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});
@@ -25,12 +26,10 @@ const departureDayServices = {
 			try {
 				const departureDays = await db.DepartureDay.findAll({
 					attributes: ['id', 'dayStart', 'status', 'createdAt'],
+					order: [['dayStart', 'DESC']],
 				});
-				if (departureDays.length > 0) {
-					resolve({ status: true, message: 'Get all Departure day successfully!', departureDays });
-				} else {
-					resolve({ status: false, message: 'Get all Departure day failed!' });
-				}
+
+				resolve({ status: true, message: 'Get all Departure day successfully!', departureDays });
 			} catch (error) {
 				reject(error);
 			}
@@ -72,9 +71,12 @@ const departureDayServices = {
 	deleteDepartureDay: async (departureDayId) => {
 		return new Promise(async (resolve, reject) => {
 			try {
+				const isDepartureDayTour = await db.TourDepartureDay.findAll({ where: { dayStartId: departureDayId } });
+				if (isDepartureDayTour.length > 0) {
+					resolve({ status: false, message: 'Delete failed!' });
+				}
 				const isDelete = await db.DepartureDay.destroy({ where: { id: departureDayId } });
-				const deleteDepartureDayTour = await db.TourDepartureDay.destroy({ where: { dayStartId: departureDayId } });
-				if (isDelete && deleteDepartureDayTour) {
+				if (isDelete) {
 					resolve({ status: true, message: 'Delete successful!' });
 				} else {
 					resolve({ status: false, message: 'Delete failed!' });

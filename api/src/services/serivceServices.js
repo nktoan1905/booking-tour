@@ -8,6 +8,7 @@ const serviceServices = {
 					name: data.name,
 					description: data.description,
 					icon: data.icon,
+					loadhome: 0,
 					status: 1,
 				});
 				if (newService) {
@@ -44,6 +45,7 @@ const serviceServices = {
 						name: data.name,
 						description: data.description,
 						icon: data.icon,
+						loadhome: data.loadhome,
 						status: data.status,
 						updatedAt: new Date(),
 					},

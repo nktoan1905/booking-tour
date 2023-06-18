@@ -9,7 +9,7 @@ const countryServices = {
 					resolve({ status: false, message: 'Country already exists.' });
 				} else {
 					await db.Country.create({ name: data.name, status: 1 });
-					resolve({ status: true, message: 'Create new country sucessfully!' });
+					resolve({ status: true, message: 'Create new country successfully!' });
 				}
 			} catch (error) {
 				reject(error);
@@ -29,7 +29,7 @@ const countryServices = {
 					}
 				}
 
-				resolve({ status: true, message: 'Get all countries sucessfully!', countries: countries });
+				resolve({ status: true, message: 'Get all countries successfully!', countries: countries });
 			} catch (error) {
 				reject(error);
 			}

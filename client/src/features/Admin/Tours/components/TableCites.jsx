@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -18,7 +18,10 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import { TableHead } from "@mui/material";
 import moment from "moment";
 import Button from "react-bootstrap/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCity } from "../../../../redux/api/cityAndCountryApiHandler";
+import { toast } from "react-toastify";
+import ModalCreateCity from "./ModalCreateCity/ModalCreateCity";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -93,7 +96,26 @@ const TableCites = ({ data }) => {
   const currentUser = useSelector((state) => state.auth.login.currentUser.user);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const currentUserAccessToken = useSelector(
+    (state) => state.auth.login.currentUser.accessToken
+  );
+  const dispatch = useDispatch();
+  const [openCreate, setOpenCreate] = useState(false);
+  const handleOpenCreate = () => {
+    setOpenCreate(true);
+  };
+  const handleCloseCreate = () => {
+    setOpenCreate(false);
+  };
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [value, setValue] = useState("");
+  const handleOpenUpdate = (value) => {
+    setOpenUpdate(true);
+    setValue(value);
+  };
+  const handleCloseUpdate = () => {
+    setOpenUpdate(false);
+  };
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -105,6 +127,10 @@ const TableCites = ({ data }) => {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+  const handleOnDelete = async (id) => {
+    console.log(id);
+    await deleteCity(dispatch, toast, id, currentUserAccessToken);
   };
   return (
     <TableContainer component={Paper}>
@@ -126,7 +152,7 @@ const TableCites = ({ data }) => {
             <TableCell align="center">Created at</TableCell>
             <TableCell align="center">Action</TableCell>
             <TableCell align="center">
-              <Button variant="primary" size="sm">
+              <Button variant="primary" size="sm" onClick={handleOpenCreate}>
                 +
               </Button>
             </TableCell>
@@ -154,11 +180,15 @@ const TableCites = ({ data }) => {
                 {moment(row.createdAt).format("L")}
               </TableCell>
               <TableCell component="th" scope="row" align="center">
-                <Button variant="primary" size="sm" className="me-2">
+                <Button variant="primary" size="sm" className="me-2 d-none">
                   Update
                 </Button>
                 {currentUser.roleId === 1 ? (
-                  <Button variant="danger" size="sm">
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleOnDelete(row.id)}
+                  >
                     Delete
                   </Button>
                 ) : (
@@ -195,6 +225,7 @@ const TableCites = ({ data }) => {
           </TableRow>
         </TableFooter>
       </Table>
+      <ModalCreateCity open={openCreate} handleClose={handleCloseCreate} />
     </TableContainer>
   );
 };

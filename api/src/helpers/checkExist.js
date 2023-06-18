@@ -43,8 +43,8 @@ const checkExist = {
 			return 0;
 		}
 	},
-	checkCityIdExist: async (countryId) => {
-		const city = await db.Country.findOne({ where: { id: countryId } });
+	checkCityIdExist: async (cityId) => {
+		const city = await db.City.findOne({ where: { id: cityId } });
 		if (city) {
 			return 1;
 		} else {

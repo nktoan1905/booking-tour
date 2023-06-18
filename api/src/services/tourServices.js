@@ -18,6 +18,7 @@ const tourServices = {
 					map: data.map,
 					duration: data.duration,
 					amount: data.amount,
+					startPlace: data.startPlace,
 					status: 1,
 				});
 				if (newTour) {

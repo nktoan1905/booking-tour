@@ -14,10 +14,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createNewCategory,
-  updateCategory,
-} from "../../../../../redux/api/categoryApiHandler";
+import { createCity } from "../../../../../redux/api/cityAndCountryApiHandler";
 import { toast } from "react-toastify";
 
 const style = {
@@ -33,32 +30,28 @@ const style = {
 };
 const schema = yup
   .object({
-    name: yup.string().required("Category name is required"),
+    name: yup.string().required("City name is required"),
+    countryId: yup.number().required("Country is required"),
   })
   .required();
-const ModalUpdateCategory = ({ open, handleClose, value }) => {
-  // ...
+const ModalCreateCity = ({ open, handleClose }) => {
   const {
     register,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
   } = useForm({ resolver: yupResolver(schema) });
+  const countries = useSelector(
+    (state) => state.cityAndCountries.countries.countries
+  );
   const dispatch = useDispatch();
   const currentUserAccessToken = useSelector(
     (state) => state.auth.login.currentUser.accessToken
   );
   const handleOnSubmit = async (data, event) => {
     event.preventDefault();
-    // await createNewCategory(dispatch, toast, data, currentUserAccessToken);
-    await updateCategory(
-      dispatch,
-      toast,
-      data,
-      value.id,
-      currentUserAccessToken
-    );
-    handleClose();
+    await createCity(dispatch, toast, data, currentUserAccessToken);
+    console.log("create", data);
   };
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -66,13 +59,6 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitSuccessful]);
-  // console.log(value);
-  useEffect(() => {
-    // Cập nhật giá trị defaultValue khi selectedCategory thay đổi
-    reset({
-      name: value?.name || "", // Giá trị mặc định là rỗng nếu không có selectedCategory hoặc selectedCategory không có trường name
-    });
-  }, [reset, value]);
   return (
     <Modal
       open={open}
@@ -82,7 +68,7 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Update category
+          Create new city
         </Typography>
         <Typography
           id="modal-modal-description"
@@ -93,29 +79,31 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
           <TextField
             margin="normal"
             fullWidth
-            label="Category name"
+            label="City name"
             name="name"
-            defaultValue={value?.name}
             error={!!errors["name"]}
             helperText={errors["name"] ? errors["name"].message : ""}
             {...register("name")}
           />
           <FormControl fullWidth className="mt-3">
-            <InputLabel id="status">status</InputLabel>
+            <InputLabel id="countryId">Country name</InputLabel>
             <Select
               fullWidth
-              label="Status"
-              labelId="status"
-              name="status"
-              defaultValue={value.status}
-              error={!!errors["status"]}
+              label="Country name"
+              labelId="countryId"
+              name="countryId"
+              defaultValue={1}
+              error={!!errors["countryId"]}
               helpertext={
-                errors["status"] ? errors["status"].message : ""
+                errors["countryId"] ? errors["countryId"].message : ""
               }
-              {...register("status")}
+              {...register("countryId")}
             >
-              <MenuItem value={1}>Active</MenuItem>
-              <MenuItem value={0}>Inactive</MenuItem>
+              {countries.map((item) => (
+                <MenuItem value={Number(item.id)} key={item.id}>
+                  {item.name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <Button
@@ -124,7 +112,7 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            {"Update"}
+            {"Create"}
           </Button>
         </Typography>
       </Box>
@@ -132,4 +120,4 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
   );
 };
 
-export default ModalUpdateCategory;
+export default ModalCreateCity;

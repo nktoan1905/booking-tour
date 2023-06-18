@@ -14,11 +14,11 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createNewCategory,
-  updateCategory,
-} from "../../../../../redux/api/categoryApiHandler";
+import { createNewCategory } from "../../../../../redux/api/categoryApiHandler";
 import { toast } from "react-toastify";
+import { createPromotion } from "../../../../../redux/api/promotionApiHandler";
+import { createService } from "../../../../../redux/api/serviceApiHandler";
+import { getClassFontawesome } from "../../../../../Helper/StringHelper";
 
 const style = {
   position: "absolute",
@@ -33,11 +33,12 @@ const style = {
 };
 const schema = yup
   .object({
-    name: yup.string().required("Category name is required"),
+    name: yup.string().required("Promotion name is required"),
+    description: yup.string().required("Description is required"),
+    icon: yup.string().required("Icon class is required"),
   })
   .required();
-const ModalUpdateCategory = ({ open, handleClose, value }) => {
-  // ...
+const ModalCreateService = ({ open, handleClose }) => {
   const {
     register,
     formState: { errors, isSubmitSuccessful },
@@ -50,15 +51,12 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
   );
   const handleOnSubmit = async (data, event) => {
     event.preventDefault();
-    // await createNewCategory(dispatch, toast, data, currentUserAccessToken);
-    await updateCategory(
+    await createService(
       dispatch,
       toast,
-      data,
-      value.id,
+      { ...data, icon: getClassFontawesome(data.icon) },
       currentUserAccessToken
     );
-    handleClose();
   };
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -66,13 +64,6 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitSuccessful]);
-  // console.log(value);
-  useEffect(() => {
-    // Cập nhật giá trị defaultValue khi selectedCategory thay đổi
-    reset({
-      name: value?.name || "", // Giá trị mặc định là rỗng nếu không có selectedCategory hoặc selectedCategory không có trường name
-    });
-  }, [reset, value]);
   return (
     <Modal
       open={open}
@@ -82,7 +73,7 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Update category
+          Create new category
         </Typography>
         <Typography
           id="modal-modal-description"
@@ -93,38 +84,41 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
           <TextField
             margin="normal"
             fullWidth
-            label="Category name"
+            label="Service name"
             name="name"
-            defaultValue={value?.name}
             error={!!errors["name"]}
             helperText={errors["name"] ? errors["name"].message : ""}
             {...register("name")}
           />
-          <FormControl fullWidth className="mt-3">
-            <InputLabel id="status">status</InputLabel>
-            <Select
-              fullWidth
-              label="Status"
-              labelId="status"
-              name="status"
-              defaultValue={value.status}
-              error={!!errors["status"]}
-              helpertext={
-                errors["status"] ? errors["status"].message : ""
-              }
-              {...register("status")}
-            >
-              <MenuItem value={1}>Active</MenuItem>
-              <MenuItem value={0}>Inactive</MenuItem>
-            </Select>
-          </FormControl>
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Icon name"
+            name="icon"
+            error={!!errors["icon"]}
+            helperText={errors["icon"] ? errors["icon"].message : ""}
+            {...register("icon")}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Description"
+            name="description"
+            multiline
+            rows={3}
+            error={!!errors["description"]}
+            helperText={
+              errors["description"] ? errors["description"].message : ""
+            }
+            {...register("description")}
+          />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            {"Update"}
+            {"Create"}
           </Button>
         </Typography>
       </Box>
@@ -132,4 +126,4 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
   );
 };
 
-export default ModalUpdateCategory;
+export default ModalCreateService;

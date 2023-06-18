@@ -1,0 +1,14 @@
+.favorite{
+    border-radius: 10px;
+}
+.favorite > div > h3 {
+  /* font-weight: 700; */
+  font-size: 2rem;
+  /* color: #2d4271; */
+  text-transform: uppercase;
+}
+.favorite_img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}

@@ -57,7 +57,7 @@ export default function InfoManager() {
         flexGrow: 1,
         bgcolor: "background.paper",
         display: "flex",
-        height: "100vh",
+        height: "100%",
       }}
     >
       <Tabs

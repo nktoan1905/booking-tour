@@ -10,7 +10,7 @@ const cityAndCountryApi = {
     return axiosClient.get(url);
   },
   createCountry(data, accessToken) {
-    const url = `/v1/coutries/register`;
+    const url = `/v1/countries/register`;
     return axiosClient.post(url, data, {
       headers: { token: `Beaer ${accessToken}` },
     });
@@ -22,7 +22,7 @@ const cityAndCountryApi = {
     });
   },
   updateCoutry(data, countryId, accessToken) {
-    const url = `/v1/coutries/${countryId}`;
+    const url = `/v1/countries/${countryId}`;
     return axiosClient.put(url, data, {
       headers: { token: `Beaer ${accessToken}` },
     });
@@ -34,7 +34,7 @@ const cityAndCountryApi = {
     });
   },
   deleteCountry(countryId, accessToken) {
-    const url = `/v1/coutries/${countryId}`;
+    const url = `/v1/countries/${countryId}`;
     return axiosClient.delete(url, {
       headers: { token: `Beaer ${accessToken}` },
     });

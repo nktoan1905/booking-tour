@@ -8,6 +8,7 @@ const JoiEditor = ({ placeholder, content, setContent }) => {
 
   return (
     <Fragment>
+      <h2 className="text-center text-danger">{placeholder}</h2>
       <JoditEditor
         ref={editor}
         value={content}

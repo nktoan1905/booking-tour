@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -19,6 +19,10 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import Button from "react-bootstrap/Button";
 import moment from "moment";
 import { TableHead } from "@mui/material";
+import ModalCreateDD from "../../components/ModalCreateDD/ModalCreaeteDD";
+import ModalUpdateDD from "../../components/ModalUpdateDD/ModalUpdateDD";
+import { deleteDePartureDay } from "../../../../../redux/api/departureDayApiHandler";
+import { toast } from "react-toastify";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -92,16 +96,38 @@ const ListDepartureDay = () => {
   const listDepartureDays = useSelector(
     (state) => state.departureDays.departureDays.departureDays
   );
-  // console.log(listDepartureDays);
-  // const listDepartureDaysAndTour = useSelector((state) => state.departureDays.departureDaysAndTours.departureDaysAndTours);
-  // console.log(listDepartureDaysAndTour);
+  const currentUserAccessToken = useSelector(
+    (state) => state.auth.login.currentUser.accessToken
+  );
+  const dispatch = useDispatch();
+  const [openCreate, setOpenCreate] = useState(false);
+  const handleOpenCreate = () => {
+    setOpenCreate(true);
+  };
+  const handleCloseCreate = () => {
+    setOpenCreate(false);
+  };
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [value, setValue] = useState("");
+  const handleOpenUpdate = (value) => {
+    setOpenUpdate(true);
+    setValue(value);
+  };
+  const handleCloseUpdate = () => {
+    setOpenUpdate(false);
+  };
+  const handleOnDelete = async (id) => {
+    await deleteDePartureDay(dispatch, toast, id, currentUserAccessToken);
+  };
   const currentUser = useSelector((state) => state.auth.login.currentUser.user);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - listDepartureDays.length) : 0;
+    page > 0
+      ? Math.max(0, (1 + page) * rowsPerPage - listDepartureDays.length)
+      : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -120,10 +146,11 @@ const ListDepartureDay = () => {
               ID
             </TableCell>
             <TableCell align="center">Day Start</TableCell>
+            <TableCell align="center">Status</TableCell>
             <TableCell align="center">Created at</TableCell>
             <TableCell align="center">Action</TableCell>
             <TableCell align="center">
-              <Button variant="primary" size="sm">
+              <Button variant="primary" size="sm" onClick={handleOpenCreate}>
                 +
               </Button>
             </TableCell>
@@ -131,25 +158,40 @@ const ListDepartureDay = () => {
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? listDepartureDays.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            ? listDepartureDays.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
             : listDepartureDays
-          ).map((row) => (
+          ).map((row, index) => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
-                {row.id}
+                {index}
               </TableCell>
               <TableCell component="th" scope="row">
                 {moment(row.dayStart).format("L")}
+              </TableCell>
+              <TableCell component="th" scope="row">
+                {row.status ? "Active" : "Inactive"}
               </TableCell>
               <TableCell component="th" scope="row" align="center">
                 {moment(row.createdAt).format("L")}
               </TableCell>
               <TableCell component="th" scope="row" align="center">
-                <Button variant="primary" size="sm" className="me-2">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="me-2"
+                  onClick={() => handleOpenUpdate(row)}
+                >
                   Update
                 </Button>
                 {currentUser.roleId === 1 ? (
-                  <Button variant="danger" size="sm">
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleOnDelete(row.id)}
+                  >
                     Delete
                   </Button>
                 ) : (
@@ -186,6 +228,12 @@ const ListDepartureDay = () => {
           </TableRow>
         </TableFooter>
       </Table>
+      <ModalCreateDD open={openCreate} handleClose={handleCloseCreate} />
+      <ModalUpdateDD
+        open={openUpdate}
+        handleClose={handleCloseUpdate}
+        valuex={value}
+      />
     </TableContainer>
   );
 };

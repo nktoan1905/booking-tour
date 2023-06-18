@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -19,6 +19,10 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import Button from "react-bootstrap/Button";
 import moment from "moment";
 import { TableHead } from "@mui/material";
+import ModalCreateService from "../../components/ModalCreateService/ModalCreateService";
+import { deletService } from "../../../../../redux/api/serviceApiHandler";
+import { toast } from "react-toastify";
+import ModalUpdateService from "../../components/ModalUpdateService/ModalUpdateService";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -91,11 +95,32 @@ TablePaginationActions.propTypes = {
 
 const ListService = () => {
   const lists = useSelector((state) => state.services.services.services);
-  console.log(lists);
   const currentUser = useSelector((state) => state.auth.login.currentUser.user);
+  const currentUserAccessToken = useSelector(
+    (state) => state.auth.login.currentUser.accessToken
+  );
+  const dispatch = useDispatch();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [openCreate, setOpenCreate] = useState(false);
+  const handleOpenCreate = () => {
+    setOpenCreate(true);
+  };
+  const handleCloseCreate = () => {
+    setOpenCreate(false);
+  };
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [value, setValue] = useState("");
+  const handleOpenUpdate = (value) => {
+    setOpenUpdate(true);
+    setValue(value);
+  };
+  const handleCloseUpdate = () => {
+    setOpenUpdate(false);
+  };
+  const handleOnDelete = async (id) => {
+    await deletService(dispatch, toast, id, currentUserAccessToken);
+  };
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - lists.length) : 0;
@@ -124,7 +149,7 @@ const ListService = () => {
             <TableCell align="center">Created at</TableCell>
             <TableCell align="center">Action</TableCell>
             <TableCell align="center">
-              <Button variant="primary" size="sm">
+              <Button variant="primary" size="sm" onClick={handleOpenCreate}>
                 +
               </Button>
             </TableCell>
@@ -158,11 +183,20 @@ const ListService = () => {
                 {moment(row.createdAt).format("L")}
               </TableCell>
               <TableCell component="th" scope="row" align="center">
-                <Button variant="primary" size="sm" className="me-2">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="me-2"
+                  onClick={() => handleOpenUpdate(row)}
+                >
                   Update
                 </Button>
                 {currentUser.roleId === 1 ? (
-                  <Button variant="danger" size="sm">
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleOnDelete(row.id)}
+                  >
                     Delete
                   </Button>
                 ) : (
@@ -199,6 +233,12 @@ const ListService = () => {
           </TableRow>
         </TableFooter>
       </Table>
+      <ModalCreateService open={openCreate} handleClose={handleCloseCreate} />
+      <ModalUpdateService
+        open={openUpdate}
+        handleClose={handleCloseUpdate}
+        value={value}
+      />
     </TableContainer>
   );
 };

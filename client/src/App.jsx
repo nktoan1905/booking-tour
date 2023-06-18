@@ -45,6 +45,8 @@ import {
 import { getAllPromotions } from "./redux/api/promotionApiHandler";
 import { getAllServices } from "./redux/api/serviceApiHandler";
 import DashboardPage from "./features/Admin/Dashboard/DashboardPage";
+import AddTour from "./features/Admin/Tours/page/AddTour/AddTour";
+import { getAllTours } from "./redux/api/tourApiHandler";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,7 +60,8 @@ function App() {
     getAllDepartureDay(dispatch);
     getAllDepartureDaysAndTours(dispatch);
     getAllPromotions(dispatch);
-    getAllServices(dispatch)
+    getAllServices(dispatch);
+    getAllTours(dispatch);
   }, []);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -94,7 +97,7 @@ function App() {
           element={<PrivateRoute isAdmin={true} redirectPath="/not-found" />}
         >
           <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<DashboardPage/>}></Route>
+            <Route index element={<DashboardPage />}></Route>
             <Route path="users" element={<UsersFeature />}>
               <Route index element={<ListUsers></ListUsers>}></Route>
             </Route>
@@ -109,6 +112,7 @@ function App() {
             </Route>
             <Route path="tours" element={<AdminTourFeature></AdminTourFeature>}>
               <Route index element={<InfoManager></InfoManager>}></Route>
+              <Route path="add" element={<AddTour />}></Route>
             </Route>
           </Route>
         </Route>

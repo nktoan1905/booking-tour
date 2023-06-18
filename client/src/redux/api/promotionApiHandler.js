@@ -53,7 +53,7 @@ export const updatePromotion = async (
     );
     const reGetPromotions = await promotionApi.getAllPromotions();
     dispatch(getAllPromotionsSuccess(reGetPromotions.data.data));
-    toast.sucess("Cập nhật thành công");
+    toast.success("Cập nhật thành công");
     dispatch(updateSuccess());
   } catch (error) {
     toast.error("Cập nhật thất bại");

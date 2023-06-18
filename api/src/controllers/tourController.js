@@ -4,6 +4,7 @@ import tourServices from '../services/tourServices';
 const tourController = {
 	handleCreateNewTour: async (req, res) => {
 		try {
+			console.log(req.body);
 			const { status, message } = await tourServices.createNewTour(req.body);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });

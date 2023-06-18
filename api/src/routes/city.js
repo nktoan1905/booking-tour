@@ -2,6 +2,7 @@ import express from 'express';
 import cityController from '../controllers/cityController';
 import checkExist from '../helpers/checkExist';
 import roleMiddleware from '../middleware/roleMiddleware';
+import checkIdExistMiddleware from '../middleware/checkExistMiddleware';
 
 const router = express.Router();
 
@@ -12,14 +13,14 @@ router.get('/', cityController.handleGetAllCity);
 router.put(
 	'/:cityId',
 	roleMiddleware.verifyAdminOrEmployee,
-	checkExist.checkCityIdExist,
+	checkIdExistMiddleware.checkIdCityExist,
 	cityController.handleUpdateCityByCityId,
 );
 
 router.delete(
 	'/:cityId',
 	roleMiddleware.verifyAdmin,
-	checkExist.checkCityIdExist,
+	checkIdExistMiddleware.checkIdCityExist,
 	cityController.handleDeleteCityByCityId,
 );
 
