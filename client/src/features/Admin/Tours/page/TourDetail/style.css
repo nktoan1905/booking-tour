@@ -1,0 +1,225 @@
+.tour-detail {
+  background: #f9f9f9 !important;
+}
+.tour-detail .section-01 {
+  padding-top: 32px;
+  padding-bottom: 28px;
+  background: #f9f9f9 !important;
+}
+.tour-detail .section-01 .left .title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #2d4271;
+  line-height: 30px;
+  margin-bottom: 12px;
+  max-width: 100%;
+}
+.tour-detail .section-01 .left .short-rating {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.tour-detail .section-01 .left .short-rating .s-rate {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-right: 22px;
+}
+.tour-detail .section-01 .left .short-rating .s-rate span {
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 20px;
+  color: #fff;
+  background: #fdc432;
+  width: 65px;
+  height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-right: 11px;
+}
+.tour-detail .section-01 .left .short-rating .s-rate span:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #fdc432;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+}
+.tour-detail .section-01 .left .short-rating .s-rate .s-comment p {
+  font-size: 13px;
+  color: #2d4271;
+  margin: 0;
+}
+.tour-detail .section-01 .left .short-rating .s-wishlist {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 112px;
+  height: 50px;
+  background: #fff;
+  border: 0.5px solid #d5d5d5;
+  border-radius: 5px;
+}
+
+.tour-detail .section-01 .left .short-rating .s-wishlist svg {
+  font-size: 35px;
+  color: #fd5056;
+  padding-right: 5px;
+}
+.tour-detail .section-02 {
+  padding-bottom: 30px;
+  background: #f9f9f9 !important;
+}
+
+.tour-detail .section-02 .left {
+  padding-right: 0;
+  width: 57%;
+}
+.tour-detail .section-02 .left .image {
+  height: 535px;
+}
+.tour-detail .section-02 img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  border-radius: 10px;
+}
+.img-fluid {
+  max-width: 100%;
+}
+.tour-detail .section-02 .right .small .col-6 {
+  padding-right: 0;
+}
+.tour-detail .section-02 .right .big {
+  padding-right: 0;
+  margin-top: 0;
+}
+.tour-detail .section-02 .right .big .image {
+  padding-top: 10px;
+  height: 335px;
+}
+.tour-detail .section-02 .right .small .col-6 .image {
+  height: 200px;
+}
+
+@media screen and (max-width: 991px) and (min-width: 768px) {
+  .tour-detail .section-02 .left {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 767px) and (min-width: 576px) {
+  .tour-detail .section-02 .left {
+    width: 100%;
+  }
+}
+
+#tour-detail-price .table-price {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 25px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#tour-detail-price .table-price .l1 {
+  width: 290px;
+}
+#tour-detail-price .table-price tr th {
+  padding: 15px 0;
+  font-weight: 700;
+  font-size: 25px;
+}
+#tour-detail-price .table-price tr td {
+  font-size: 20px;
+  padding: 10px 0;
+}
+#tour-detail-price .table-price tr .t-price {
+  color: #fd5056;
+}
+.alice-carousel__wrapper {
+  height: 30vh !important;
+}
+
+.alice-carousel__stage-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#tour-detail-service .icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-radius: 100%;
+  border: 1px solid #0abf54;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#tour-detail-service .icon span {
+  font-size: 28px;
+  line-height: 60px;
+  color: #0abf54;
+}
+#tour-detail-service .content-dv {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#tour-detail-service .content-dv strong {
+  font-size: 1.2rem;
+  letter-spacing: 0.1rem;
+  margin-bottom: 1px;
+}
+
+#tour-detail-service .content-dv p {
+  font-size: 1rem;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 80%;
+  text-align: center;
+}
+
+.more-detail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.more-detail .map .map__content,
+.more-detail .trailer .trailer__content {
+  height: 400px;
+  width: 100%;
+  display: inline-block;
+  overflow: hidden;
+  margin-top: 5px;
+}

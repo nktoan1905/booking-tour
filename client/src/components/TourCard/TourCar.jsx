@@ -5,11 +5,12 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 const TourCard = ({ data }) => {
+  const pathName = window.location.pathname;
   return (
     <div className="card tour-item" style={{ width: "100%" }}>
       <div className="position-relative">
         <div className="tour-item__image">
-          <Link to="#">
+          <Link to={`${pathName}/${data.id}`}>
             <img
               src={data.thumbnail}
               alt={data.thumbnailName}
@@ -43,7 +44,7 @@ const TourCard = ({ data }) => {
         <p className="tour-item__date mb-1">{"20/06/2023 - 3 ngày"}</p>
         <p className="card-text tour-item__title mb-1">
           <Link
-            to="#"
+            to={`${pathName}/${data.id}`}
             className="text-decoration-none"
             style={{ color: "#2d4271" }}
           >

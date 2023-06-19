@@ -5,8 +5,8 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { useSelector } from "react-redux";
-import TableCites from "../../components/TableCites";
-import TableCountries from "../../components/TableCountries";
+import TableCites from "../TableCites";
+import TableCountries from "../TableCountries";
 
 const ListCityAndCountry = () => {
   const listCites = useSelector((state) => state.cityAndCountries.cites.cites);

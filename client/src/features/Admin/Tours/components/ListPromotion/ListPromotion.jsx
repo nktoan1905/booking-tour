@@ -16,12 +16,13 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
+import { TableHead } from "@mui/material";
 import Button from "react-bootstrap/Button";
 import moment from "moment";
-import { TableHead } from "@mui/material";
-import ModalCreateDD from "../../components/ModalCreateDD/ModalCreaeteDD";
-import ModalUpdateDD from "../../components/ModalUpdateDD/ModalUpdateDD";
-import { deleteDePartureDay } from "../../../../../redux/api/departureDayApiHandler";
+import { getRoleName } from "../../../../../Helper/RoleHelper";
+import ModalCreatePromotion from "../ModalCreatePromotion/ModalCreatePromotion";
+import ModalUpdatePromotion from "../ModalUpdatePromotion/ModalUpdatePromotion";
+import { deletePromotion } from "../../../../../redux/api/promotionApiHandler";
 import { toast } from "react-toastify";
 
 function TablePaginationActions(props) {
@@ -92,10 +93,10 @@ TablePaginationActions.propTypes = {
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
-const ListDepartureDay = () => {
-  const listDepartureDays = useSelector(
-    (state) => state.departureDays.departureDays.departureDays
-  );
+
+const ListPromotion = () => {
+  const lists = useSelector((state) => state.promotions.promotions.promotions);
+  const currentUser = useSelector((state) => state.auth.login.currentUser.user);
   const currentUserAccessToken = useSelector(
     (state) => state.auth.login.currentUser.accessToken
   );
@@ -116,18 +117,12 @@ const ListDepartureDay = () => {
   const handleCloseUpdate = () => {
     setOpenUpdate(false);
   };
-  const handleOnDelete = async (id) => {
-    await deleteDePartureDay(dispatch, toast, id, currentUserAccessToken);
-  };
-  const currentUser = useSelector((state) => state.auth.login.currentUser.user);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0
-      ? Math.max(0, (1 + page) * rowsPerPage - listDepartureDays.length)
-      : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - lists.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -137,63 +132,83 @@ const ListDepartureDay = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const handleOnDelete = async (id) => {
+    await deletePromotion(dispatch, toast, id, currentUserAccessToken);
+  };
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: "500px" }} aria-label="custom pagination table">
+      <Table sx={{ minWidth: "1000px" }} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
             <TableCell style={{ width: "40px" }} align="center">
               ID
             </TableCell>
-            <TableCell align="center">Day Start</TableCell>
+            <TableCell style={{ width: "300px" }} align="center">
+              Name
+            </TableCell>
+            <TableCell style={{ width: "50px" }} align="center">
+              Discount
+            </TableCell>
+            <TableCell style={{ width: "100px" }} align="center">
+              For object
+            </TableCell>
             <TableCell align="center">Status</TableCell>
             <TableCell align="center">Created at</TableCell>
             <TableCell align="center">Action</TableCell>
-            <TableCell align="center">
-              <Button variant="primary" size="sm" onClick={handleOpenCreate}>
-                +
-              </Button>
-            </TableCell>
+            {currentUser.roleId === 1 ? (
+              <TableCell align="center">
+                <Button variant="primary" size="sm" onClick={handleOpenCreate}>
+                  +
+                </Button>
+              </TableCell>
+            ) : (
+              <React.Fragment />
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? listDepartureDays.slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage
-              )
-            : listDepartureDays
-          ).map((row, index) => (
+            ? lists.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : lists
+          ).map((row) => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
-                {index}
+                {row.id}
               </TableCell>
               <TableCell component="th" scope="row">
-                {moment(row.dayStart).format("L")}
+                {row.name}
               </TableCell>
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" align="center">
+                {row.promotion}
+              </TableCell>
+              <TableCell component="th" scope="row" align="center">
+                {getRoleName(row.forObject)}
+              </TableCell>
+              <TableCell component="th" scope="row" align="center">
                 {row.status ? "Active" : "Inactive"}
               </TableCell>
               <TableCell component="th" scope="row" align="center">
                 {moment(row.createdAt).format("L")}
               </TableCell>
               <TableCell component="th" scope="row" align="center">
-                <Button
-                  variant="primary"
-                  size="sm"
-                  className="me-2"
-                  onClick={() => handleOpenUpdate(row)}
-                >
-                  Update
-                </Button>
                 {currentUser.roleId === 1 ? (
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => handleOnDelete(row.id)}
-                  >
-                    Delete
-                  </Button>
+                  <React.Fragment>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      className="me-2"
+                      onClick={() => handleOpenUpdate(row)}
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => handleOnDelete(row.id)}
+                    >
+                      Delete
+                    </Button>
+                  </React.Fragment>
                 ) : (
                   ""
                 )}
@@ -212,7 +227,7 @@ const ListDepartureDay = () => {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={7}
-              count={listDepartureDays.length}
+              count={lists.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
@@ -228,14 +243,14 @@ const ListDepartureDay = () => {
           </TableRow>
         </TableFooter>
       </Table>
-      <ModalCreateDD open={openCreate} handleClose={handleCloseCreate} />
-      <ModalUpdateDD
+      <ModalCreatePromotion open={openCreate} handleClose={handleCloseCreate} />
+      <ModalUpdatePromotion
         open={openUpdate}
         handleClose={handleCloseUpdate}
-        valuex={value}
+        value={value}
       />
     </TableContainer>
   );
 };
 
-export default ListDepartureDay;
+export default ListPromotion;

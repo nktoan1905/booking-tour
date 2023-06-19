@@ -4,12 +4,12 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import ListTour from "../ListTour/ListTour";
-import ListCategory from "../ListCategory/ListCategory";
-import ListPromotion from "../ListPromotion/ListPromotion";
-import ListCityAndCountry from "../ListCtyAndCountry/ListCityAndCountry";
-import ListDepartureDay from "../ListDepartureDay/ListDepartureDay";
-import ListService from "../ListService/ListService";
+import ListTour from "../../components/ListTour/ListTour";
+import ListCategory from "../../components/ListCategory/ListCategory";
+import ListPromotion from "../../components/ListPromotion/ListPromotion";
+import ListCityAndCountry from "../../components/ListCtyAndCountry/ListCityAndCountry";
+import ListService from "../../components/ListService/ListService";
+import ListDepartureDay from "../../components/ListDepartureDay/ListDepartureDay";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

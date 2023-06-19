@@ -47,6 +47,8 @@ import { getAllServices } from "./redux/api/serviceApiHandler";
 import DashboardPage from "./features/Admin/Dashboard/DashboardPage";
 import AddTour from "./features/Admin/Tours/page/AddTour/AddTour";
 import { getAllTours } from "./redux/api/tourApiHandler";
+import ToursDetail from "./features/Admin/Tours/page/TourDetail/ToursDetail";
+import EditTour from "./features/Admin/Tours/page/EditTour/EditTour";
 
 function App() {
   const dispatch = useDispatch();
@@ -112,6 +114,15 @@ function App() {
             </Route>
             <Route path="tours" element={<AdminTourFeature></AdminTourFeature>}>
               <Route index element={<InfoManager></InfoManager>}></Route>
+              <Route
+                path=":tourId"
+                element={<ToursDetail></ToursDetail>}
+              ></Route>
+              <Route
+                path=":tourId/edit"
+                element={<EditTour></EditTour>}
+              ></Route>
+
               <Route path="add" element={<AddTour />}></Route>
             </Route>
           </Route>

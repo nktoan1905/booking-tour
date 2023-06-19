@@ -6,6 +6,9 @@ import {
   getAllToursFailed,
   getAllToursStart,
   getAllToursSuccess,
+  updateFailed,
+  updateStart,
+  updateSuccess,
 } from "../slice/tourSlice";
 
 export const createNewTour = async (
@@ -26,6 +29,27 @@ export const createNewTour = async (
   } catch (error) {
     toast.error("Tạo thất bại");
     dispatch(createFailed());
+  }
+};
+export const updateTour = async (
+  dispatch,
+  toast,
+  navigate,
+  dataUpdate,
+  tourId,
+  accessToken
+) => {
+  dispatch(updateStart());
+  try {
+    const res = await tourApi.updateTour(dataUpdate, tourId, accessToken);
+    const reGetTours = await tourApi.getAllTours();
+    dispatch(getAllToursSuccess(reGetTours.data.data));
+    toast.success("Cập nhật thành công");
+    navigate(-1);
+    dispatch(updateSuccess());
+  } catch (error) {
+    toast.error("Cập nhật thất bại");
+    dispatch(updateFailed())
   }
 };
 export const getAllTours = async (dispatch) => {

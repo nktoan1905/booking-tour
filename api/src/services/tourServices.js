@@ -400,6 +400,7 @@ const tourServices = {
 						map: data.map,
 						duration: data.duration,
 						amount: data.amount,
+						startPlace: data.startPlace,
 						updatedAt: new Date(),
 						status: data.status,
 					},

@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 const ListTour = () => {
   const navigate = useNavigate();
   const tours = useSelector((state) => state.tours.tours.tours);
-  console.log(tours)
   return (
     <Container fluid>
       <Row>
