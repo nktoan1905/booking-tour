@@ -1,0 +1,60 @@
+.range-input {
+  border: none;
+  outline: none;
+  cursor: default;
+}
+.range-input::placeholder {
+  font-weight: 500;
+  color: #121212;
+}
+.tour-search .sidebar {
+  padding-left: 0;
+}
+.sidebar-filter {
+  margin-left: 0;
+}
+
+.tour-search .sidebar .sidebar-inner {
+  background: #f9f9f9;
+}
+
+.tour-search-result__filter__brand span {
+  font-weight: 700;
+  font-size: 22px;
+}
+.tour-search-result__filter__heading {
+  background-color: #4d4aef;
+  color: #fff;
+}
+.tour-search .sidebar .s-title {
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: #2d4271;
+  margin-bottom: 15px;
+}
+.tour-search .sidebar .s-mark-title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-weight: 700;
+  line-height: 19px;
+  color: #2d4271;
+  white-space: nowrap;
+  margin-bottom: 25px;
+}
+.tour-search .sidebar .s-mark-title:after {
+  content: "";
+  width: 100%;
+  border-top: 1px solid #d5d5d5;
+  display: block;
+  margin-left: 15px;
+}
+.tour-search .main-content {
+  padding: 30px 0 30px 10px;
+  background: #fff;
+}

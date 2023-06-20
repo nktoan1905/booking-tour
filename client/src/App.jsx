@@ -49,6 +49,9 @@ import AddTour from "./features/Admin/Tours/page/AddTour/AddTour";
 import { getAllTours } from "./redux/api/tourApiHandler";
 import ToursDetail from "./features/Admin/Tours/page/TourDetail/ToursDetail";
 import EditTour from "./features/Admin/Tours/page/EditTour/EditTour";
+import ToursFeature from "./features/Tours/ToursFeature";
+import SearchTourPage from "./features/Tours/pages/SearchTour/SearchTourPage";
+import DetailTourPage from "./features/Tours/pages/DetailTour/DetailTourPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -90,11 +93,18 @@ function App() {
           </Route>
         </Route>
         <Route path="/contact" element={<ContactFeature />}></Route>
-
         <Route path="/news" element={<NewsFeature></NewsFeature>}>
           <Route path=":newsCategoryId" element={<ListNewsPage />} />
           <Route path=":newsCategoryId/:newsId" element={<NewsDetailPage />} />
         </Route>
+        <Route path="/tours" element={<ToursFeature />}>
+          <Route
+            path="search/:startPlaceId/:endPlaceId/:date/:duration/:inCountry"
+            element={<SearchTourPage />}
+          ></Route>
+          <Route path=":tourId" element={<DetailTourPage />}></Route>
+        </Route>
+        // admin
         <Route
           element={<PrivateRoute isAdmin={true} redirectPath="/not-found" />}
         >

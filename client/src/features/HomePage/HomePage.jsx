@@ -5,6 +5,7 @@ import FavoriteDestination from './components/FavoriteDestination/FavoriteDestin
 import FeedBack from './components/FeedBack/FeedBack'
 import ServiceProvide from './components/ServiceProvide/ServiceProvide'
 import TravelGuilde from './components/TravelGuide/TravelGuilde'
+import SearchTourForm from '../../components/SearchTourForm/SearchTourForm'
 
 const HomePage = () => {
   useEffect(()=>{
@@ -13,6 +14,7 @@ const HomePage = () => {
   return (
     <CommonLayout>
         <Banner></Banner>
+        <SearchTourForm></SearchTourForm>
         <FavoriteDestination></FavoriteDestination>
         <ServiceProvide></ServiceProvide>
         <TravelGuilde></TravelGuilde>
