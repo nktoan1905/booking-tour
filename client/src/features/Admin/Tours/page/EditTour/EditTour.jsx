@@ -60,7 +60,6 @@ const EditTour = () => {
   const tourDetailData = tours.find((item) => item.id === Number(tourId));
   const [tourDetail, setTourDetail] = useState(tourDetailData.tourDetail);
   const [note, setNote] = useState(tourDetailData.note);
-  //   console.log(tourDetail, note);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentUserAccessToken = useSelector(
@@ -123,11 +122,10 @@ const EditTour = () => {
       thumbnailName: getImagePublicIdOfToursImageFolder(imageSelected.url),
       tourDetail: tourDetail,
       note: note,
-      startPlace: cititesInVn.find(
-        (item) => item.id === Number(data.startPlace)
+      endPlace: cititesInVn.find(
+        (item) => item.id === Number(data.endPlace)
       ).name,
     };
-    console.log(newData);
     await updateTour(
       dispatch,
       toast,
@@ -161,7 +159,7 @@ const EditTour = () => {
             size="small"
             variant="contained"
             className="float-end"
-            // onClick={() => navigate(1)}
+            onClick={() => navigate(`/admin/tours/${tourDetailData.id}/add-info`)}
           >
             Update Category
           </Button>
@@ -283,13 +281,13 @@ const EditTour = () => {
                   fullWidth
                   label="Start place"
                   labelId="Status"
-                  name="startPlace"
-                  defaultValue={getCityIdByName(tourDetailData.startPlace)}
-                  error={!!errors["startPlace"]}
+                  name="endPlace"
+                  defaultValue={getCityIdByName(tourDetailData.endPlace)}
+                  error={!!errors["endPlace"]}
                   helpertext={
-                    errors["startPlace"] ? errors["startPlace"].message : ""
+                    errors["endPlace"] ? errors["endPlace"].message : ""
                   }
-                  {...register("startPlace")}
+                  {...register("endPlace")}
                 >
                   {cititesInVn.map((item) => (
                     <MenuItem value={item.id}> {item.name}</MenuItem>
@@ -341,7 +339,7 @@ const EditTour = () => {
         </Col>
       </Row>
       <Row className="mt-3">
-        <Button variant="primary" type="submit">
+        <Button variant="contained" type="submit">
           Update
         </Button>
       </Row>

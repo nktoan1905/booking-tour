@@ -129,7 +129,6 @@ const TableCites = ({ data }) => {
     setPage(0);
   };
   const handleOnDelete = async (id) => {
-    console.log(id);
     await deleteCity(dispatch, toast, id, currentUserAccessToken);
   };
   return (

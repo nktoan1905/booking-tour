@@ -23,6 +23,79 @@ const tourApi = {
       headers: { token: `Bearer ${accessToken}` },
     });
   },
+  addCategory(tourId, categoryId, accessToken) {
+    const url = `/v1/tours/${tourId}/categories/add`;
+    return axiosClient.post(
+      url,
+      {
+        categoryId: categoryId,
+      },
+      {
+        headers: { token: `Bearer ${accessToken}` },
+      }
+    );
+  },
+  removeCategory(tourId, categoryId, accessToken) {
+    const url = `/v1/tours/${tourId}/categories/remove/${categoryId}`;
+    return axiosClient.delete(url, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+  },
+  addPromotion(tourId, promotionId, accessToken) {
+    const url = `/v1/tours/${tourId}/promotions/add`;
+    return axiosClient.post(
+      url,
+      {
+        promotionId: promotionId,
+      },
+      {
+        headers: { token: `Bearer ${accessToken}` },
+      }
+    );
+  },
+  removePromotion(tourId, promotionId, accessToken) {
+    const url = `/v1/tours/${tourId}/promotions/remove/${promotionId}`;
+    return axiosClient.delete(url, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+  },
+  addService(tourId, serviceId, accessToken) {
+    const url = `/v1/tours/${tourId}/services/add`;
+    return axiosClient.post(
+      url,
+      {
+        serviceId: serviceId,
+      },
+      {
+        headers: { token: `Bearer ${accessToken}` },
+      }
+    );
+  },
+  removeService(tourId, serviceId, accessToken) {
+    const url = `/v1/tours/${tourId}/services/remove/${serviceId}`;
+    return axiosClient.delete(url, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+  },
+  addDepartureDay(tourId, data, accessToken) {
+    const url = `/v1/tours/${tourId}/departureDays/add`;
+    return axiosClient.post(
+      url,
+      {
+        departureDayId: data.departureDayId,
+        startPlace: data.startPlace,
+      },
+      {
+        headers: { token: `Bearer ${accessToken}` },
+      }
+    );
+  },
+  removeDepartureDay(tourId, departureDayId, accessToken) {
+    const url = `/v1/tours/${tourId}/departureDays/remove/${departureDayId}`;
+    return axiosClient.delete(url, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+  },
 };
 
 export default tourApi;

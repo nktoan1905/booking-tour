@@ -41,7 +41,6 @@ const ModalCreateCateogry = ({ open, handleClose }) => {
   const handleOnSubmit = async (data, event) => {
     event.preventDefault();
     await createNewCategory(dispatch, toast, data, currentUserAccessToken);
-    console.log("create", data);
   };
   useEffect(() => {
     if (isSubmitSuccessful) {

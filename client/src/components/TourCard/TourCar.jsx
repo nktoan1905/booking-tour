@@ -21,7 +21,7 @@ const TourCard = ({ data }) => {
             <FavoriteBorderIcon></FavoriteBorderIcon>
           </span>
           <div className="tour-item__image-inner__bottom">
-            <span className="tour-item__image-inner__bottom__category">
+            <span className="tour-item__image-inner__bottom__category d-none">
               <LocalFireDepartmentIcon /> {" Giờ chót"}
             </span>
           </div>
@@ -41,7 +41,7 @@ const TourCard = ({ data }) => {
         </div>
       </div>
       <div className="card-body p-3">
-        <p className="tour-item__date mb-1">{"20/06/2023 - 3 ngày"}</p>
+        <p className="tour-item__date mb-1 d-none">{"20/06/2023 - 3 ngày"}</p>
         <p className="card-text tour-item__title mb-1">
           <Link
             to={`${pathName}/${data.id}`}
@@ -51,10 +51,10 @@ const TourCard = ({ data }) => {
             {data.name}
           </Link>
         </p>
-        <p className="tour-item__departure mb-3">
+        <p className="tour-item__departure mb-3 d-none">
           {`Nơi khởi hành: ${data.startPlace}`}
         </p>
-        <div className="tour-item__price mb-2 w-100">
+        <div className="tour-item__price mb-2 w-100 d-none">
           <div className="tour-item__price__wrapper">
             <div className="tour-item__price--old d-none">
               Giá{" "}

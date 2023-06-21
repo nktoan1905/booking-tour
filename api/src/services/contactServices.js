@@ -79,7 +79,6 @@ const contactServices = {
 	updateStatusContact: async (contactId, status) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				console.log(contactId);
 				const isUpdate = await db.Contact.update({ status: status }, { where: { id: contactId } });
 				if (isUpdate) {
 					resolve({ status: true, message: 'Update status successfully' });

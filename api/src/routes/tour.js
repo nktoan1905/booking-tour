@@ -16,7 +16,7 @@ router.post(
 );
 
 router.delete(
-	'/:tourId/categories/remove',
+	'/:tourId/categories/remove/:categoryId',
 	roleMiddleware.verifyAdminOrEmployee,
 	checkIdExistMiddleware.checkIdTourExist,
 	tourController.handleRemoveCategory,
@@ -44,7 +44,7 @@ router.post(
 );
 
 router.delete(
-	'/:tourId/departureDays/remove',
+	'/:tourId/departureDays/remove/:departureDayId',
 	roleMiddleware.verifyAdminOrEmployee,
 	checkIdExistMiddleware.checkIdTourExist,
 	tourController.handleRemoveDepartureDay,
@@ -59,7 +59,7 @@ router.post(
 );
 
 router.delete(
-	'/:tourId/services/remove',
+	'/:tourId/services/remove/:serviceId',
 	roleMiddleware.verifyAdminOrEmployee,
 	checkIdExistMiddleware.checkIdTourExist,
 	tourController.handleRemoveService,
@@ -73,7 +73,7 @@ router.post(
 );
 
 router.delete(
-	'/:tourId/promotions/remove',
+	'/:tourId/promotions/remove/:promotionId',
 	checkIdExistMiddleware.checkIdTourExist,
 	tourController.handleRemovePromotion,
 );

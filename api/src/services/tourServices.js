@@ -18,7 +18,7 @@ const tourServices = {
 					map: data.map,
 					duration: data.duration,
 					amount: data.amount,
-					startPlace: data.startPlace,
+					endPlace: data.endPlace,
 					status: 1,
 				});
 				if (newTour) {
@@ -159,7 +159,7 @@ const tourServices = {
 			}
 		});
 	},
-	addDepartureDay: async (tourId, departureDayId) => {
+	addDepartureDay: async (tourId, data) => {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const tour = await db.Tour.findOne({ where: { id: parseInt(tourId) }, raw: false });
@@ -169,14 +169,18 @@ const tourServices = {
 				if (tour.status === 1) {
 					resolve({ status: false, message: 'Tour is not available' });
 				}
-				const departureDay = await db.DepartureDay.findOne({ where: { id: departureDayId }, raw: false });
+				const departureDay = await db.DepartureDay.findOne({ where: { id: data.departureDayId }, raw: false });
 				if (!departureDay) {
 					resolve({ status: false, message: 'Departure day not found' });
 				}
 				if (departureDay.status === false) {
 					resolve({ status: false, message: 'Departure day not available' });
 				}
-				const isAdd = await tour.addDepartureDay(departureDay.id);
+				const isAdd = await db.TourDepartureDay.create({
+					tourId: tourId,
+					dayStartId: data.departureDayId,
+					startPlace: data.startPlace,
+				});
 				if (isAdd) {
 					resolve({ status: true, message: 'Add departure day successfully' });
 				} else {
@@ -304,11 +308,16 @@ const tourServices = {
 				if (!tour) {
 					resolve({ status: false, message: 'Tour not found' });
 				}
-				const depentureDay = await db.DepentureDay.findOne({ where: { id: depentureDayId }, raw: false });
+				const depentureDay = await db.DepartureDay.findOne({ where: { id: depentureDayId }, raw: false });
 				if (!depentureDay) {
 					resolve({ status: false, message: 'Depenture Day not found' });
 				}
-				const isRemove = await tour.removeDepentureDay(depentureDay.id);
+				const isRemove = await db.TourDepartureDay.destroy({
+					where: {
+						tourId: tourId,
+						dayStartId: depentureDayId,
+					},
+				});
 				if (isRemove) {
 					resolve({ status: true, message: 'Remove depenture day successfully' });
 				} else {
@@ -327,7 +336,7 @@ const tourServices = {
 						{
 							model: db.Category,
 							as: 'categories',
-							attributes: ['id', 'name'],
+							attributes: ['id', 'name', 'status'],
 							through: {
 								attributes: [],
 							},
@@ -335,7 +344,7 @@ const tourServices = {
 						{
 							model: db.Service,
 							as: 'services',
-							attributes: ['id', 'name', 'description', 'icon'],
+							attributes: ['id', 'name', 'description', 'icon', 'status'],
 
 							through: {
 								attributes: [],
@@ -344,7 +353,7 @@ const tourServices = {
 						{
 							model: db.Promotion,
 							as: 'promotions',
-							attributes: ['id', 'name'],
+							attributes: ['id', 'name', 'promotion', 'forObject', 'status'],
 							through: {
 								attributes: [],
 							},
@@ -359,6 +368,7 @@ const tourServices = {
 							model: db.DepartureDay,
 							as: 'departureDays',
 							attributes: ['id', 'dayStart'],
+							include: [{ model: db.TourDepartureDay }],
 							through: {
 								attributes: [],
 							},
@@ -372,12 +382,8 @@ const tourServices = {
 					nest: true,
 					raw: false,
 				});
-
-				if (tours.length > 0) {
-					resolve({ status: true, message: 'Get All Tours successfully', tours: tours });
-				} else {
-					resolve({ status: false, message: 'Get All Tours failed' });
-				}
+	
+				resolve({ status: true, message: 'Get All Tours successfully', tours: tours });
 			} catch (error) {
 				reject(error);
 			}
@@ -400,7 +406,7 @@ const tourServices = {
 						map: data.map,
 						duration: data.duration,
 						amount: data.amount,
-						startPlace: data.startPlace,
+						endPlace: data.endPlace,
 						updatedAt: new Date(),
 						status: data.status,
 					},

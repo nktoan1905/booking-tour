@@ -10,9 +10,7 @@ import ListNews from "../components/ListNews";
 import { useSelector } from "react-redux";
 
 const ListNewsPage = () => {
-  // set title
   const { newsCategoryId } = useParams();
-  console.log(newsCategoryId);
   const titles = [
     {
       id: 1,
@@ -60,7 +58,6 @@ const ListNewsPage = () => {
       news3.push(newItem);
     }
   }
-  console.log(news1, news2, news3);
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
       <TabContext value={value}>

@@ -61,7 +61,6 @@ const FormSeachOutCountry = ({ cities, countries }) => {
     navigate(
       `/tours/search/${newData.startPlaceCity}/${newData.endPlaceCountry}/${newData.date}/${newData.duration}/0`
     );
-    console.log(newData);
   };
   useEffect(() => {
     if (isSubmitSuccessful) {

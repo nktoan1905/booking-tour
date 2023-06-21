@@ -130,7 +130,6 @@ const ListCategory = () => {
   };
   const handleOnDelete = async (id) => {
     await deleteCategory(dispatch, toast, id, currentUserAccessToken);
-    console.log(id);
   };
   return (
     <TableContainer component={Paper} style={{ minWidth: "1200px" }}>

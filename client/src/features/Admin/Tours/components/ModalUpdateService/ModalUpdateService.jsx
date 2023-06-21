@@ -54,7 +54,6 @@ const ModalUpdateService = ({ open, handleClose, value }) => {
   );
   const handleOnSubmit = async (data, event) => {
     event.preventDefault();
-    // console.log(data);
     await updateService(
       dispatch,
       toast,
@@ -70,7 +69,6 @@ const ModalUpdateService = ({ open, handleClose, value }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitSuccessful]);
-  // console.log(value);
   useEffect(() => {
     // Cập nhật giá trị defaultValue khi selectedCategory thay đổi
     reset({

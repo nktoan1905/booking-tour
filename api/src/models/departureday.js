@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: 'dayStartId',
 				targetKey: 'id',
 			});
+			DepartureDay.hasMany(models.TourDepartureDay, {
+				foreignKey: 'dayStartId',
+				targetKey: 'id',
+			});
 		}
 	}
 	DepartureDay.init(

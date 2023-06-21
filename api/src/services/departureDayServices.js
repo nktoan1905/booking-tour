@@ -16,7 +16,6 @@ const departureDayServices = {
 					resolve({ status: true, message: 'Create new departure Day successfully.' });
 				}
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});

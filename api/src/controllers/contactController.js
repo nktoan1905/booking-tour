@@ -6,7 +6,6 @@ import sendMail from '../services/mailServices';
 const contactController = {
 	handleCreateNewContact: async (req, res) => {
 		try {
-			console.log(req.body);
 			const { status, message } = await contactServices.createNewContact(req.body);
 			await sendMail(
 				{
@@ -21,7 +20,6 @@ const contactController = {
 				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 			}
 		} catch (error) {
-			console.log(error)
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
@@ -51,7 +49,6 @@ const contactController = {
 	},
 	handleUpdateStatusContact: async (req, res) => {
 		try {
-			console.log(req.params.contactId);
 			const { status, message } = await contactServices.updateStatusContact(req.params.contactId, req.body.status);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message: message });

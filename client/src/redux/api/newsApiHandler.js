@@ -91,7 +91,6 @@ export const deleteNews = async (
     navigate(-1);
     dispatch(deleteSuccess());
   } catch (error) {
-    console.log(error);
     toast.error("Xóa thất bại");
     dispatch(deleteFailed());
   }

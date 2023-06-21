@@ -331,7 +331,6 @@ const mailTemplate = {
 	},
 	sendBill: () => {},
 	sendComfirmContact: (data) => {
-		console.log(data);
 		return `
     <!DOCTYPE html>
 <html>

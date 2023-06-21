@@ -6,20 +6,8 @@ import moment from "moment";
 import HTMLReactParser from "html-react-parser";
 
 const CardNews = ({ data }) => {
-  // const handleGetSomeString = (html) => {
-  //   var startTag = "<p>";
-  //   var endTag = "</p>";
-  //   var startIndex = html.indexOf(startTag);
-  //   var endIndex = html.indexOf(endTag);
-  //   if (startIndex !== -1 && endIndex !== -1) {
-  //     var paragraphContent = html
-  //       .substring(startIndex + startTag.length, endIndex)
-  //       .trim();
-  //     console.log(paragraphContent);
-  //   }
-  // };
+
   const subtitle = HTMLReactParser(data.content);
-  console.log(subtitle[0].props.children)
   return (
     <Col
       xs={12}

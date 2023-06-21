@@ -64,7 +64,6 @@ const ModalUpdatePromotion = ({ open, handleClose, value }) => {
       value.id,
       currentUserAccessToken
     );
-    console.log(data);
     handleClose();
   };
   useEffect(() => {
@@ -73,7 +72,6 @@ const ModalUpdatePromotion = ({ open, handleClose, value }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitSuccessful]);
-  // console.log(value);
   useEffect(() => {
     // Cập nhật giá trị defaultValue khi selectedCategory thay đổi
     reset({

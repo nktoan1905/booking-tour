@@ -75,7 +75,6 @@ export const deletePromotion = async (
     toast.success("Xóa thành công");
     dispatch(deleteSuccess());
   } catch (error) {
-    console.log(error);
     toast.error("Xóa thất bại");
     dispatch(deleteFailed());
   }

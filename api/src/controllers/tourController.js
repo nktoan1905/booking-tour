@@ -4,7 +4,6 @@ import tourServices from '../services/tourServices';
 const tourController = {
 	handleCreateNewTour: async (req, res) => {
 		try {
-			console.log(req.body);
 			const { status, message } = await tourServices.createNewTour(req.body);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
@@ -29,7 +28,7 @@ const tourController = {
 	},
 	handleRemoveCategory: async (req, res) => {
 		try {
-			const { status, message } = await tourServices.removeCategory(req.params.tourId, req.body.categoryId);
+			const { status, message } = await tourServices.removeCategory(req.params.tourId, req.params.categoryId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {
@@ -53,7 +52,7 @@ const tourController = {
 	},
 	handleRemoveService: async (req, res) => {
 		try {
-			const { status, message } = await tourServices.removeService(req.params.tourId, req.body.serviceId);
+			const { status, message } = await tourServices.removeService(req.params.tourId, req.params.serviceId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {
@@ -77,7 +76,7 @@ const tourController = {
 	},
 	handleRemovePromotion: async (req, res) => {
 		try {
-			const { status, message } = await tourServices.removePromotion(req.params.tourId, req.body.promotionId);
+			const { status, message } = await tourServices.removePromotion(req.params.tourId, req.params.promotionId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {
@@ -113,7 +112,7 @@ const tourController = {
 	},
 	handleAddDepentureDay: async (req, res) => {
 		try {
-			const { status, message } = await tourServices.addDepartureDay(req.params.tourId, req.body.departureDayId);
+			const { status, message } = await tourServices.addDepartureDay(req.params.tourId, req.body);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {
@@ -125,7 +124,7 @@ const tourController = {
 	},
 	handleRemoveDepartureDay: async (req, res) => {
 		try {
-			const { status, message } = await tourServices.removeDepartureDay(req.params.tourId, req.body.depenturedayId);
+			const { status, message } = await tourServices.removeDepartureDay(req.params.tourId, req.params.departureDayId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {

@@ -84,7 +84,6 @@ export const updateUserProfile = async (
     navigate("/me/profile");
   } catch (error) {
     toast.error("Cập nhật thất bại");
-    console.log(error);
     dispatch(updateFailed());
   }
 };

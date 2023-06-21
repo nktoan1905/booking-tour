@@ -3,7 +3,6 @@ import "./style.css";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const ListTour = ({ filterOptions }) => {
-  console.log("list tour", filterOptions);
   const [order, setOrder] = useState(1);
   const handleChangeOrder = (event) => {
     setOrder(event.target.value);

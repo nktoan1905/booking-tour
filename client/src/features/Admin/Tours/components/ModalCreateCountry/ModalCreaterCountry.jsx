@@ -51,7 +51,6 @@ const ModalCreateCountry = ({ open, handleClose }) => {
   const handleOnSubmit = async (data, event) => {
     event.preventDefault();
     await createCountry(dispatch, toast, data, currentUserAccessToken);
-    console.log("create", data);
   };
   useEffect(() => {
     if (isSubmitSuccessful) {

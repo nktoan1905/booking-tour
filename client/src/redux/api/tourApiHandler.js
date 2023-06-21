@@ -21,10 +21,9 @@ export const createNewTour = async (
   dispatch(createStart());
   try {
     const res = await tourApi.createNewsTour(data, accessToken);
-    const reGetTours = await tourApi.getAllTours();
-    dispatch(getAllToursSuccess(reGetTours.data.data));
+    await getAllTours(dispatch);
     toast.success("Tạo thành công");
-    navigate("/admin/tours/");
+    navigate("/admin/tours");
     dispatch(createSuccess());
   } catch (error) {
     toast.error("Tạo thất bại");
@@ -42,14 +41,13 @@ export const updateTour = async (
   dispatch(updateStart());
   try {
     const res = await tourApi.updateTour(dataUpdate, tourId, accessToken);
-    const reGetTours = await tourApi.getAllTours();
-    dispatch(getAllToursSuccess(reGetTours.data.data));
+    await getAllTours(dispatch);
     toast.success("Cập nhật thành công");
     navigate(-1);
     dispatch(updateSuccess());
   } catch (error) {
     toast.error("Cập nhật thất bại");
-    dispatch(updateFailed())
+    dispatch(updateFailed());
   }
 };
 export const getAllTours = async (dispatch) => {
@@ -59,5 +57,149 @@ export const getAllTours = async (dispatch) => {
     dispatch(getAllToursSuccess(res.data.data));
   } catch (error) {
     dispatch(getAllToursFailed());
+  }
+};
+export const addPromotion = async (
+  dispatch,
+  tourId,
+  promotionId,
+  accessToken,
+  toast
+) => {
+  dispatch(updateStart());
+  try {
+    const res = await tourApi.addPromotion(tourId, promotionId, accessToken);
+    await getAllTours(dispatch);
+    toast.success("Add thành công");
+    dispatch(updateSuccess());
+  } catch (error) {
+    toast.error("Add thất bại");
+    dispatch(updateFailed());
+  }
+};
+export const removePromotion = async (
+  dispatch,
+  tourId,
+  promotionId,
+  accessToken,
+  toast
+) => {
+  dispatch(updateStart());
+  try {
+    const res = await tourApi.removePromotion(tourId, promotionId, accessToken);
+    await getAllTours(dispatch);
+    dispatch(updateSuccess());
+    toast.success("Remove thành công");
+  } catch (error) {
+    toast.error("Remove thất bại");
+    dispatch(updateFailed);
+  }
+};
+export const addCategory = async (
+  dispatch,
+  tourId,
+  categoryId,
+  accessToken,
+  toast
+) => {
+  dispatch(updateStart());
+  try {
+    const res = await tourApi.addCategory(tourId, categoryId, accessToken);
+    await getAllTours(dispatch);
+    toast.success("Add thành công");
+    dispatch(updateSuccess());
+  } catch (error) {
+    toast.error("Add thất bại");
+    dispatch(updateFailed());
+  }
+};
+export const removeCategory = async (
+  dispatch,
+  tourId,
+  categoryId,
+  accessToken,
+  toast
+) => {
+  dispatch(updateStart());
+  try {
+    const res = await tourApi.removeCategory(tourId, categoryId, accessToken);
+    await getAllTours(dispatch);
+    dispatch(updateSuccess());
+    toast.success("Remove thành công");
+  } catch (error) {
+    toast.error("Remove thất bại");
+    dispatch(updateFailed);
+  }
+};
+export const addService = async (
+  dispatch,
+  tourId,
+  serviceId,
+  accessToken,
+  toast
+) => {
+  dispatch(updateStart());
+  try {
+    const res = await tourApi.addService(tourId, serviceId, accessToken);
+    await getAllTours(dispatch);
+    toast.success("Add thành công");
+    dispatch(updateSuccess());
+  } catch (error) {
+    toast.error("Add thất bại");
+    dispatch(updateFailed());
+  }
+};
+export const removeService = async (
+  dispatch,
+  tourId,
+  serviceId,
+  accessToken,
+  toast
+) => {
+  dispatch(updateStart());
+  try {
+    const res = await tourApi.removeService(tourId, serviceId, accessToken);
+    await getAllTours(dispatch);
+    dispatch(updateSuccess());
+    toast.success("Remove thành công");
+  } catch (error) {
+    toast.error("Remove thất bại");
+    dispatch(updateFailed);
+  }
+};
+export const addDepartureDay = async (
+  dispatch,
+  tourId,
+  data,
+  accessToken,
+  toast
+) => {
+  dispatch(updateStart());
+  try {
+    const res = await tourApi.addDepartureDay(tourId, data, accessToken);
+    await getAllTours(dispatch);
+    toast.success("Add thành công");
+    dispatch(updateSuccess());
+  } catch (error) {
+    toast.error("Add thất bại");
+    dispatch(updateFailed());
+  }
+};
+export const removeDepartureDay = async (
+  dispatch,
+  tourId,
+  departuredayId,
+  accessToken,
+  toast
+) => {
+  dispatch(updateStart());
+  try {
+    const res = await tourApi.removeDepartureDay(tourId, departuredayId, accessToken);
+    await getAllTours(dispatch);
+    toast.success("Remove thành công");
+    dispatch(updateSuccess());
+  } catch (error) {
+    toast.error("Remove thất bại");
+    dispatch(updateFailed());
   }
 };

@@ -33,7 +33,6 @@ const ModalCreateDD = ({ open, handleClose }) => {
     (state) => state.auth.login.currentUser.accessToken
   );
   const handleOnClick = async () => {
-    console.log("create", new Date(dayjs(value).format("YYYY-MM-DD")));
     await creatDepartureDay(
       dispatch,
       toast,

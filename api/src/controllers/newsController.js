@@ -50,7 +50,6 @@ const newsController = {
 				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 			}
 		} catch (error) {
-			console.log(error);
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},

@@ -94,8 +94,8 @@ const AddTour = () => {
       thumbnailName: getImagePublicIdOfToursImageFolder(urlImage),
       tourDetail: tourDetail,
       note: note,
-      startPlace: cititesInVn.find(
-        (item) => item.id === Number(data.startPlace)
+      endPlace: cititesInVn.find(
+        (item) => item.id === Number(data.endPlace)
       ).name,
     };
     await createNewTour(
@@ -226,18 +226,18 @@ const AddTour = () => {
             </Col>
             <Col xl={2} md={6} className="mt-3">
               <FormControl fullWidth size="small">
-                <InputLabel id="status">Start place</InputLabel>
+                <InputLabel id="status">Địa điểm</InputLabel>
                 <Select
                   fullWidth
                   label="Start place"
                   labelId="Status"
-                  name="startPlace"
+                  name="endPlace"
                   defaultValue={1}
-                  error={!!errors["startPlace"]}
+                  error={!!errors["endPlace"]}
                   helpertext={
-                    errors["startPlace"] ? errors["startPlace"].message : ""
+                    errors["endPlace"] ? errors["endPlace"].message : ""
                   }
-                  {...register("startPlace")}
+                  {...register("endPlace")}
                 >
                   {cititesInVn.map((item) => (
                     <MenuItem value={item.id}> {item.name}</MenuItem>

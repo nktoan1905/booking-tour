@@ -35,7 +35,6 @@ const ProfileEdit = () => {
       gender: sex,
       dob: dob,
     };
-    console.log(newData);
     await updateUserProfile(
       dispatch,
       dataCurrent.accessToken,

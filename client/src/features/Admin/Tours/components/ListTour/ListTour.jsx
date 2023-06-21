@@ -20,7 +20,7 @@ const ListTour = () => {
         </Col>
       </Row>
       <Row>
-        {tours.map((item) => (
+        {tours && tours.map((item) => (
           <Col xl={12} xxl={4} className="mb-2">
             <TourCard data={item}></TourCard>
           </Col>

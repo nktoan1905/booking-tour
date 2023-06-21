@@ -52,6 +52,7 @@ import EditTour from "./features/Admin/Tours/page/EditTour/EditTour";
 import ToursFeature from "./features/Tours/ToursFeature";
 import SearchTourPage from "./features/Tours/pages/SearchTour/SearchTourPage";
 import DetailTourPage from "./features/Tours/pages/DetailTour/DetailTourPage";
+import AddInfo from "./features/Admin/Tours/page/AddInfo/AddInfo";
 
 function App() {
   const dispatch = useDispatch();
@@ -132,6 +133,7 @@ function App() {
                 path=":tourId/edit"
                 element={<EditTour></EditTour>}
               ></Route>
+              <Route path=":tourId/add-info" element={<AddInfo></AddInfo>}></Route>
 
               <Route path="add" element={<AddTour />}></Route>
             </Route>

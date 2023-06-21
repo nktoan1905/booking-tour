@@ -83,7 +83,6 @@ const AddNews = () => {
       image: urlImage,
       imageName: getImagePublicIdOfNewsImageFolder(urlImage),
     };
-    console.log(newsData);
     await createNews(
       dispatch,
       toast,

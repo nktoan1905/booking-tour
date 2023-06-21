@@ -10,9 +10,13 @@ const ListNews = ({ data }) => {
   return (
     <Container>
       <Row>
-        <Col xs={12} as="section" className="mb-5">
-          <EarlyList data={earlyList}></EarlyList>
-        </Col>
+        {data.length > 3 ? (
+          <Col xs={12} as="section" className="mb-5">
+            <EarlyList data={earlyList}></EarlyList>
+          </Col>
+        ) : (
+          ""
+        )}
       </Row>
       <Row as="section" className="mb-5">
         {dataScroll.map((item) => (

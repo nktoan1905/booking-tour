@@ -4,7 +4,6 @@ import departureDayServices from '../services/departureDayServices';
 const departureDayController = {
 	handleCreateNewDepartureDay: async (req, res) => {
 		try {
-			console.log(req.body);
 			const { status, message } = await departureDayServices.createNewDepartureDay(req.body);
 			if (status) {
 				res.status(HttpStatusCode.CREATED).json({ message: message });

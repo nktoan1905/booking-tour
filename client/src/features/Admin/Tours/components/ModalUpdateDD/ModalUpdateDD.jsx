@@ -38,7 +38,6 @@ const ModalUpdateDD = ({ open, handleClose, valuex }) => {
     (state) => state.auth.login.currentUser.accessToken
   );
   const handleOnClick = async () => {
-    console.log(valuex)
     await updateDepartureDayStatus(
       dispatch,
       toast,
