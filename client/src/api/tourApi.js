@@ -96,6 +96,25 @@ const tourApi = {
       headers: { token: `Bearer ${accessToken}` },
     });
   },
+  addImage(tourId, data, accessToken) {
+    const url = `/v1/tours/${tourId}/image/add`;
+    return axiosClient.post(
+      url,
+      {
+        imageName: data.imageName,
+        imageLink: data.imageLink,
+      },
+      {
+        headers: { token: `Bearer ${accessToken}` },
+      }
+    );
+  },
+  removeImage(tourId, imageId, accessToken) {
+    const url = `/v1/tours/${tourId}/image/remove/${imageId}`;
+    return axiosClient.delete(url, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+  },
 };
 
 export default tourApi;

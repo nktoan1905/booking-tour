@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ListPromotionOfTour from "../../components/AddInfoComponents/ListPromotionOfTour/ListPromotionOfTour";
 import ListDepartureDayOfTour from "../../components/AddInfoComponents/ListDepartureDayOfTour/ListDepartureDayOfTour";
+import ListImageOfTour from "../../components/AddInfoComponents/ListImageOfTour/ListImageOfTour";
 const AddInfo = () => {
   const navigate = useNavigate();
 
@@ -37,7 +38,9 @@ const AddInfo = () => {
         <div className="col-12 col-sm-6 mt-3">
           <ListPromotionOfTour></ListPromotionOfTour>
         </div>
-        <div className="col-12 col-sm-6 mt-3">add departure day</div>
+        <div className="col-12 mt-3">
+          <ListImageOfTour />
+        </div>
       </Row>
     </Container>
   );

@@ -184,7 +184,7 @@ const tourController = {
 	},
 	handleRemoveImage: async (req, res) => {
 		try {
-			const { status, message } = await tourServices.removeImage(req.params.imageId, req.params.tourId);
+			const { status, message } = await tourServices.removeImage(req.params.imageId);
 			if (status) {
 				res.status(HttpStatusCode.OK).json({ message });
 			} else {

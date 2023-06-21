@@ -454,10 +454,10 @@ const tourServices = {
 			}
 		});
 	},
-	removeImage: async (imageId, tourId) => {
+	removeImage: async (imageId) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const isDelete = await db.TourImage.destroy({ where: { id: imageId, tourId: tourId } });
+				const isDelete = await db.TourImage.destroy({ where: { id: imageId } });
 				if (isDelete) {
 					resolve({ status: true, message: 'Delete image tour successfully' });
 				} else {

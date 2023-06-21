@@ -194,12 +194,47 @@ export const removeDepartureDay = async (
 ) => {
   dispatch(updateStart());
   try {
-    const res = await tourApi.removeDepartureDay(tourId, departuredayId, accessToken);
+    const res = await tourApi.removeDepartureDay(
+      tourId,
+      departuredayId,
+      accessToken
+    );
     await getAllTours(dispatch);
     toast.success("Remove thành công");
     dispatch(updateSuccess());
   } catch (error) {
     toast.error("Remove thất bại");
+    dispatch(updateFailed());
+  }
+};
+
+export const addImage = async (dispatch, tourId, data, accessToken, toast) => {
+  dispatch(updateStart());
+  try {
+    const res = await tourApi.addImage(tourId, data, accessToken);
+    await getAllTours(dispatch);
+    toast.success("Add thành công");
+    dispatch(updateSuccess());
+  } catch (error) {
+    toast.error("Add Thất bại");
+    dispatch(updateFailed());
+  }
+};
+export const removeImage = async (
+  dispatch,
+  tourId,
+  imageId,
+  accessToken,
+  toast
+) => {
+  dispatch(updateStart());
+  try {
+    const res = await tourApi.removeImage(tourId, imageId, accessToken);
+    await getAllTours(dispatch);
+    toast.success("Remove thành công");
+    dispatch(updateSuccess());
+  } catch (error) {
+    toast.error("Remove Thất bại");
     dispatch(updateFailed());
   }
 };

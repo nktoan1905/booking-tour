@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -28,9 +28,13 @@ const ToursDetail = () => {
   const { tourId } = useParams();
   const tours = useSelector((state) => state.tours.tours.tours);
   const tourDetail = tours.find((item) => item.id === Number(tourId));
+  console.log(tourDetail);
   const [value, setValue] = React.useState(0);
   const handleDragStart = (e) => e.preventDefault();
   const items = createImageArray(tourDetail.images, handleDragStart);
+  useEffect(() => {
+    document.title = tourDetail.name;
+  }, []);
   const options = {
     responsive: {
       0: { items: 1 },
@@ -110,7 +114,11 @@ const ToursDetail = () => {
               <Col lg={7} md={12} sm={12} className="left">
                 <div className="image">
                   <img
-                    src="https://media.travel.com.vn/tour/tfd_220704050447_137849.jpg"
+                    src={
+                      tourDetail.images[0]?.imageLink
+                        ? tourDetail.images[0].imageLink
+                        : "https://www.raisin.digital/wp-content/uploads/placeholder.svg"
+                    }
                     className="img-fluid"
                     alt="image"
                   />
@@ -123,7 +131,11 @@ const ToursDetail = () => {
                       <Col className="col-6">
                         <div className="image">
                           <img
-                            src="https://media.travel.com.vn/tour/tfd_220704050447_137849.jpg"
+                            src={
+                              tourDetail.images[1]?.imageLink
+                                ? tourDetail.images[1].imageLink
+                                : "https://www.raisin.digital/wp-content/uploads/placeholder.svg"
+                            }
                             className="img-fluid"
                             alt="image"
                           />
@@ -132,7 +144,11 @@ const ToursDetail = () => {
                       <Col className="col-6">
                         <div className="image">
                           <img
-                            src="https://media.travel.com.vn/tour/tfd_220704050447_137849.jpg"
+                            src={
+                              tourDetail.images[2]?.imageLink
+                                ? tourDetail.images[2].imageLink
+                                : "https://www.raisin.digital/wp-content/uploads/placeholder.svg"
+                            }
                             className="img-fluid"
                             alt="image"
                           />
@@ -144,7 +160,11 @@ const ToursDetail = () => {
                     <Col>
                       <div className="image">
                         <img
-                          src="https://media.travel.com.vn/tour/tfd_220704050447_137849.jpg"
+                          src={
+                            tourDetail.images[3]?.imageLink
+                              ? tourDetail.images[3].imageLink
+                              : "https://www.raisin.digital/wp-content/uploads/placeholder.svg"
+                          }
                           className="img-fluid"
                           alt="image"
                         />

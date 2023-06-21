@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+
 const TourCard = ({ data }) => {
   const pathName = window.location.pathname;
+
   return (
     <div className="card tour-item" style={{ width: "100%" }}>
       <div className="position-relative">
