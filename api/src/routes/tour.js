@@ -80,6 +80,8 @@ router.delete(
 
 router.get('/', tourController.handleGetAllTours);
 
+router.get('/:tourId/departure-day', tourController.getAllDepartureDayOfTour);
+
 router.put(
 	'/:tourId',
 	roleMiddleware.verifyAdminOrEmployee,

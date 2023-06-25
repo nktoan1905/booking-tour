@@ -1,4 +1,5 @@
 import HttpStatusCode from '../helpers/httpStatusCode';
+import db from '../models';
 import tourServices from '../services/tourServices';
 
 const tourController = {
@@ -191,6 +192,21 @@ const tourController = {
 				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
 			}
 		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	getAllDepartureDayOfTour: async (req, res) => {
+		try {
+			const data = await db.TourDepartureDay.findAll({
+				where: { tourId: req.params.tourId },
+				attributes: ['id', 'dayStartId', 'tourId', 'startPlace'],
+				include: [{ model: db.DepartureDay }],
+				nest: true,
+				raw: false,
+			});
+			res.status(HttpStatusCode.OK).json({ message: 'Get all departure day of tour successfully!', data: data });
+		} catch (error) {
+			console.log(error);
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},

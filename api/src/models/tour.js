@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
 				as: 'departureDays',
 				foreignKey: 'tourId',
 			});
+			Tour.hasMany(models.TourDepartureDay, {
+				foreignKey: 'tourId',
+				targetKey: 'id',
+			});
 			Tour.belongsToMany(models.Service, { through: models.TourService, as: 'services', foreignKey: 'tourId' });
 			Tour.belongsToMany(models.Promotion, { through: models.TourPromotion, as: 'promotions', foreignKey: 'tourId' });
 			Tour.belongsToMany(models.User, {

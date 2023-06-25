@@ -21,6 +21,10 @@ const tourServices = {
 					endPlace: data.endPlace,
 					status: 1,
 				});
+				await db.TourCity.create({
+					cityId: data.cityId,
+					tourId: newTour.id,
+				});
 				if (newTour) {
 					resolve({ status: true, message: 'Create new tour successfully' });
 				} else {
@@ -187,6 +191,7 @@ const tourServices = {
 					resolve({ status: false, message: 'Add departure day failed' });
 				}
 			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});
@@ -308,14 +313,11 @@ const tourServices = {
 				if (!tour) {
 					resolve({ status: false, message: 'Tour not found' });
 				}
-				const depentureDay = await db.DepartureDay.findOne({ where: { id: depentureDayId }, raw: false });
-				if (!depentureDay) {
-					resolve({ status: false, message: 'Depenture Day not found' });
-				}
+				console.log(tourId, depentureDayId);
 				const isRemove = await db.TourDepartureDay.destroy({
 					where: {
 						tourId: tourId,
-						dayStartId: depentureDayId,
+						id: depentureDayId,
 					},
 				});
 				if (isRemove) {
@@ -324,6 +326,7 @@ const tourServices = {
 					resolve({ status: false, message: 'Depenture day not found' });
 				}
 			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});
@@ -365,15 +368,6 @@ const tourServices = {
 							include: [{ model: db.Country, as: 'countryInfo', attributes: ['id', 'name'] }],
 						},
 						{
-							model: db.DepartureDay,
-							as: 'departureDays',
-							attributes: ['id', 'dayStart'],
-							include: [{ model: db.TourDepartureDay }],
-							through: {
-								attributes: [],
-							},
-						},
-						{
 							model: db.TourImage,
 							as: 'images',
 							attributes: ['id', 'imageName', 'imageLink'],
@@ -382,9 +376,16 @@ const tourServices = {
 					nest: true,
 					raw: false,
 				});
-	
+				// const startPlaceList = await db.TourDepartureDay.findAll({
+				// 	where: {
+				// 		tourId: tours[0].id,
+				// 		dayStartId: tours[0].departureDays[2].id,
+				// 	},
+				// });
+				// console.log(startPlaceList);
 				resolve({ status: true, message: 'Get All Tours successfully', tours: tours });
 			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});

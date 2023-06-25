@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			TourDepartureDay.belongsTo(models.DepartureDay, { foreignKey: 'dayStartId' });
+			TourDepartureDay.belongsTo(models.Tour, { foreignKey: 'tourId' });
 		}
 	}
 	TourDepartureDay.init(
