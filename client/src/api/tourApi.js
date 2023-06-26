@@ -5,6 +5,10 @@ const tourApi = {
     const url = `/v1/tours/`;
     return axiosClient.get(url);
   },
+  getAllDepartureDayOfTour(tourId) {
+    const url = `/v1/tours/${tourId}/departure-day`;
+    return axiosClient.get(url);
+  },
   createNewsTour(data, accessToken) {
     const url = `/v1/tours/resgister`;
     return axiosClient.post(url, data, {

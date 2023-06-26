@@ -88,49 +88,7 @@ const departureDayServices = {
 	getAllDepartureDaysAndTour: async () => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const departureDayAndTours = await db.DepartureDay.findAll({
-					include: {
-						model: db.Tour,
-						as: 'tours',
-						include: [
-							{
-								model: db.Category,
-								as: 'categories',
-								through: {
-									attributes: [],
-								},
-							},
-							{
-								model: db.Service,
-								as: 'services',
-								through: {
-									attributes: [],
-								},
-							},
-							{
-								model: db.Promotion,
-								as: 'promotions',
-								through: {
-									attributes: [],
-								},
-							},
-							{
-								model: db.City,
-								as: 'cities',
-								include: [{ model: db.Country, as: 'countryInfo' }],
-							},
-							{
-								model: db.DepartureDay,
-								as: 'departureDays',
-								through: {
-									attributes: [],
-								},
-							},
-						],
-					},
-					nest: true,
-					raw: false,
-				});
+				const departureDayAndTours = await db.TourDepartureDay.findAll();
 				if (departureDayAndTours.length > 0) {
 					resolve({ status: true, message: 'Get all departure days and tours successfully!', departureDayAndTours });
 				} else {

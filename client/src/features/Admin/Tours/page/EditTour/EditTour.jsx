@@ -122,9 +122,9 @@ const EditTour = () => {
       thumbnailName: getImagePublicIdOfToursImageFolder(imageSelected.url),
       tourDetail: tourDetail,
       note: note,
-      endPlace: cititesInVn.find(
-        (item) => item.id === Number(data.endPlace)
-      ).name,
+      endPlace: cititesInVn.find((item) => item.id === Number(data.endPlace))
+        .name,
+      cityId: Number(data.endPlace),
     };
     await updateTour(
       dispatch,
@@ -159,7 +159,9 @@ const EditTour = () => {
             size="small"
             variant="contained"
             className="float-end"
-            onClick={() => navigate(`/admin/tours/${tourDetailData.id}/add-info`)}
+            onClick={() =>
+              navigate(`/admin/tours/${tourDetailData.id}/add-info`)
+            }
           >
             Update Category
           </Button>
@@ -276,7 +278,7 @@ const EditTour = () => {
             </Col>
             <Col xl={2} md={6} className="mt-3">
               <FormControl fullWidth size="small">
-                <InputLabel id="status">Start place</InputLabel>
+                <InputLabel id="status">Địa điểm</InputLabel>
                 <Select
                   fullWidth
                   label="Start place"

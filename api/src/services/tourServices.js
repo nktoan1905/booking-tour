@@ -191,7 +191,6 @@ const tourServices = {
 					resolve({ status: false, message: 'Add departure day failed' });
 				}
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});
@@ -313,7 +312,6 @@ const tourServices = {
 				if (!tour) {
 					resolve({ status: false, message: 'Tour not found' });
 				}
-				console.log(tourId, depentureDayId);
 				const isRemove = await db.TourDepartureDay.destroy({
 					where: {
 						tourId: tourId,
@@ -326,7 +324,6 @@ const tourServices = {
 					resolve({ status: false, message: 'Depenture day not found' });
 				}
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});
@@ -376,16 +373,9 @@ const tourServices = {
 					nest: true,
 					raw: false,
 				});
-				// const startPlaceList = await db.TourDepartureDay.findAll({
-				// 	where: {
-				// 		tourId: tours[0].id,
-				// 		dayStartId: tours[0].departureDays[2].id,
-				// 	},
-				// });
-				// console.log(startPlaceList);
+
 				resolve({ status: true, message: 'Get All Tours successfully', tours: tours });
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});

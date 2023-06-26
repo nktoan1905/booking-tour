@@ -28,7 +28,6 @@ const ToursDetail = () => {
   const { tourId } = useParams();
   const tours = useSelector((state) => state.tours.tours.tours);
   const tourDetail = tours.find((item) => item.id === Number(tourId));
-  console.log(tourDetail);
   const [value, setValue] = React.useState(0);
   const handleDragStart = (e) => e.preventDefault();
   const items = createImageArray(tourDetail.images, handleDragStart);

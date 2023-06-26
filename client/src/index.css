@@ -9,7 +9,15 @@ p {
 img {
   max-width: 100%;
 }
-
+/* .img-fluid {
+  max-width: 100%;
+  height: auto;
+} */
 a:hover {
   color: #4d4aef;
+}
+h2,
+h3 {
+  font-size: 20px;
+  line-height: 40px;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Table from "@mui/material/Table";
@@ -24,6 +24,8 @@ import {
   removeService,
 } from "../../../../../../redux/api/tourApiHandler";
 import { getRoleName } from "../../../../../../Helper/RoleHelper";
+import axios from "axios";
+import tourApi from "../../../../../../api/tourApi";
 
 const style = {
   position: "absolute",
@@ -49,9 +51,9 @@ const ListDepartureDayOfTour = () => {
   const departureDays = useSelector(
     (state) => state.departureDays.departureDays.departureDays
   );
-  const res = removeDuplicates(departureDays, tourDetail.departureDays);
+  // const res = removeDuplicates(departureDays, tourDetail.departureDays);
   const currentDate = new Date();
-  const options = res
+  const options = departureDays
     .filter((item) => {
       const itemDate = new Date(item.dayStart);
       return itemDate >= currentDate && item.status === 1;
@@ -65,11 +67,12 @@ const ListDepartureDayOfTour = () => {
     (state) => state.auth.login.currentUser.accessToken
   );
   const cities = useSelector((state) => state.cityAndCountries.cites.cites);
-
   const optionsCites = cities.map((item) => ({
     label: item.name,
     value: item.id,
   }));
+  const [departureDaysOfTour, setDepartureDaysOfTour] = useState([]);
+  const [isUpdate, setIsUpdate] = useState(false);
   const [city, setCity] = React.useState(optionsCites[0]);
 
   const handleAddDepartureDay = async (id) => {
@@ -84,6 +87,7 @@ const ListDepartureDayOfTour = () => {
         currentUserAccessToken,
         toast
       );
+      setIsUpdate(!isUpdate);
     } catch (error) {}
     handleClose();
   };
@@ -96,8 +100,19 @@ const ListDepartureDayOfTour = () => {
         currentUserAccessToken,
         toast
       );
+      setIsUpdate(!isUpdate);
     } catch (error) {}
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await tourApi.getAllDepartureDayOfTour(tourId);
+        setDepartureDaysOfTour(res.data.data);
+      } catch (error) {}
+    };
+
+    fetchData();
+  }, [isUpdate]);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ width: "100%" }} aria-label="simple table">
@@ -115,8 +130,8 @@ const ListDepartureDayOfTour = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tourDetail.departureDays.length > 0 ? (
-            tourDetail.departureDays.map((row, index) => (
+          {departureDaysOfTour.length > 0 ? (
+            departureDaysOfTour.map((row, index) => (
               <TableRow
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -125,20 +140,17 @@ const ListDepartureDayOfTour = () => {
                   {index}
                 </TableCell>
                 <TableCell>
-                  {dayjs(row.dayStart, "YYYY-MM-DD").format("L")}
+                  {dayjs(row.DepartureDay.dayStart, "YYYY-MM-DD").format("L")}
                 </TableCell>
-                <TableCell align="center">
-                  {
-                    row.TourDepartureDays.find(
-                      (item) => item.tourId === tourDetail.id
-                    ).startPlace
-                  }
-                </TableCell>
+                <TableCell align="center">{row.startPlace}</TableCell>
                 <TableCell align="center">
                   <Button
                     className="text-danger"
                     onClick={() =>
-                      handleDeleteDepartureDay(tourDetail.id, row.id)
+                      handleDeleteDepartureDay(
+                        tourDetail.id,
+                        row.id
+                      )
                     }
                   >
                     X

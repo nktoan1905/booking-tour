@@ -206,7 +206,6 @@ const tourController = {
 			});
 			res.status(HttpStatusCode.OK).json({ message: 'Get all departure day of tour successfully!', data: data });
 		} catch (error) {
-			console.log(error);
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},

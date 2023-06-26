@@ -16,7 +16,7 @@ const paymentController = {
 				client_secret: paymentIntent.client_secret,
 			});
 		} catch (error) {
-			res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'Faled payment request' });
+			res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'Failed payment request' });
 		}
 	},
 	sendStripApi: async (req, res) => {
@@ -28,5 +28,7 @@ const paymentController = {
 			res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'Faled to send' });
 		}
 	},
+	createCheckoutSession: async (req, res) => {},
+	createOder: async (req, res) => {},
 };
 export default paymentController;

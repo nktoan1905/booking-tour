@@ -31,7 +31,7 @@ const SearchTourPage = () => {
     duration: Number(duration),
     inCountry: Number(inCountry),
     amountOfPeople: null,
-    priceRange: [0, 10000],
+    priceRange: [0, 1000],
     isHavePromotion: false,
     isHaveEmpty: true,
   });
@@ -47,7 +47,7 @@ const SearchTourPage = () => {
     label: city.name,
     value: city.id,
   }));
-  const optionsCountries = countries.map((country) => ({
+  const optionsCountries = countries && countries.map((country) => ({
     label: country.name,
     value: country.id,
   }));
@@ -59,7 +59,7 @@ const SearchTourPage = () => {
     { label: "Trên 14 ngày", value: 4 },
   ];
   // range
-  const minDistance = 1000;
+  const minDistance = 10;
   const handleChangePriceRange = (event, newValue, activeThumb) => {
     if (!Array.isArray(newValue)) {
       return;
@@ -252,7 +252,7 @@ const SearchTourPage = () => {
               <span>Lọc kết quả</span>
             </div>
             <div className="tour-search-result__filter__heading px-3 py-2 d-flex justify-content-between align-items-center">
-              <span className="fw-bold">{renderPlaceName(inCountry)}</span>
+              <span className="fw-bold">{inCountry && renderPlaceName(inCountry)}</span>
             </div>
             <div className="px-3 py-4">
               <div className="start-to-stop mb-4">
@@ -434,7 +434,7 @@ const SearchTourPage = () => {
                   getAriaValueText={valuetext}
                   step={10}
                   min={0}
-                  max={10000}
+                  max={1000}
                   disableSwap
                 />
                 <p>

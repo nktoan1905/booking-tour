@@ -8,4 +8,6 @@ router.post('/process', tokenMiddleware.verifyToken, paymentController.processPa
 
 router.get('/stripeapi', tokenMiddleware.verifyToken, paymentController.sendStripApi);
 
+router.post('/create-checkout-session', paymentController.createCheckoutSession);
+
 export default router;

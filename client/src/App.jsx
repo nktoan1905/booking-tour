@@ -53,21 +53,28 @@ import ToursFeature from "./features/Tours/ToursFeature";
 import SearchTourPage from "./features/Tours/pages/SearchTour/SearchTourPage";
 import DetailTourPage from "./features/Tours/pages/DetailTour/DetailTourPage";
 import AddInfo from "./features/Admin/Tours/page/AddInfo/AddInfo";
+import Success from "./features/Paymemt/Success/Success";
+import Cancel from "./features/Paymemt/Cancel/Cancel";
+import BookingTour from "./features/Tours/pages/BookingTour/BookingTour";
+import Checkout from "./features/Paymemt/Checkout/Checkout";
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    getAllContactType(dispatch);
-    getAllNews(dispatch);
-    getAllNewsCategories(dispatch);
-    getAllCategories(dispatch);
-    getAllCites(dispatch);
-    getAllCountries(dispatch);
-    getAllDepartureDay(dispatch);
-    getAllDepartureDaysAndTours(dispatch);
-    getAllPromotions(dispatch);
-    getAllServices(dispatch);
-    getAllTours(dispatch);
+    const fetchData = async () => {
+      await getAllContactType(dispatch);
+      await getAllNews(dispatch);
+      await getAllNewsCategories(dispatch);
+      await getAllCategories(dispatch);
+      await getAllCites(dispatch);
+      await getAllCountries(dispatch);
+      await getAllDepartureDay(dispatch);
+      await getAllDepartureDaysAndTours(dispatch);
+      await getAllPromotions(dispatch);
+      await getAllServices(dispatch);
+      await getAllTours(dispatch);
+    };
+    fetchData();
   }, []);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -98,12 +105,17 @@ function App() {
           <Route path=":newsCategoryId" element={<ListNewsPage />} />
           <Route path=":newsCategoryId/:newsId" element={<NewsDetailPage />} />
         </Route>
+        <Route path="/success" element={<Success />}></Route>
+        <Route path="/cancel" element={<Cancel />}></Route>
         <Route path="/tours" element={<ToursFeature />}>
           <Route
             path="search/:startPlaceId/:endPlaceId/:date/:duration/:inCountry"
             element={<SearchTourPage />}
           ></Route>
+          <Route path="checkout" element={<Checkout></Checkout>}></Route>
+
           <Route path=":tourId" element={<DetailTourPage />}></Route>
+          <Route path=":tourId/booking" element={<BookingTour />}></Route>
         </Route>
         // admin
         <Route
@@ -133,7 +145,10 @@ function App() {
                 path=":tourId/edit"
                 element={<EditTour></EditTour>}
               ></Route>
-              <Route path=":tourId/add-info" element={<AddInfo></AddInfo>}></Route>
+              <Route
+                path=":tourId/add-info"
+                element={<AddInfo></AddInfo>}
+              ></Route>
 
               <Route path="add" element={<AddTour />}></Route>
             </Route>

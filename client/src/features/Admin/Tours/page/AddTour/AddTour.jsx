@@ -54,7 +54,7 @@ const AddTour = () => {
     (state) => state.auth.login.currentUser.accessToken
   );
   const cites = useSelector((state) => state.cityAndCountries.cites.cites);
-  const cititesInVn = cites.filter((item) => item.countryInfo.id === 1);
+  const cititesInVn = cites;
   const [imageSelected, setImageSelected] = useState({
     file: null,
     url: "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg",
@@ -94,9 +94,9 @@ const AddTour = () => {
       thumbnailName: getImagePublicIdOfToursImageFolder(urlImage),
       tourDetail: tourDetail,
       note: note,
-      endPlace: cititesInVn.find(
-        (item) => item.id === Number(data.endPlace)
-      ).name,
+      endPlace: cititesInVn.find((item) => item.id === Number(data.endPlace))
+        .name,
+      cityId: Number(data.endPlace),
     };
     await createNewTour(
       dispatch,

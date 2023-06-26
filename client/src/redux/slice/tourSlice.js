@@ -8,6 +8,8 @@ const tourSlice = createSlice({
       isError: false,
       tours: null,
     },
+    currentTour: null,
+    orderDetail: null,
     create: {
       isFetching: false,
       isError: false,
@@ -22,6 +24,12 @@ const tourSlice = createSlice({
     },
   },
   reducers: {
+    setCurrentTour: (state, action) => {
+      state.currentTour = action.payload;
+    },
+    setOrderDetail: (state, action) => {
+      state.orderDetail = action.payload;
+    },
     getAllToursStart: (state) => {
       state.tours.isFetching = true;
     },
@@ -82,6 +90,8 @@ export const {
   deleteStart,
   deleteSuccess,
   deleteFailed,
+  setCurrentTour,
+  setOrderDetail,
 } = tourSlice.actions;
 
 export default tourSlice.reducer;
