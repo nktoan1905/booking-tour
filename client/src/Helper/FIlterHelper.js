@@ -119,7 +119,6 @@ export function filterTour(filter, tourDepartureDays, tours, cities) {
       }
     }
   }
-  // console.log(newData)
   // Tìm theo ngày
   const isEqualDayStartTourDepartureDays = newData.find((item) =>
     dayjs(item.dayStart, "YYYY-MM-DD").isSame(dayjs(date, "DD-MM-YYYY"))
@@ -133,7 +132,6 @@ export function filterTour(filter, tourDepartureDays, tours, cities) {
     isEqualDayStartTourDepartureDays?.tours.filter(
       (item) => item.startPlace === startPlace.name
     );
-    console.log(isHaveEqualStartPlace)
   if (isHaveEqualStartPlace?.length === 0) return [];
   // tìm theo địa điểm đến
   var isHaveEqualEndplace;
@@ -150,7 +148,6 @@ export function filterTour(filter, tourDepartureDays, tours, cities) {
         (item) => item.tourInfo.cities[0].countryInfo.id === Number(endPlaceId)
       );
   }
-  // console.log(isHaveEqualEndplace);
   if (isHaveEqualEndplace?.length === 0) return [];
   // tìm theo số ngày tour
   var isInDuration;
@@ -166,7 +163,6 @@ export function filterTour(filter, tourDepartureDays, tours, cities) {
         item.tourInfo.adultPrice >= priceRange[0] &&
         item.tourInfo.adultPrice <= priceRange[1]
     );
-  // console.log(isInRangePrice);
 
   return isInRangePrice;
 }

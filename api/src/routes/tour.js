@@ -9,6 +9,10 @@ const router = express.Router();
 
 router.post('/create-order', tokenMiddleware.verifyToken, orderController.createNewOrder);
 
+router.get('/orders', orderController.getAllOrder);
+
+router.get('/ordered/:tourDepartureDayId', tourController.handleGetTheQuantityOrderedByTourDepartureDay);
+
 router.post('/resgister', roleMiddleware.verifyAdminOrEmployee, tourController.handleCreateNewTour);
 
 router.post(

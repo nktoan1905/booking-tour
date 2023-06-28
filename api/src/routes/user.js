@@ -1,6 +1,7 @@
 import express from 'express';
 import tokenMiddleware from '../middleware/tokenMiddleware';
 import userController from '../controllers/userController';
+import orderController from '../controllers/orderController';
 
 const router = express.Router();
 
@@ -15,5 +16,7 @@ router.get('/flowing-tour', tokenMiddleware.verifyToken, userController.handleGe
 router.post('/create-flowing', tokenMiddleware.verifyToken, userController.handleAddNewFlowingTourByTourId);
 
 router.delete('/delete-flowing', tokenMiddleware.verifyToken, userController.handleDeleteFlowingTourByTourId);
+
+router.get('/orders', tokenMiddleware.verifyToken, orderController.getUserOrder)
 
 export default router;

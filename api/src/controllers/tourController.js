@@ -1,5 +1,6 @@
 import HttpStatusCode from '../helpers/httpStatusCode';
 import db from '../models';
+import orderServices from '../services/orderServices';
 import tourServices from '../services/tourServices';
 
 const tourController = {
@@ -205,6 +206,16 @@ const tourController = {
 				raw: false,
 			});
 			res.status(HttpStatusCode.OK).json({ message: 'Get all departure day of tour successfully!', data: data });
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleGetTheQuantityOrderedByTourDepartureDay: async (req, res) => {
+		try {
+			const { ordered } = await orderServices.getTheQuantityOrderedByTourDepartureDay(req.params.tourDepartureDayId);
+			res
+				.status(HttpStatusCode.OK)
+				.json({ message: 'Get the quantity ordered in tour departure day successfully', ordered: ordered });
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}

@@ -53,7 +53,6 @@ const ListTour = ({ filterOptions }) => {
     cities,
     countries
   );
-  console.log("a" ,res);
   return (
     <React.Fragment>
       <section className="mb-3">

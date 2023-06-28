@@ -127,6 +127,10 @@ const tourApi = {
       },
     });
   },
+  getTheQuantityOrderedOfTourDepartureDay(tourDepartureDayId) {
+    const url = `/v1/tours/ordered/${tourDepartureDayId}`;
+    return axiosClient.get(url);
+  },
 };
 
 export default tourApi;

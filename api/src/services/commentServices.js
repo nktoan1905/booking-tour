@@ -4,7 +4,6 @@ const commemtServices = {
 	addComment: async (tourId, userId, text) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				console.log(userId);
 				const isCreate = await db.Comment.create({
 					tourId: tourId,
 					userId: userId,
@@ -108,7 +107,6 @@ const commemtServices = {
 				});
 				resolve({ status: true, message: 'asd', comments });
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});

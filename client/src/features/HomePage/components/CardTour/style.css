@@ -186,3 +186,21 @@
   border-radius: 5px;
   font-size: 11px;
 }
+.tour-item .card-footer {
+  background-color: #fff;
+  border-top: none;
+}
+.card-footer:last-child {
+  border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
+}
+.tour-item__footer__available-seat {
+  font-size: 13px;
+  font-weight: 700;
+}
+.tour-item__footer__available-seat--text {
+  text-decoration: underline;
+}
+.tour-item__footer__available-seat--number {
+  font-size: 22px;
+  color: #fd5056;
+}

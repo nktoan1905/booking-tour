@@ -9,9 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import "./style.css";
 import { useEffect } from "react";
 import { setOrderDetail } from "../../../../redux/slice/tourSlice";
+import tourApi from "../../../../api/tourApi";
 
 const BookingTour = () => {
   const { tourId } = useParams();
+  const [slotLeft, setSlotLeft] = useState(0);
   const [orderInfo, setOrderInfo] = useState({
     userInfo: {
       fullName: "",
@@ -54,8 +56,15 @@ const BookingTour = () => {
     orderInfo.orderInfo?.childQuantity * toursDetail?.tourInfo.childPrice;
   const babyPrice =
     orderInfo.orderInfo?.babyQuantity * toursDetail?.tourInfo.babyPrice;
-
-  // console.log(toursDetail);
+  useEffect(() => {
+    const fetchData = async (tourDepartureDayId) => {
+      const res = await tourApi.getTheQuantityOrderedOfTourDepartureDay(
+        tourDepartureDayId
+      );
+      setSlotLeft(toursDetail.tourInfo.amount - res.data.ordered);
+    };
+    fetchData(toursDetail.id);
+  }, []);
   const handleCheckout = () => {
     if (
       !orderInfo?.userInfo?.fullName ||
@@ -121,7 +130,7 @@ const BookingTour = () => {
                       Nơi khởi hành <b>{toursDetail?.startPlace}</b>
                     </span>
                     <span>
-                      Số chỗ còn nhận <b>9</b>
+                      Số chỗ còn nhận <b>{slotLeft}</b>
                     </span>
                   </div>
                 </div>
@@ -243,18 +252,26 @@ const BookingTour = () => {
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                       setOrderInfo((prevValues) => {
-                        // if (prevValues.orderInfo.adultQuantity - 1 <= 0) {
-                        //   toast.error("Số lượng phải lớn hơn 1");
-                        //   return prevValues;
-                        // } else
-                        return {
-                          userInfo: { ...prevValues.userInfo },
-                          orderInfo: {
-                            ...prevValues.orderInfo,
-                            adultQuantity:
-                              prevValues.orderInfo.adultQuantity + 1,
-                          },
-                        };
+                        if (
+                          prevValues.orderInfo.adultQuantity +
+                            1 +
+                            prevValues.orderInfo.childQuantity +
+                            prevValues.orderInfo.babyQuantity >
+                          slotLeft
+                        ) {
+                          toast.error(
+                            `Số lượng người không vượt quá ${slotLeft}`
+                          );
+                          return prevValues;
+                        } else
+                          return {
+                            userInfo: { ...prevValues.userInfo },
+                            orderInfo: {
+                              ...prevValues.orderInfo,
+                              adultQuantity:
+                                prevValues.orderInfo.adultQuantity + 1,
+                            },
+                          };
                       });
                     }}
                   ></AddIcon>
@@ -294,18 +311,26 @@ const BookingTour = () => {
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                       setOrderInfo((prevValues) => {
-                        // if (prevValues.orderInfo.adultQuantity - 1 <= 0) {
-                        //   toast.error("Số lượng phải lớn hơn 1");
-                        //   return prevValues;
-                        // } else
-                        return {
-                          userInfo: { ...prevValues.userInfo },
-                          orderInfo: {
-                            ...prevValues.orderInfo,
-                            childQuantity:
-                              prevValues.orderInfo.childQuantity + 1,
-                          },
-                        };
+                        if (
+                          prevValues.orderInfo.adultQuantity +
+                            1 +
+                            prevValues.orderInfo.childQuantity +
+                            prevValues.orderInfo.babyQuantity >
+                          slotLeft
+                        ) {
+                          toast.error(
+                            `Số lượng người không vượt quá ${slotLeft}`
+                          );
+                          return prevValues;
+                        } else
+                          return {
+                            userInfo: { ...prevValues.userInfo },
+                            orderInfo: {
+                              ...prevValues.orderInfo,
+                              childQuantity:
+                                prevValues.orderInfo.childQuantity + 1,
+                            },
+                          };
                       });
                     }}
                   ></AddIcon>
@@ -345,17 +370,26 @@ const BookingTour = () => {
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                       setOrderInfo((prevValues) => {
-                        // if (prevValues.orderInfo.adultQuantity - 1 <= 0) {
-                        //   toast.error("Số lượng phải lớn hơn 1");
-                        //   return prevValues;
-                        // } else
-                        return {
-                          userInfo: { ...prevValues.userInfo },
-                          orderInfo: {
-                            ...prevValues.orderInfo,
-                            babyQuantity: prevValues.orderInfo.babyQuantity + 1,
-                          },
-                        };
+                        if (
+                          prevValues.orderInfo.adultQuantity +
+                            1 +
+                            prevValues.orderInfo.childQuantity +
+                            prevValues.orderInfo.babyQuantity >
+                          slotLeft
+                        ) {
+                          toast.error(
+                            `Số lượng người không vượt quá ${slotLeft}`
+                          );
+                          return prevValues;
+                        } else
+                          return {
+                            userInfo: { ...prevValues.userInfo },
+                            orderInfo: {
+                              ...prevValues.orderInfo,
+                              babyQuantity:
+                                prevValues.orderInfo.babyQuantity + 1,
+                            },
+                          };
                       });
                     }}
                   ></AddIcon>
@@ -423,7 +457,7 @@ const BookingTour = () => {
                   style={{ width: "100%" }}
                   onClick={handleCheckout}
                 >
-                  Đặt ngay
+                  Đặt ngay {slotLeft}
                 </button>
               </div>
             </div>

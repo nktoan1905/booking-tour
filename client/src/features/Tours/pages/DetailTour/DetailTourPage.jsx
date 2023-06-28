@@ -105,7 +105,7 @@ const DetailTourPage = () => {
                     src={
                       tourDetail.images[0]?.imageLink
                         ? tourDetail.images[0].imageLink
-                        : "https://www.raisin.digital/wp-content/uploads/placeholder.svg"
+                        : "https://placehold.co/600x400"
                     }
                     className="img-fluid"
                     alt="image"
@@ -122,7 +122,7 @@ const DetailTourPage = () => {
                             src={
                               tourDetail.images[1]?.imageLink
                                 ? tourDetail.images[1].imageLink
-                                : "https://www.raisin.digital/wp-content/uploads/placeholder.svg"
+                                : "https://placehold.co/600x400"
                             }
                             className="img-fluid"
                             alt="image"
@@ -135,7 +135,7 @@ const DetailTourPage = () => {
                             src={
                               tourDetail.images[2]?.imageLink
                                 ? tourDetail.images[2].imageLink
-                                : "https://www.raisin.digital/wp-content/uploads/placeholder.svg"
+                                : "https://placehold.co/600x400"
                             }
                             className="img-fluid"
                             alt="image"
@@ -151,7 +151,7 @@ const DetailTourPage = () => {
                           src={
                             tourDetail.images[3]?.imageLink
                               ? tourDetail.images[3].imageLink
-                              : "https://www.raisin.digital/wp-content/uploads/placeholder.svg"
+                              : "https://placehold.co/600x400"
                           }
                           className="img-fluid"
                           alt="image"

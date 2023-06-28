@@ -15,7 +15,6 @@ const TourInCountry = () => {
   const departureDayAndTours = useSelector(
     (state) => state.departureDays.departureDaysAndTours.departureDaysAndTours
   );
-  // console.log(departureDayAndTours);
   const departureDays = useSelector(
     (state) => state.departureDays.departureDays.departureDays
   );
@@ -34,7 +33,13 @@ const TourInCountry = () => {
     displayData = [].concat(...tourInCountry.map((item) => item.tours));
   }
   const dispatch = useDispatch();
-
+  displayData = displayData.filter((item) => {
+    var ordered = 0;
+    item.transactions.forEach((element) => {
+      ordered += element.adultQty + element.childQty + element.babyQty;
+    });
+    return item.tourInfo.amount - ordered !== 0;
+  });
   return (
     <Container>
       <Row>

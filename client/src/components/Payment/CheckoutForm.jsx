@@ -36,7 +36,6 @@ const CheckoutForm = () => {
       navigate("/cancel");
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       setMessage("payment status" + paymentIntent.status);
-      console.log("Hoàn thành");
       await tourApi.createOrder(
         {
           fullName: currentOrder.userInfo.fullName,
@@ -55,7 +54,6 @@ const CheckoutForm = () => {
     } else {
       setMessage("Unexpected state");
       navigate("/cancel");
-      console.log("failed");
     }
     setIsProcessing(false);
   };

@@ -13,13 +13,18 @@ module.exports = (sequelize, DataTypes) => {
 			TourDepartureDay.belongsTo(models.Tour, { foreignKey: 'tourId' });
 			TourDepartureDay.hasMany(models.Transaction, {
 				foreignKey: 'tourDepartureDayId',
-				as: 'orderInfo',
 				targetKey: 'id',
+				as: 'transactions',
 			});
 		}
 	}
 	TourDepartureDay.init(
 		{
+			id: {
+				type: DataTypes.INTEGER,
+				primaryKey: true,
+				autoIncrement: true,
+			},
 			dayStartId: DataTypes.INTEGER,
 			tourId: DataTypes.INTEGER,
 			startPlace: DataTypes.STRING,

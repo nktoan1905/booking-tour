@@ -25,11 +25,9 @@ const Payment = () => {
     departureDays.find(
       (item) => item.id === currentOrder?.order.toursDetail.dayStartId
     );
-  console.log(currentOrder);
   useEffect(() => {
     const fetchApi = async () => {
       const res = await paymentApi.getConfig(currentUserAccessToken);
-      console.log(res.data.stripeApiKey);
       setStripePromise(loadStripe(res.data.stripeApiKey));
     };
     fetchApi();
@@ -45,7 +43,6 @@ const Payment = () => {
         currentOrder.order.orderInfo.babyQuantity;
     const fetchApi = async () => {
       const res = await paymentApi.payment(currentUserAccessToken, amount);
-      console.log(res.data.client_secret);
       setClientSecret(res.data.client_secret);
     };
     fetchApi();

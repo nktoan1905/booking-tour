@@ -15,7 +15,6 @@ const TourOurCountry = () => {
   const departureDayAndTours = useSelector(
     (state) => state.departureDays.departureDaysAndTours.departureDaysAndTours
   );
-  // console.log(departureDayAndTours);
   const departureDays = useSelector(
     (state) => state.departureDays.departureDays.departureDays
   );

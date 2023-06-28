@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -6,12 +6,24 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { useSelector } from "react-redux";
 import { setCurrentTour } from "../../../../redux/slice/tourSlice";
+import tourApi from "../../../../api/tourApi";
 
 const CardTour = ({ data, dispatch }) => {
   const promotion = data?.tourInfo.promotions.find(
     (item) => item.forObject === 3
   );
-
+  const [slotLeft, setSlotLeft] = useState(0);
+  useEffect(() => {
+    const fetchData = async (tourDepartureDayId) => {
+      const res = await tourApi.getTheQuantityOrderedOfTourDepartureDay(
+        tourDepartureDayId
+      );
+      setSlotLeft(data.tourInfo.amount - res.data.ordered);
+    };
+    if (data) {
+      fetchData(data.id);
+    }
+  }, []);
   return (
     <div className="card tour-item" style={{ width: "100%" }}>
       <div className="position-relative">
@@ -107,6 +119,16 @@ const CardTour = ({ data, dispatch }) => {
             <div className="tour-item__price__timer py-2 d-none">
               Count down
             </div>
+          </div>
+        </div>
+      </div>
+      <div className="card-footer tour-item__footer px-3 mb-2 w-100 d-inline-flex justify-content-between align-items-center">
+        <div className="tour-item__footer__available-seat d-inline-flex align-items-center">
+          <div className="tour-item__footer__available-seat--text me-1">
+            Số chỗ còn
+          </div>
+          <div className="tour-item__footer__available-seat--number">
+            {slotLeft}
           </div>
         </div>
       </div>

@@ -19,7 +19,6 @@ const schema = yup
   .required();
 const CommentGroup = () => {
   const { tourId } = useParams();
-  //   console.log(tourId);
   const [comments, setComments] = useState([]);
   const currentUser = useSelector(
     (state) => state.auth.login.currentUser?.user
@@ -60,7 +59,6 @@ const CommentGroup = () => {
       setComments(res.data.comments);
       toast.success("Thêm comment thành công ");
     } catch (error) {
-      console.log(error);
     }
   };
   const [replyComment, setReplyComment] = useState({
@@ -95,7 +93,6 @@ const CommentGroup = () => {
       setComments(res.data.comments);
       toast.success("Xóa thành công");
     } catch (error) {
-      console.log(error);
       toast.error("Xóa thất bại");
     }
   };
@@ -106,7 +103,6 @@ const CommentGroup = () => {
       setComments(res.data.comments);
       toast.success("Xóa thành công");
     } catch (error) {
-      console.log(error);
       toast.error("Xóa thất bại");
     }
   };

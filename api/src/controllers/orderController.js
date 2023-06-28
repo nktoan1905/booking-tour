@@ -16,8 +16,27 @@ const orderController = {
 	},
 	getAllOrder: async (req, res) => {
 		try {
-		} catch (error) {}
+			const { status, message, transactions } = await orderServices.getAllTransation();
+			if (status) {
+				res.status(HttpStatusCode.CREATED).json({ message, transactions });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json({ error });
+		}
 	},
-	getUserOrder: async (req, res) => {},
+	getUserOrder: async (req, res) => {
+		try {
+			const { status, message, transactions } = await orderServices.getTransationByUserId(req.user.id);
+			if (status) {
+				res.status(HttpStatusCode.CREATED).json({ message, transactions });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json({ error });
+		}
+	},
 };
 export default orderController;

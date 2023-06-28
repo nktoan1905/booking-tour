@@ -8,7 +8,6 @@ router.post('/cloudinary-upload', fileUploader.single('file'), (req, res, next) 
 		next(new Error('No file uploaded!'));
 		return;
 	}
-	console.log(req.file)
 
 	res.json({ secure_url: req.file.path });
 });
