@@ -5,7 +5,7 @@ import "./style.css";
 const Cancel = () => {
   return (
     <CommonLayout>
-      <div className="card-cancel my-3">
+      <div className="card-cancel my-3" style={{ height: "70vh" }}>
         <div
           style={{
             borderRadius: "200px",
@@ -18,7 +18,7 @@ const Cancel = () => {
           <i className="fa-solid fa-xmark"></i>
         </div>
         <h1 className="title-cancel">Cancel</h1>
-        <p className="subtitle-cancel">Thanh toán không thành công</p>
+        <p className="subtitle-cancel">Thanh toán không thành công. Xin vui lòng thử lại</p>
       </div>
     </CommonLayout>
   );

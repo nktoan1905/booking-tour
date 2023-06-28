@@ -52,7 +52,7 @@ const ResetPassword = () => {
       md={5}
       elevation={6}
       square
-      style={{ height: "62vh" }}
+      style={{ height: "65vh" }}
     >
       <Box
         sx={{

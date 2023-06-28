@@ -1,10 +1,13 @@
 import express from 'express';
 import tourController from '../controllers/tourController';
 import checkIdExistMiddleware from '../middleware/checkExistMiddleware';
-import uploadCloud from '../config/cloudinary.config';
 import roleMiddleware from '../middleware/roleMiddleware';
+import tokenMiddleware from '../middleware/tokenMiddleware';
+import orderController from '../controllers/orderController';
 
 const router = express.Router();
+
+router.post('/create-order', tokenMiddleware.verifyToken, orderController.createNewOrder);
 
 router.post('/resgister', roleMiddleware.verifyAdminOrEmployee, tourController.handleCreateNewTour);
 

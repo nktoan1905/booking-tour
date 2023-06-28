@@ -88,7 +88,9 @@ const departureDayServices = {
 	getAllDepartureDaysAndTour: async () => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const departureDayAndTours = await db.TourDepartureDay.findAll();
+				const departureDayAndTours = await db.TourDepartureDay.findAll({
+					attributes: ['id', 'dayStartId', 'tourId', 'startPlace'],
+				});
 				if (departureDayAndTours.length > 0) {
 					resolve({ status: true, message: 'Get all departure days and tours successfully!', departureDayAndTours });
 				} else {

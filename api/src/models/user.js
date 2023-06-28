@@ -18,9 +18,10 @@ module.exports = (sequelize, DataTypes) => {
 				as: 'tours',
 			});
 			User.belongsToMany(models.Tour, { through: models.UserFlowTour, foreignKey: 'userId', targetKey: 'id' });
-			
+
 			User.hasMany(models.Comment, { foreignKey: 'userId', targetKey: 'id' });
 			User.hasMany(models.Reply, { foreignKey: 'userId', targetKey: 'id' });
+			User.hasMany(models.Transaction, { foreignKey: 'userId', targetKey: 'id', as: 'orders' });
 		}
 	}
 	User.init(

@@ -119,6 +119,14 @@ const tourApi = {
       headers: { token: `Bearer ${accessToken}` },
     });
   },
+  createOrder(data, accessToken) {
+    const url = `/v1/tours/create-order`;
+    return axiosClient.post(url, data, {
+      headers: {
+        token: `Beaer ${accessToken}`,
+      },
+    });
+  },
 };
 
 export default tourApi;

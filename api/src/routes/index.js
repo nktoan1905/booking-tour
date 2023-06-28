@@ -13,6 +13,7 @@ import serviceRoute from './service';
 import tourRoute from './tour';
 import paymentRoute from './payment';
 import uploadRoute from './uploadClound';
+import commentRoute from './comment';
 
 const multer = require('multer');
 const upload = multer();
@@ -40,6 +41,7 @@ let initRoutes = (app) => {
 	app.use('/v1/departure-day', departureDayRoute);
 	app.use('/v1/services', serviceRoute);
 	app.use('/v1/payment', paymentRoute);
+	app.use('/v1/comments', commentRoute);
 	// Route for something left
 	app.use('/v1/news', newsRoute);
 	app.use('/v1/contact', contactRoute);

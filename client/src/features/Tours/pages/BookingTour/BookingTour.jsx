@@ -8,15 +8,16 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import "./style.css";
 import { useEffect } from "react";
+import { setOrderDetail } from "../../../../redux/slice/tourSlice";
 
 const BookingTour = () => {
   const { tourId } = useParams();
   const [orderInfo, setOrderInfo] = useState({
     userInfo: {
-      fullName: null,
-      email: null,
-      phoneNumber: null,
-      address: null,
+      fullName: "",
+      email: "",
+      phoneNumber: "",
+      address: "",
     },
     orderInfo: {
       adultQuantity: 0,
@@ -48,20 +49,43 @@ const BookingTour = () => {
       100
     : 0;
   const adultPrice =
-    orderInfo.orderInfo.adultQuantity * toursDetail?.tourInfo.adultPrice;
+    orderInfo.orderInfo?.adultQuantity * toursDetail?.tourInfo.adultPrice;
   const childPrice =
-    orderInfo.orderInfo.childQuantity * toursDetail?.tourInfo.childPrice;
+    orderInfo.orderInfo?.childQuantity * toursDetail?.tourInfo.childPrice;
   const babyPrice =
-    orderInfo.orderInfo.babyQuantity * toursDetail?.tourInfo.babyPrice;
+    orderInfo.orderInfo?.babyQuantity * toursDetail?.tourInfo.babyPrice;
 
   // console.log(toursDetail);
   const handleCheckout = () => {
+    if (
+      !orderInfo?.userInfo?.fullName ||
+      !orderInfo?.userInfo?.email ||
+      !orderInfo?.userInfo?.phoneNumber
+    ) {
+      toast.error(
+        "Các thông tin về họ và tên, email, số điện thoại không được để trống"
+      );
+      return;
+    }
+    if (orderInfo?.orderInfo?.adultQuantity === 0) {
+      toast.error("Số lượng người lớn phải lớn hơn hoặc bằng 1");
+      return;
+    }
+
     dispatch(
       setOrderDetail({
         userInfo: orderInfo.userInfo,
-        orderInfo: orderInfo.orderInfo,
+        order: {
+          orderInfo: orderInfo.orderInfo,
+          toursDetail: toursDetail,
+        },
+        promotion: {
+          promotion: promotion ? promotion : null,
+          disount: disount,
+        },
       })
     );
+    navigate("/tours/checkout");
   };
   return (
     <section className="checkout-main order-tour">
@@ -114,7 +138,17 @@ const BookingTour = () => {
                     label={"Họ và tên"}
                     variant="standard"
                     fullWidth
+                    value={orderInfo?.userInfo?.fullName}
                     required
+                    onChange={(event) =>
+                      setOrderInfo((prevValues) => ({
+                        orderInfo: { ...prevValues.orderInfo },
+                        userInfo: {
+                          ...prevValues.userInfo,
+                          fullName: event.target.value,
+                        },
+                      }))
+                    }
                   />
                 </Col>
                 <Col md={6} className="my-3">
@@ -122,7 +156,17 @@ const BookingTour = () => {
                     label={"Email"}
                     variant="standard"
                     fullWidth
+                    value={orderInfo?.userInfo?.email}
                     required
+                    onChange={(event) =>
+                      setOrderInfo((prevValues) => ({
+                        orderInfo: { ...prevValues.orderInfo },
+                        userInfo: {
+                          ...prevValues.userInfo,
+                          email: event.target.value,
+                        },
+                      }))
+                    }
                   />
                 </Col>
 
@@ -131,7 +175,17 @@ const BookingTour = () => {
                     label={"Số điện thoại"}
                     variant="standard"
                     fullWidth
+                    value={orderInfo?.userInfo?.phoneNumber}
                     required
+                    onChange={(event) =>
+                      setOrderInfo((prevValues) => ({
+                        orderInfo: { ...prevValues.orderInfo },
+                        userInfo: {
+                          ...prevValues.userInfo,
+                          phoneNumber: event.target.value,
+                        },
+                      }))
+                    }
                   />
                 </Col>
 
@@ -140,6 +194,15 @@ const BookingTour = () => {
                     label={<p className="inline-block">Địa chỉ</p>}
                     variant="standard"
                     fullWidth
+                    onChange={(event) =>
+                      setOrderInfo((prevValues) => ({
+                        orderInfo: { ...prevValues.orderInfo },
+                        userInfo: {
+                          ...prevValues.userInfo,
+                          address: event.target.value,
+                        },
+                      }))
+                    }
                   />
                 </Col>
               </Row>
@@ -162,7 +225,7 @@ const BookingTour = () => {
                           return prevValues;
                         } else
                           return {
-                            ...prevValues.userInfo,
+                            userInfo: { ...prevValues.userInfo },
                             orderInfo: {
                               ...prevValues.orderInfo,
                               adultQuantity:
@@ -173,7 +236,7 @@ const BookingTour = () => {
                     }}
                   ></RemoveIcon>
                   <span className="number">
-                    {orderInfo.orderInfo.adultQuantity}
+                    {orderInfo?.orderInfo?.adultQuantity}
                   </span>
                   <AddIcon
                     className="btn-click"
@@ -185,7 +248,7 @@ const BookingTour = () => {
                         //   return prevValues;
                         // } else
                         return {
-                          ...prevValues.userInfo,
+                          userInfo: { ...prevValues.userInfo },
                           orderInfo: {
                             ...prevValues.orderInfo,
                             adultQuantity:
@@ -213,7 +276,7 @@ const BookingTour = () => {
                           return prevValues;
                         } else
                           return {
-                            ...prevValues.userInfo,
+                            userInfo: { ...prevValues.userInfo },
                             orderInfo: {
                               ...prevValues.orderInfo,
                               childQuantity:
@@ -224,7 +287,7 @@ const BookingTour = () => {
                     }}
                   ></RemoveIcon>
                   <span className="number">
-                    {orderInfo.orderInfo.childQuantity}
+                    {orderInfo?.orderInfo?.childQuantity}
                   </span>
                   <AddIcon
                     className="btn-click"
@@ -236,7 +299,7 @@ const BookingTour = () => {
                         //   return prevValues;
                         // } else
                         return {
-                          ...prevValues.userInfo,
+                          userInfo: { ...prevValues.userInfo },
                           orderInfo: {
                             ...prevValues.orderInfo,
                             childQuantity:
@@ -264,7 +327,7 @@ const BookingTour = () => {
                           return prevValues;
                         } else
                           return {
-                            ...prevValues.userInfo,
+                            userInfo: { ...prevValues.userInfo },
                             orderInfo: {
                               ...prevValues.orderInfo,
                               babyQuantity:
@@ -275,7 +338,7 @@ const BookingTour = () => {
                     }}
                   ></RemoveIcon>
                   <span className="number">
-                    {orderInfo.orderInfo.babyQuantity}
+                    {orderInfo?.orderInfo?.babyQuantity}
                   </span>
                   <AddIcon
                     className="btn-click"
@@ -287,7 +350,7 @@ const BookingTour = () => {
                         //   return prevValues;
                         // } else
                         return {
-                          ...prevValues.userInfo,
+                          userInfo: { ...prevValues.userInfo },
                           orderInfo: {
                             ...prevValues.orderInfo,
                             babyQuantity: prevValues.orderInfo.babyQuantity + 1,
@@ -310,33 +373,33 @@ const BookingTour = () => {
                       <td className="l2 text-right">
                         <div>
                           <i class="fa fa-users" id="AmoutPerson"></i>
-                          {orderInfo.orderInfo.adultQuantity +
-                            orderInfo.orderInfo.childQuantity +
-                            orderInfo.orderInfo.babyQuantity}{" "}
+                          {orderInfo?.orderInfo?.adultQuantity +
+                            orderInfo?.orderInfo?.childQuantity +
+                            orderInfo?.orderInfo?.babyQuantity}{" "}
                           người
                         </div>
                         <p class="add-more">
                           <p>
-                            {orderInfo.orderInfo.adultQuantity} người lớn
+                            {orderInfo?.orderInfo?.adultQuantity} người lớn
                             <br></br>
-                            {orderInfo.orderInfo.childQuantity} trẻ em
+                            {orderInfo?.orderInfo?.childQuantity} trẻ em
                             <br></br>
-                            {orderInfo.orderInfo.babyQuantity} em bé
+                            {orderInfo?.orderInfo?.babyQuantity} em bé
                           </p>
                         </p>
                       </td>
                     </tr>
                     <tr>
                       <td>Người lớn</td>
-                      <td className="t-price text-right">{`${orderInfo.orderInfo.adultQuantity} x ${toursDetail?.tourInfo.adultPrice} $`}</td>
+                      <td className="t-price text-right">{`${orderInfo?.orderInfo?.adultQuantity} x ${toursDetail?.tourInfo.adultPrice} $`}</td>
                     </tr>
                     <tr>
                       <td>Trẻ em</td>
-                      <td className="t-price text-right">{`${orderInfo.orderInfo.childQuantity} x ${toursDetail?.tourInfo.childPrice} $`}</td>
+                      <td className="t-price text-right">{`${orderInfo?.orderInfo?.childQuantity} x ${toursDetail?.tourInfo.childPrice} $`}</td>
                     </tr>
                     <tr>
                       <td>Em bé</td>
-                      <td className="t-price text-right">{`${orderInfo.orderInfo.babyQuantity} x ${toursDetail?.tourInfo.babyPrice} $`}</td>
+                      <td className="t-price text-right">{`${orderInfo?.orderInfo?.babyQuantity} x ${toursDetail?.tourInfo.babyPrice} $`}</td>
                     </tr>
                     <tr>
                       <td>Giảm giá</td>

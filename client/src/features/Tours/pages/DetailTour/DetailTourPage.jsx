@@ -10,6 +10,7 @@ import { Link as LinkScorll } from "react-scroll";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import CommentGroup from "../../../../components/CommentGroup/CommentGroup";
 const createImageArray = (images, handleDragStart) => {
   return images.map((image, index) => (
     <img
@@ -308,6 +309,13 @@ const DetailTourPage = () => {
           </Row>
         </Container>
       </div>
+      <Container className="comment my-3">
+        <Row>
+          <Col>
+            <CommentGroup></CommentGroup>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };

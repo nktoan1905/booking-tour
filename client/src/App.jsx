@@ -56,7 +56,7 @@ import AddInfo from "./features/Admin/Tours/page/AddInfo/AddInfo";
 import Success from "./features/Paymemt/Success/Success";
 import Cancel from "./features/Paymemt/Cancel/Cancel";
 import BookingTour from "./features/Tours/pages/BookingTour/BookingTour";
-import Checkout from "./features/Paymemt/Checkout/Checkout";
+import Payment from "./components/Payment/Payment";
 
 function App() {
   const dispatch = useDispatch();
@@ -112,10 +112,10 @@ function App() {
             path="search/:startPlaceId/:endPlaceId/:date/:duration/:inCountry"
             element={<SearchTourPage />}
           ></Route>
-          <Route path="checkout" element={<Checkout></Checkout>}></Route>
 
           <Route path=":tourId" element={<DetailTourPage />}></Route>
           <Route path=":tourId/booking" element={<BookingTour />}></Route>
+          <Route path="checkout" element={<Payment />}></Route>
         </Route>
         // admin
         <Route

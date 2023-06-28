@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
 			// define association here
 			TourDepartureDay.belongsTo(models.DepartureDay, { foreignKey: 'dayStartId' });
 			TourDepartureDay.belongsTo(models.Tour, { foreignKey: 'tourId' });
+			TourDepartureDay.hasMany(models.Transaction, {
+				foreignKey: 'tourDepartureDayId',
+				as: 'orderInfo',
+				targetKey: 'id',
+			});
 		}
 	}
 	TourDepartureDay.init(

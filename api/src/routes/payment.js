@@ -4,10 +4,10 @@ import tokenMiddleware from '../middleware/tokenMiddleware';
 
 const router = express.Router();
 
-router.post('/process', tokenMiddleware.verifyToken, paymentController.processPayment);
+router.post('/create-payment-intent', tokenMiddleware.verifyToken, paymentController.processPayment);
 
-router.get('/stripeapi', tokenMiddleware.verifyToken, paymentController.sendStripApi);
+router.get('/config', tokenMiddleware.verifyToken, paymentController.sendStripApi);
 
-router.post('/create-checkout-session', paymentController.createCheckoutSession);
+// router.get('/transation-id', paymentController.getTransation);
 
 export default router;
