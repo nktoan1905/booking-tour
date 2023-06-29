@@ -10,8 +10,14 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/api/authApiHandler";
 import { toast } from "react-toastify";
-import { getAllContactType, getAllContacts } from "../../redux/api/contactApiHandler";
-import { getAllNews, getAllNewsCategories } from "../../redux/api/newsApiHandler";
+import {
+  getAllContactType,
+  getAllContacts,
+} from "../../redux/api/contactApiHandler";
+import {
+  getAllNews,
+  getAllNewsCategories,
+} from "../../redux/api/newsApiHandler";
 const AdminLayout = () => {
   const currentUserAccessToken = useSelector(
     (state) => state.auth.login.currentUser?.accessToken
@@ -74,6 +80,13 @@ const AdminLayout = () => {
       name: "Tours",
       link: "/admin/tours",
       icon: "fa-solid fa-tent",
+      roleAllowed: [1, 2],
+    },
+    {
+      id: 6,
+      name: "Orders",
+      link: "/admin/orders",
+      icon: "fa-regular fa-rectangle-list",
       roleAllowed: [1, 2],
     },
   ];

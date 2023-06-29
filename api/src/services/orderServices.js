@@ -15,6 +15,7 @@ const orderServices = {
 					babyQty: data.babyQty,
 					paymentInfo: data.paymentInfo,
 					tourDepartureDayId: data.tourDepartureDayId,
+					amountPaid: data.amountPaid,
 				});
 				if (isCreate) {
 					resolve({ status: true, message: 'Create new transaction successfully!' });
@@ -62,6 +63,7 @@ const orderServices = {
 			try {
 				const transactions = await db.Transaction.findAll({
 					where: { userId: userId },
+					order: [['createdAt', 'DESC']],
 					include: [
 						{
 							model: db.TourDepartureDay,
@@ -96,11 +98,6 @@ const orderServices = {
 					include: [
 						{
 							model: db.TourDepartureDay,
-							// include: [
-							// 	{
-							// 		model: db.Tour,
-							// 	},
-							// ],
 						},
 					],
 					raw: true,

@@ -54,7 +54,7 @@ const ProfileEdit = () => {
         <div className="col-sm-3">
           <div className="text-center">
             <img
-              src={dataUser.avatar}
+              src={dataUser.avatar || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
               className="avatar img-circle img-thumbnail"
               alt="avatar"
             />

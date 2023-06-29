@@ -34,12 +34,10 @@ const paymentController = {
 	getTransation: async (req, res) => {
 		stripe.paymentIntents.retrieve(req.body.paymentIntentId, (err, paymentIntent) => {
 			if (err) {
-				console.error('Lỗi khi lấy thông tin giao dịch:', err);
 				res.json({ err });
 			} else {
 				const transactionId = paymentIntent.id;
 				res.json({ transactionId });
-				console.log('Mã giao dịch:', transactionId);
 			}
 		});
 	},

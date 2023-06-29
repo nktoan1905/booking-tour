@@ -7,12 +7,16 @@ import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { useSelector } from "react-redux";
 import { setCurrentTour } from "../../../../redux/slice/tourSlice";
 import tourApi from "../../../../api/tourApi";
+import moment from "moment";
 
 const CardTour = ({ data, dispatch }) => {
   const promotion = data?.tourInfo.promotions.find(
     (item) => item.forObject === 3
   );
   const [slotLeft, setSlotLeft] = useState(0);
+  const departureDays = useSelector(
+    (state) => state.departureDays.departureDays.departureDays
+  );
   useEffect(() => {
     const fetchData = async (tourDepartureDayId) => {
       const res = await tourApi.getTheQuantityOrderedOfTourDepartureDay(
@@ -62,7 +66,7 @@ const CardTour = ({ data, dispatch }) => {
         </div>
       </div>
       <div className="card-body p-3">
-        <p className="tour-item__date mb-1 d-none">{"20/06/2023 - 3 ngày"}</p>
+        <p className="tour-item__date mb-1">{`${moment(departureDays.find(item => item.id === data.dayStartId).dayStart).format('DD-MM-YYYY')} - ${data.tourInfo.duration} ngày`}</p>
         <p className="card-text tour-item__title mb-1">
           <Link
             to={`/tours/${data?.tourInfo.id}`}
@@ -76,6 +80,7 @@ const CardTour = ({ data, dispatch }) => {
         <p className="tour-item__departure mb-3">
           {`Nơi khởi hành: ${data?.startPlace}`}
         </p>
+
         <div className="tour-item__price mb-2 w-100">
           <div className="tour-item__price__wrapper">
             {promotion ? (

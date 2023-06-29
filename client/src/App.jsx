@@ -57,6 +57,8 @@ import Success from "./features/Paymemt/Success/Success";
 import Cancel from "./features/Paymemt/Cancel/Cancel";
 import BookingTour from "./features/Tours/pages/BookingTour/BookingTour";
 import Payment from "./components/Payment/Payment";
+import { Order } from "./features/Profile/page/Orders/Order";
+import Orders from "./features/Admin/Orders/Orders";
 
 function App() {
   const dispatch = useDispatch();
@@ -89,15 +91,16 @@ function App() {
           element={<PrivateRoute isAdmin={false} redirectPath="/auth/login" />}
         >
           <Route
-            path="/me/profile"
+            path="/me"
             element={
               <CommonLayout>
                 <ProfileFeature />
               </CommonLayout>
             }
           >
-            <Route index element={<ProfileDetail />}></Route>
-            <Route path="update" element={<ProfileEdit />}></Route>
+            <Route path="profile" index element={<ProfileDetail />}></Route>
+            <Route path="profile/update" element={<ProfileEdit />}></Route>
+            <Route path="order" element={<Order />}></Route>
           </Route>
         </Route>
         <Route path="/contact" element={<ContactFeature />}></Route>
@@ -151,6 +154,9 @@ function App() {
               ></Route>
 
               <Route path="add" element={<AddTour />}></Route>
+            </Route>
+            <Route path="orders" element={<Orders></Orders>}>
+
             </Route>
           </Route>
         </Route>

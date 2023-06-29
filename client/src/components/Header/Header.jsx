@@ -158,7 +158,7 @@ const Header = () => {
                 <Row>
                   <Col
                     as={Link}
-                    to="/me/profile"
+                    to="/me/order"
                     className="text-decoration-none text-black"
                   >
                     Đơn đặt chỗ

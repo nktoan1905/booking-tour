@@ -10,6 +10,7 @@ import {
 import CardTour from "../CardTour/CardTour";
 import { Button } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import moment from "moment";
 
 const TourOurCountry = () => {
   const departureDayAndTours = useSelector(
@@ -23,9 +24,12 @@ const TourOurCountry = () => {
   var res;
   var tourInCountry;
   var displayData;
+  const feautureDay =
+    departureDays &&
+    departureDays.filter((item) => moment(item.dayStart).isAfter(currentDate));
   if (departureDays && departureDayAndTours && tours) {
     res = mergeArraysTourAndStartPlace(
-      departureDays,
+      feautureDay,
       departureDayAndTours,
       tours
     );
@@ -34,7 +38,15 @@ const TourOurCountry = () => {
   }
 
   const dispatch = useDispatch();
-
+  displayData =
+    displayData &&
+    displayData.filter((item) => {
+      var ordered = 0;
+      item.transactions.forEach((element) => {
+        ordered += element.adultQty + element.childQty + element.babyQty;
+      });
+      return item.tourInfo.amount - ordered !== 0;
+    });
   return (
     <Container>
       <Row>

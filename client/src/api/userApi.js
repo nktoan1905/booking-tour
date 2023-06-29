@@ -60,6 +60,10 @@ const userApi = {
       headers: { token: `Bearer ${accessToken}` },
     });
   },
+  getUserOrder(accessToken) {
+    const url = `/v1/user/orders`;
+    return axiosClient.get(url, { headers: { token: `Beaer ${accessToken}` } });
+  },
 };
 
 export default userApi;
