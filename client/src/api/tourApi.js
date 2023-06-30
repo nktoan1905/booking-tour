@@ -143,6 +143,12 @@ const tourApi = {
       headers: { token: `Bearer ${accessToken}` },
     });
   },
+  getAllTransactionsByDepartureDayId(departureDayId, accessToken) {
+    const url = `/v1/tours/departure-days/orders/${departureDayId}`;
+    return axiosClient.get(url, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+  },
 };
 
 export default tourApi;

@@ -148,5 +148,42 @@ const orderServices = {
 			}
 		});
 	},
+	getAllTransationByDepartureDayId: async (departureDayId) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const transactions = await db.TourDepartureDay.findOne({
+					where: {
+						id: departureDayId,
+					},
+					include: [
+						{
+							model: db.Transaction,
+							as: 'transactions',
+							include: [
+								{
+									model: db.User,
+									attributes: ['id', 'fullName', 'email', 'avatar'],
+								},
+							],
+						},
+						{
+							model: db.Tour,
+							attributes: ['id', 'name', 'thumbnail', 'thumbnailName', 'duration', 'amount'],
+						},
+						{
+							model: db.DepartureDay,
+							attributes: ['id', 'dayStart'],
+						},
+					],
+					nest: true,
+					raw: false,
+				});
+				resolve({ status: true, message: 'Get all transaction successfully', transactions });
+			} catch (error) {
+				console.log(error);
+				reject(error);
+			}
+		});
+	},
 };
 export default orderServices;

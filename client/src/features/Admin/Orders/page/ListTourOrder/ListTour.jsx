@@ -31,13 +31,13 @@ const ListTourOrder = () => {
     };
     fecthData();
   }, []);
-  
+
   return (
     <Container fluid>
       <Row>
         {tourOrder.length > 0 &&
-          tourOrder.map((item) => (
-            <Col xs={3} className="p-3">
+          tourOrder.map((item, index) => (
+            <Col xs={3} className="p-3" key={index}>
               <Card data={item}></Card>
             </Col>
           ))}

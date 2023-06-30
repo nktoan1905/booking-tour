@@ -11,8 +11,13 @@ router.post('/create-order', tokenMiddleware.verifyToken, orderController.create
 
 router.get('/orders', roleMiddleware.verifyAdminOrEmployee, orderController.getAllOrder);
 
-router.get('/departure-days/orders',  orderController.getAllDepartureDayAndTransaction);
+router.get('/departure-days/orders', orderController.getAllDepartureDayAndTransaction);
 
+router.get(
+	'/departure-days/orders/:departureDayId',
+	roleMiddleware.verifyAdminOrEmployee,
+	orderController.getAllTransationByDepartureDayId,
+);
 
 router.get('/ordered/:tourDepartureDayId', tourController.handleGetTheQuantityOrderedByTourDepartureDay);
 

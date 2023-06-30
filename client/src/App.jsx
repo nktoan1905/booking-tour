@@ -163,7 +163,7 @@ function App() {
               element={<OrderAdminFeature></OrderAdminFeature>}
             >
               <Route index element={<ListTourOrder />} />
-              <Route path=":depatureDayId" element={<TourOrderDetail />} />
+              <Route path=":departureDayId" element={<TourOrderDetail />} />
             </Route>
             <Route path="feedbacks" element={<FeedbackAdmin />}></Route>
           </Route>

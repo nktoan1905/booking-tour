@@ -25,12 +25,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Col, Container, Row, Toast } from "react-bootstrap";
-import DrawIcon from "@mui/icons-material/Draw";
-import moment from "moment";
+import { Col, Container, Row } from "react-bootstrap";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "react-toastify";
 import tourApi from "../../../../api/tourApi";
+import { Link } from "react-router-dom";
 const style = {
   position: "absolute",
   top: "50%",
@@ -161,6 +160,7 @@ export const OrdersAdmin = () => {
       toast.error("Tạo feedback lỗi");
     }
   };
+  console.log(ordered);
   return (
     <Container fluid style={{ scale: "0.95" }}>
       <Row className="my-2">
@@ -206,7 +206,9 @@ export const OrdersAdmin = () => {
                       />
                     </TableCell>
                     <TableCell align="center" style={{ width: "200px" }}>
-                      {row.TourDepartureDay.Tour.name}
+                      <Link to={`/admin/orders/${row.tourDepartureDayId}`}>
+                        {row.TourDepartureDay.Tour.name}
+                      </Link>
                     </TableCell>
                     <TableCell align="center">{row.fullName}</TableCell>
                     <TableCell align="center">{row.email}</TableCell>

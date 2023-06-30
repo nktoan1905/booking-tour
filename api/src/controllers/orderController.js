@@ -46,5 +46,19 @@ const orderController = {
 			res.json(error);
 		}
 	},
+	getAllTransationByDepartureDayId: async (req, res) => {
+		try {
+			const { status, message, transactions } = await orderServices.getAllTransationByDepartureDayId(
+				req.params.departureDayId,
+			);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message, transactions });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json({ error });
+		}
+	},
 };
 export default orderController;
