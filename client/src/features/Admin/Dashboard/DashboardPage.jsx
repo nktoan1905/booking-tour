@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { OrdersAdmin } from "./component/OrdersAdmin";
 const DashboardPage = () => {
   return (
     <Container fluid>
@@ -15,11 +16,8 @@ const DashboardPage = () => {
         </Col>
       </Row>
       <Row>
-        <Col md={6} xs={12}>
-          newest contact
-        </Col>
-        <Col md={6} xs={12}>
-          newest account
+        <Col  xs={12}>
+          <OrdersAdmin />
         </Col>
       </Row>
     </Container>

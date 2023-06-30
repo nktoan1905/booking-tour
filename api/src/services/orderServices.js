@@ -16,6 +16,7 @@ const orderServices = {
 					paymentInfo: data.paymentInfo,
 					tourDepartureDayId: data.tourDepartureDayId,
 					amountPaid: data.amountPaid,
+					status: 1,
 				});
 				if (isCreate) {
 					resolve({ status: true, message: 'Create new transaction successfully!' });
@@ -34,6 +35,7 @@ const orderServices = {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const transactions = await db.Transaction.findAll({
+					order: [['createdAt', 'DESC']],
 					include: [
 						{
 							model: db.TourDepartureDay,
@@ -108,6 +110,39 @@ const orderServices = {
 					ordered += element.adultQty + element.childQty + element.babyQty;
 				});
 				resolve({ status: true, message: 'asdasd', ordered });
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	getAllDepartureDayAndTransaction: async () => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const orders = await db.TourDepartureDay.findAll({
+					include: [
+						{
+							model: db.Transaction,
+							as: 'transactions',
+							include: [
+								{
+									model: db.User,
+									attributes: ['id', 'fullName', 'email', 'avatar'],
+								},
+							],
+						},
+						{
+							model: db.Tour,
+							attributes: ['id', 'name', 'thumbnail', 'thumbnailName', 'duration', 'amount'],
+						},
+						{
+							model: db.DepartureDay,
+							attributes: ['id', 'dayStart'],
+						},
+					],
+					nest: true,
+					raw: false,
+				});
+				resolve({ orders });
 			} catch (error) {
 				reject(error);
 			}

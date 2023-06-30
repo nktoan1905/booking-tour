@@ -35,8 +35,9 @@ module.exports = (sequelize, DataTypes) => {
 			});
 			Tour.hasMany(models.TourImage, { foreignKey: 'tourId', as: 'images', targetKey: 'id' });
 			Tour.belongsToMany(models.User, { through: models.UserFlowTour, foreignKey: 'tourId', targetKey: 'id' });
-			
+
 			Tour.hasMany(models.Comment, { foreignKey: 'tourId', targetKey: 'id', as: 'listComments' });
+			Tour.hasMany(models.Feedback, { foreignKey: 'tourId', targetKey: 'id', as: 'listFeedbacks' });
 		}
 	}
 	Tour.init(

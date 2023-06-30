@@ -131,6 +131,18 @@ const tourApi = {
     const url = `/v1/tours/ordered/${tourDepartureDayId}`;
     return axiosClient.get(url);
   },
+  getAllOrder(accessToken) {
+    const url = `/v1/tours/orders`;
+    return axiosClient.get(url, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+  },
+  getAllDepartureDayAndTransaction(accessToken) {
+    const url = `/v1/tours/departure-days/orders`;
+    return axiosClient.get(url, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+  },
 };
 
 export default tourApi;

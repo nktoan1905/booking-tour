@@ -47,6 +47,7 @@ const CheckoutForm = () => {
           babyQty: currentOrder.order.orderInfo.babyQuantity,
           paymentInfo: paymentIntent.id,
           tourDepartureDayId: currentOrder.order.toursDetail.id,
+          amountPaid: paymentIntent.amount / 100,
         },
         currentUserAccessToken
       );
@@ -60,7 +61,7 @@ const CheckoutForm = () => {
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement />
-      <button disabled={isProcessing} id="submit">
+      <button disabled={isProcessing} id="submit" className="btn btn-primary">
         <span id="button-text">
           {isProcessing ? "Processing ..." : "Pay now"}
         </span>

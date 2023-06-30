@@ -58,7 +58,10 @@ import Cancel from "./features/Paymemt/Cancel/Cancel";
 import BookingTour from "./features/Tours/pages/BookingTour/BookingTour";
 import Payment from "./components/Payment/Payment";
 import { Order } from "./features/Profile/page/Orders/Order";
-import Orders from "./features/Admin/Orders/Orders";
+import FeedbackAdmin from "./features/Admin/Feedbacks/FeedbackAdmin";
+import OrderAdminFeature from "./features/Admin/Orders/OrderAdminFeature";
+import ListTourOrder from "./features/Admin/Orders/page/ListTourOrder/ListTour";
+import TourOrderDetail from "./features/Admin/Orders/page/TourOrderDetail/TourOrderDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -155,9 +158,14 @@ function App() {
 
               <Route path="add" element={<AddTour />}></Route>
             </Route>
-            <Route path="orders" element={<Orders></Orders>}>
-
+            <Route
+              path="orders"
+              element={<OrderAdminFeature></OrderAdminFeature>}
+            >
+              <Route index element={<ListTourOrder />} />
+              <Route path=":depatureDayId" element={<TourOrderDetail />} />
             </Route>
+            <Route path="feedbacks" element={<FeedbackAdmin />}></Route>
           </Route>
         </Route>
         <Route path="/*" element={<Error />}></Route>

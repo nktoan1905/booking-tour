@@ -1,4 +1,5 @@
 import HttpStatusCode from '../helpers/httpStatusCode';
+import feedbackServices from '../services/feedbackServices';
 import userServices from '../services/userServices';
 
 const userController = {
@@ -179,6 +180,63 @@ const userController = {
 			}
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleCreateNewFeedback: async (req, res) => {
+		try {
+			const { status, message } = await feedbackServices.createNewFeedback(req.user.id, req.params.tourId, req.body);
+			if (status) {
+				res.status(HttpStatusCode.CREATED).json({
+					message: message,
+				});
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({
+					message,
+				});
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleGetFeedbackByUserId: async (req, res) => {
+		try {
+			const { status, message, feedbacks } = await feedbackServices.getAllFeedBackByUserId(req.user.id);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({
+					message: message,
+					data: feedbacks,
+				});
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({
+					message,
+				});
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleGetAllFeedback: async (req, res) => {
+		try {
+			const { status, message, feedbacks } = await feedbackServices.getAllFeedBack();
+			if (status) {
+				res.status(HttpStatusCode.OK).json({
+					message: message,
+					data: feedbacks,
+				});
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({
+					message,
+				});
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleUpdateFeeback: async (req, res) => {
+		try {
+			const {status, message} = await feedbackServices.updateFeedBack()
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json({ error });
 		}
 	},
 };

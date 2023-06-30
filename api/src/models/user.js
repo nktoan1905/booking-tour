@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
 			User.hasMany(models.Comment, { foreignKey: 'userId', targetKey: 'id' });
 			User.hasMany(models.Reply, { foreignKey: 'userId', targetKey: 'id' });
 			User.hasMany(models.Transaction, { foreignKey: 'userId', targetKey: 'id', as: 'orders' });
+			User.hasMany(models.Feedback, { foreignKey: 'userId', targetKey: 'id', as: 'feedbacks' });
 		}
 	}
 	User.init(

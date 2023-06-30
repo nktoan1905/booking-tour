@@ -64,6 +64,38 @@ const userApi = {
     const url = `/v1/user/orders`;
     return axiosClient.get(url, { headers: { token: `Beaer ${accessToken}` } });
   },
+  createFeedback(tourId, data, accessToken) {
+    const url = `/v1/user/feedbacks/create/${tourId}`;
+    return axiosClient.post(url, data, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
+  },
+  getUserFeedback(accessToken) {
+    const url = `/v1/user/feedbacks`;
+    return axiosClient.get(url, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
+  },
+  getAllFeedback(accessToken) {
+    const url = `/v1/admin/feedbacks`;
+    return axiosClient.get(url, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
+  },
+  updateFeedBack(data, accessToken) {
+    const url = `/v1/admin/feedbacks/:feedbackId`;
+    return axiosClient.put(url, data, {
+      headers: {
+        token: `Bearer ${accessToken}`
+      }
+    })
+  },
 };
 
 export default userApi;

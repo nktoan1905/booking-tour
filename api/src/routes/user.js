@@ -17,6 +17,11 @@ router.post('/create-flowing', tokenMiddleware.verifyToken, userController.handl
 
 router.delete('/delete-flowing', tokenMiddleware.verifyToken, userController.handleDeleteFlowingTourByTourId);
 
-router.get('/orders', tokenMiddleware.verifyToken, orderController.getUserOrder)
+router.get('/orders', tokenMiddleware.verifyToken, orderController.getUserOrder);
+
+router.post('/feedbacks/create/:tourId', tokenMiddleware.verifyToken, userController.handleCreateNewFeedback);
+
+router.get('/feedbacks', tokenMiddleware.verifyToken, userController.handleGetFeedbackByUserId);
+
 
 export default router;

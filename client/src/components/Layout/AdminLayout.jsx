@@ -87,6 +87,13 @@ const AdminLayout = () => {
       name: "Orders",
       link: "/admin/orders",
       icon: "fa-regular fa-rectangle-list",
+      roleAllowed: [1],
+    },
+    {
+      id: 7,
+      name: "Feedbacks",
+      link: "/admin/feedbacks",
+      icon: "fa-regular fa-message",
       roleAllowed: [1, 2],
     },
   ];

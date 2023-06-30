@@ -30,6 +30,7 @@ import DrawIcon from "@mui/icons-material/Draw";
 import moment from "moment";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "react-toastify";
+import tourApi from "../../../../api/tourApi";
 const style = {
   position: "absolute",
   top: "50%",
@@ -103,7 +104,7 @@ function TablePaginationActions(props) {
     </Box>
   );
 }
-export const Order = () => {
+export const OrdersAdmin = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = (tourId) => {
     setOpen(true);
@@ -121,7 +122,7 @@ export const Order = () => {
   );
   useEffect(() => {
     const fetchData = async () => {
-      const res = await userApi.getUserOrder(currentUserAccessToken);
+      const res = await tourApi.getAllOrder(currentUserAccessToken);
       setOrdered(res.data.transactions);
     };
     fetchData();
@@ -144,7 +145,6 @@ export const Order = () => {
   const onSubmit = async (data, event) => {
     event.preventDefault();
 
-    console.log(data, tour);
     try {
       await userApi.createFeedback(
         tour,
@@ -162,13 +162,8 @@ export const Order = () => {
     }
   };
   return (
-    <Container  fluid>
-      <Row>
-        <Col>
-          <div className="title fs-2">Order của bạn</div>
-        </Col>
-      </Row>
-      <Row>
+    <Container fluid style={{ scale: "0.95" }}>
+      <Row className="my-2">
         <Col>
           <TableContainer component={Paper}>
             <Table aria-label="custom pagination table">
@@ -179,6 +174,9 @@ export const Order = () => {
                   <TableCell align="center">Tên tour</TableCell>
                   <TableCell align="center">Tên người đặt</TableCell>
                   <TableCell align="center">Địa chi email liên hệ</TableCell>
+                  <TableCell align="center">
+                    Địa chỉ email tài khoản đăng ký
+                  </TableCell>
                   <TableCell align="center">Số điện thoại liên hệ</TableCell>
                   <TableCell align="center">Địa chỉ liên hệ</TableCell>
                   <TableCell align="center">Số người lớn</TableCell>
@@ -187,7 +185,6 @@ export const Order = () => {
                   <TableCell align="center">Số tiền đã thanh toán</TableCell>
                   <TableCell align="center">Ngày đi</TableCell>
                   <TableCell align="center">Địa chỉ khởi hành</TableCell>
-                  <TableCell align="center">Feedback</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -213,6 +210,7 @@ export const Order = () => {
                     </TableCell>
                     <TableCell align="center">{row.fullName}</TableCell>
                     <TableCell align="center">{row.email}</TableCell>
+                    <TableCell align="center">{row.User.email}</TableCell>
                     <TableCell align="center">{row.phoneNumber}</TableCell>
                     <TableCell align="center">{row.address}</TableCell>
                     <TableCell align="center">{row.adultQty}</TableCell>
@@ -228,31 +226,6 @@ export const Order = () => {
                     </TableCell>
                     <TableCell align="center">
                       {row.TourDepartureDay.startPlace}
-                    </TableCell>
-                    <TableCell>
-                      {moment(
-                        departureDays.find(
-                          (item) => item.id === row.TourDepartureDay.dayStartId
-                        ).dayStart
-                      ).isBefore(new Date()) ? (
-                        <Button
-                          variant="contained"
-                          endIcon={<DrawIcon />}
-                          onClick={() =>
-                            handleOpen(row.TourDepartureDay.tourId)
-                          }
-                        >
-                          Viết feedback
-                        </Button>
-                      ) : (
-                        <Button
-                          variant="contained"
-                          endIcon={<DrawIcon />}
-                          disabled
-                        >
-                          Viết feedback
-                        </Button>
-                      )}
                     </TableCell>
                   </TableRow>
                 ))}

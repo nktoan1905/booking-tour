@@ -38,5 +38,13 @@ const orderController = {
 			res.status(HttpStatusCode.BAD_REQUEST).json({ error });
 		}
 	},
+	getAllDepartureDayAndTransaction: async (req, res) => {
+		try {
+			const { orders } = await orderServices.getAllDepartureDayAndTransaction();
+			res.json({ orders });
+		} catch (error) {
+			res.json(error);
+		}
+	},
 };
 export default orderController;
