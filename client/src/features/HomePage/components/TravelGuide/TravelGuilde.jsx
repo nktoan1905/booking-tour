@@ -41,7 +41,7 @@ export default function TravelGuilde() {
     },
   ];
   return (
-    <div className=" mt-3" id="travel-guilde">
+    <div className=" my-4" id="travel-guilde">
       <div className="heading text-center">
         <span
           style={{

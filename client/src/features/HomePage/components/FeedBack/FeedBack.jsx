@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { Avatar, Rate } from "antd";
+import React, { useState } from "react";
+import { Avatar } from "antd";
 import "./style.css";
+import Rating from "@mui/material/Rating";
+import feedbackApi from "../../../../api/feedbackApi";
 
 const FeedBack = () => {
   const binhluans = [
@@ -59,6 +61,18 @@ const FeedBack = () => {
       }
     }
   }
+  const [feedbacks, setFeedbacks] = useState([]);
+  useState(() => {
+    const fetch = async () => {
+      const res = await feedbackApi.getAllFeedback();
+      setFeedbacks(
+        res.data.data.filter(
+          (item) => item.loadhome === true && item.status === 1
+        )
+      );
+    };
+    fetch();
+  }, []);
   return (
     <div id="ykien">
       <div className="fixed-background">
@@ -82,26 +96,30 @@ const FeedBack = () => {
             </div>
             <div className="container">
               <div className="row justify-content-center pb-5">
-                {!binhluans
+                {!feedbacks
                   ? ""
-                  : binhluan.map((ok) => (
-                      <div className="col-md-4" key={ok.id}>
+                  : feedbacks.map((ok, index) => (
+                      <div className="col-md-4" key={index}>
                         <div className="content-yk text-center rounded ">
                           <p className="b-inline">
                             <i className="fa fa-quote-left mr-3"></i>
-                            {ok.feedback}
+                            {ok.content}
                             <i className="fa fa-quote-right ml-3"></i>
                           </p>
                         </div>
                         <div className="avatar-yk text-center">
                           <Avatar
                             className="mt-3 mb-2"
-                            src={ok.userData.avatar}
+                            src={
+                              ok.User.avatar
+                                ? ok.User.avatar
+                                : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                            }
                           />
                           <br />
-                          <strong>{ok.userData.name}</strong>
+                          <strong>{ok.User.fullName}</strong>
                           <br />
-                          <Rate value={ok.star} disabled />
+                          <Rating value={ok.star} readOnly />
                         </div>
                       </div>
                     ))}

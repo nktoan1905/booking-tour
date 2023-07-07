@@ -52,24 +52,6 @@ const Header = () => {
             <Nav.Link as={NavLink} to="/">
               Trang chủ
             </Nav.Link>
-            <NavDropdown title="Du Lịch" id="nav-dropdown">
-              <Container style={{ minWidth: "900px" }}>
-                <Row>
-                  <Col xs={12} sm={6} lg={3}>
-                    Column
-                  </Col>
-                  <Col xs={12} sm={6} lg={3}>
-                    Column
-                  </Col>
-                  <Col xs={12} sm={6} lg={3}>
-                    Column
-                  </Col>
-                  <Col xs={12} sm={6} lg={3}>
-                    Column
-                  </Col>
-                </Row>
-              </Container>
-            </NavDropdown>
             <NavDropdown title="Tin tức" id="nav-dropdown">
               <Container style={{ minWidth: "200px" }}>
                 <NavDropdown.Divider />

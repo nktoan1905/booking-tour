@@ -232,7 +232,14 @@ const userController = {
 	},
 	handleUpdateFeeback: async (req, res) => {
 		try {
-			const { status, message } = await feedbackServices.updateFeedBack();
+			console.log(req.params.feedbackId);
+			const { status, message } = await feedbackServices.updateFeedBack(req.params.feedbackId, req.body);
+
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json({ error });
 		}

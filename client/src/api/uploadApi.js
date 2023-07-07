@@ -1,3 +1,0 @@
-const uploadApi = {
-  upload: (file) => {},
-};

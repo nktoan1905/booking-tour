@@ -1,0 +1,19 @@
+.tour-info,
+.user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.tour-info img,
+.user-info img {
+  width: 60px;
+  height: 60px;
+}
+.tour-info span,
+.user-info span {
+  font-size: 14px;
+  max-width: 200px;
+  min-height: 3rem;
+  max-height: 4rem;
+  overflow: hidden;
+}

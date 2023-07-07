@@ -14,7 +14,7 @@ import tourRoute from './tour';
 import paymentRoute from './payment';
 import uploadRoute from './uploadClound';
 import commentRoute from './comment';
-
+import feedbackRoute from './feedback';
 const multer = require('multer');
 const upload = multer();
 
@@ -42,6 +42,7 @@ let initRoutes = (app) => {
 	app.use('/v1/services', serviceRoute);
 	app.use('/v1/payment', paymentRoute);
 	app.use('/v1/comments', commentRoute);
+	app.use('/v1/feedbacks', feedbackRoute);
 	// Route for something left
 	app.use('/v1/news', newsRoute);
 	app.use('/v1/contact', contactRoute);

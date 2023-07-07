@@ -88,8 +88,8 @@ const userApi = {
       },
     });
   },
-  updateFeedBack(data, accessToken) {
-    const url = `/v1/admin/feedbacks/:feedbackId`;
+  updateFeedBack(data, accessToken, feedbackId) {
+    const url = `/v1/admin/feedbacks/${feedbackId}`;
     return axiosClient.put(url, data, {
       headers: {
         token: `Bearer ${accessToken}`,

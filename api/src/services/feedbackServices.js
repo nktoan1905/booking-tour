@@ -44,7 +44,7 @@ const feedbackServices = {
 	getAllFeedBack: async () => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const feedbacks = db.Feedback.findAll({
+				const feedbacks = await db.Feedback.findAll({
 					include: [
 						{ model: db.Tour },
 						{

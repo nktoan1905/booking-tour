@@ -18,12 +18,11 @@ const HomePage = () => {
     <CommonLayout>
       <Banner></Banner>
       <SearchTourForm></SearchTourForm>
-      {/* <FavoriteDestination></FavoriteDestination> */}
       <TourInCountry></TourInCountry>
       <TourOurCountry></TourOurCountry>
+      <FeedBack></FeedBack>
       <ServiceProvide></ServiceProvide>
       <TravelGuilde></TravelGuilde>
-      {/* <FeedBack></FeedBack> */}
     </CommonLayout>
   );
 };
