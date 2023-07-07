@@ -13,6 +13,9 @@
 .sidebar-filter {
   margin-left: 0;
 }
+.tour-search {
+  min-height: 80vh;
+}
 
 .tour-search .sidebar .sidebar-inner {
   background: #f9f9f9;

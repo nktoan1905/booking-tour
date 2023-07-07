@@ -47,10 +47,12 @@ const SearchTourPage = () => {
     label: city.name,
     value: city.id,
   }));
-  const optionsCountries = countries && countries.map((country) => ({
-    label: country.name,
-    value: country.id,
-  }));
+  const optionsCountries =
+    countries &&
+    countries.map((country) => ({
+      label: country.name,
+      value: country.id,
+    }));
   const optionsDurations = [
     { label: "Tất cả", value: 0 },
     { label: "1 - 3 ngày", value: 1 },
@@ -204,7 +206,7 @@ const SearchTourPage = () => {
   const handleChangeStartPlace = (event, newValue) => {
     setFilterOptions((prevValues) => ({
       ...prevValues,
-      startPlaceId: newValue.value,
+      startPlaceId: newValue?.value ? newValue.value : prevValues.startPlaceId,
     }));
     var currentUrl = window.location.href;
     var url = new URL(currentUrl);
@@ -215,7 +217,7 @@ const SearchTourPage = () => {
   const handleChangeEndPlace = (event, newValue) => {
     setFilterOptions((prevValues) => ({
       ...prevValues,
-      endPlaceId: newValue.value,
+      endPlaceId: newValue.value ? newValue.value : prevValues.startPlaceId,
     }));
     var currentUrl = window.location.href;
     var url = new URL(currentUrl);
@@ -252,7 +254,9 @@ const SearchTourPage = () => {
               <span>Lọc kết quả</span>
             </div>
             <div className="tour-search-result__filter__heading px-3 py-2 d-flex justify-content-between align-items-center">
-              <span className="fw-bold">{inCountry && renderPlaceName(inCountry)}</span>
+              <span className="fw-bold">
+                {inCountry && renderPlaceName(inCountry)}
+              </span>
             </div>
             <div className="px-3 py-4">
               <div className="start-to-stop mb-4">
@@ -359,70 +363,15 @@ const SearchTourPage = () => {
                   var currentUrl = window.location.href;
                   var url = new URL(currentUrl);
                   // url.searchParams.set("so-nguoi", newValue);
-                  url.pathname = `/tours/search/${filterOptions.startPlaceId}/${filterOptions.endPlaceId}/${dayjs(newValue).format("DD-MM-YYYY")}/${filterOptions.duration}/${filterOptions.inCountry}`;
+                  url.pathname = `/tours/search/${filterOptions.startPlaceId}/${
+                    filterOptions.endPlaceId
+                  }/${dayjs(newValue).format("DD-MM-YYYY")}/${
+                    filterOptions.duration
+                  }/${filterOptions.inCountry}`;
                   window.history.replaceState({}, "", url.toString());
                 }}
                 className="mb-4"
               />
-              <div className="tour-search-result__filter__block mb-4">
-                <h5 className="s-title mb-3">Số người</h5>
-                <ButtonGroup>
-                  <Row className="g-2">
-                    <Col md={6}>
-                      <Button
-                        variant={
-                          filterOptions.amountOfPeople === "1"
-                            ? "contained"
-                            : "outlined"
-                        }
-                        fullWidth
-                        onClick={() => handleOnClickButtonAmountOfPeoPle("1")}
-                      >
-                        1 người
-                      </Button>
-                    </Col>
-                    <Col md={6}>
-                      <Button
-                        variant={
-                          filterOptions.amountOfPeople === "2"
-                            ? "contained"
-                            : "outlined"
-                        }
-                        fullWidth
-                        onClick={() => handleOnClickButtonAmountOfPeoPle("2")}
-                      >
-                        2 người
-                      </Button>
-                    </Col>
-                    <Col md={6}>
-                      <Button
-                        variant={
-                          filterOptions.amountOfPeople === "3-5"
-                            ? "contained"
-                            : "outlined"
-                        }
-                        fullWidth
-                        onClick={() => handleOnClickButtonAmountOfPeoPle("3-5")}
-                      >
-                        3-5 người
-                      </Button>
-                    </Col>
-                    <Col md={6}>
-                      <Button
-                        variant={
-                          filterOptions.amountOfPeople === "5"
-                            ? "contained"
-                            : "outlined"
-                        }
-                        fullWidth
-                        onClick={() => handleOnClickButtonAmountOfPeoPle("5")}
-                      >
-                        5+ người
-                      </Button>
-                    </Col>
-                  </Row>
-                </ButtonGroup>
-              </div>
               <p className="s-mark-title mb-3">Bộ lọc tìm kiếm</p>
 
               <h5 className="s-title">Ngân sách của quý khách</h5>
@@ -446,8 +395,8 @@ const SearchTourPage = () => {
                   />
                 </p>
               </div>
-              <h5 className="s-title ">Hiển thị những chuyến đi có</h5>
-              <FormGroup>
+              <h5 className="s-title d-none">Hiển thị những chuyến đi có</h5>
+              <FormGroup className="d-none">
                 <FormControlLabel
                   control={
                     <Switch

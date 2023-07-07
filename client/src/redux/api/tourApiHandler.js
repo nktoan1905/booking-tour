@@ -3,6 +3,9 @@ import {
   createFailed,
   createStart,
   createSuccess,
+  deleteFailed,
+  deleteStart,
+  deleteSuccess,
   getAllToursFailed,
   getAllToursStart,
   getAllToursSuccess,
@@ -207,7 +210,6 @@ export const removeDepartureDay = async (
     dispatch(updateFailed());
   }
 };
-
 export const addImage = async (dispatch, tourId, data, accessToken, toast) => {
   dispatch(updateStart());
   try {
@@ -236,5 +238,25 @@ export const removeImage = async (
   } catch (error) {
     toast.error("Remove Thất bại");
     dispatch(updateFailed());
+  }
+};
+
+export const deleteTour = async (
+  dispatch,
+  tourId,
+  accessToken,
+  toast,
+  navigate
+) => {
+  dispatch(deleteStart());
+  try {
+    const res = await tourApi.deleteTour(tourId, accessToken);
+    toast.success("Xóa thành công");
+    dispatch(deleteSuccess());
+    navigate("/admin/tours");
+    await getAllTours(dispatch);
+  } catch (error) {
+    toast.error("Xóa thất bại");
+    dispatch(deleteFailed());
   }
 };

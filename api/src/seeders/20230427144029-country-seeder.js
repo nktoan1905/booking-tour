@@ -20,13 +20,45 @@ module.exports = {
 					status: 1,
 					createdAt: new Date(),
 					updatedAt: new Date(),
-				},				{
+				},
+				{
 					name: 'Thái Lan',
 					status: 1,
 					createdAt: new Date(),
 					updatedAt: new Date(),
-				},				{
+				},
+				{
 					name: 'Trung Quốc',
+					status: 1,
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					name: 'Pháp',
+					status: 1,
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					name: 'Úc',
+					status: 1,
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					name: 'Anh',
+					status: 1,
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					name: 'Nhật Bản',
+					status: 1,
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					name: 'Singapore',
 					status: 1,
 					createdAt: new Date(),
 					updatedAt: new Date(),

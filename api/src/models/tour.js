@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
 				onDelete: 'CASCADE',
 			});
 			Tour.hasMany(models.TourCategory, { foreignKey: 'tourId', targetKey: 'id' });
-			Tour.belongsToMany(models.City, { through: models.TourCity, as: 'cities', foreignKey: 'tourId' });
+			Tour.belongsTo(models.City, { foreignKey: 'cityId', as: 'cityInfo' });
 			Tour.belongsToMany(models.DepartureDay, {
 				through: models.TourDepartureDay,
 				as: 'departureDays',
@@ -34,7 +34,6 @@ module.exports = (sequelize, DataTypes) => {
 				as: 'tourGuide',
 			});
 			Tour.hasMany(models.TourImage, { foreignKey: 'tourId', as: 'images', targetKey: 'id' });
-			Tour.belongsToMany(models.User, { through: models.UserFlowTour, foreignKey: 'tourId', targetKey: 'id' });
 
 			Tour.hasMany(models.Comment, { foreignKey: 'tourId', targetKey: 'id', as: 'listComments' });
 			Tour.hasMany(models.Feedback, { foreignKey: 'tourId', targetKey: 'id', as: 'listFeedbacks' });
@@ -54,6 +53,7 @@ module.exports = (sequelize, DataTypes) => {
 			map: DataTypes.STRING,
 			duration: DataTypes.INTEGER,
 			amount: DataTypes.INTEGER,
+			cityId: DataTypes.INTEGER,
 			endPlace: DataTypes.STRING,
 			status: DataTypes.BOOLEAN,
 		},

@@ -60,5 +60,20 @@ const orderController = {
 			res.status(HttpStatusCode.BAD_REQUEST).json({ error });
 		}
 	},
+	handleUpdateStatusTransaction: async (req, res) => {
+		try {
+			const { status, message } = await orderServices.updateStatusTransaction(
+				req.params.transactionId,
+				req.body.status,
+			);
+			if (status) {
+				res.status(HttpStatusCode.OK).json({ message });
+			} else {
+				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
+			}
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json({ error });
+		}
+	},
 };
 export default orderController;

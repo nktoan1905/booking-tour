@@ -8,21 +8,18 @@ module.exports = (sequelize, DataTypes) => {
 		 * The `models/index` file will call this method automatically.
 		 */
 		static associate(models) {
-			// define association here
-			
+			// define association
+			UserFlowTour.belongsTo(models.TourDepartureDay, { foreignKey: 'tourDepartureDayId' });
 		}
 	}
 	UserFlowTour.init(
 		{
 			userId: {
 				type: DataTypes.INTEGER,
-				
 			},
-			tourId: {
+			tourDepartureDayId: {
 				type: DataTypes.INTEGER,
-
 			},
-			dayStart: DataTypes.DATE,
 		},
 		{
 			sequelize,

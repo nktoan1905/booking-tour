@@ -8,26 +8,90 @@ import { useSelector } from "react-redux";
 import { setCurrentTour } from "../../../../redux/slice/tourSlice";
 import tourApi from "../../../../api/tourApi";
 import moment from "moment";
+import { toast } from "react-toastify";
+import userApi from "../../../../api/userApi";
 
 const CardTour = ({ data, dispatch }) => {
   const promotion = data?.tourInfo.promotions.find(
     (item) => item.forObject === 3
   );
   const [slotLeft, setSlotLeft] = useState(0);
+  const [userFlowings, setUserFlowings] = useState([]);
   const departureDays = useSelector(
     (state) => state.departureDays.departureDays.departureDays
   );
+  const [rating, setRating] = useState(9.8);
+  const currentUser = useSelector(
+    (state) => state.auth.login.currentUser?.user
+  );
+  const currentUserAccessToken = useSelector(
+    (state) => state.auth.login.currentUser?.accessToken
+  );
   useEffect(() => {
-    const fetchData = async (tourDepartureDayId) => {
+    const fetchData = async (tourDepartureDayId, tourId) => {
       const res = await tourApi.getTheQuantityOrderedOfTourDepartureDay(
         tourDepartureDayId
       );
+      const userFlowings = await tourApi.getAllFlowingByTourDepartureDay(
+        tourDepartureDayId
+      );
+      const res2 = await tourApi.getAllFeedbacksByTourId(tourId);
+      const feedbacks = res2.data?.data;
+      const rate = feedbacks.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue.star;
+      }, 0);
+      setRating((prevValues) => {
+        return rate === 0 ? prevValues : (rate * 2) / feedbacks.length;
+      });
+      setUserFlowings(userFlowings.data.data);
       setSlotLeft(data.tourInfo.amount - res.data.ordered);
     };
     if (data) {
-      fetchData(data.id);
+      fetchData(data.id, data.tourId);
     }
   }, []);
+  const handleFlowTour = async () => {
+    try {
+      await userApi.addFlowingTour(currentUserAccessToken, data.id);
+      const userFlowings = await tourApi.getAllFlowingByTourDepartureDay(
+        data.id
+      );
+      setUserFlowings(userFlowings.data.data);
+      toast.success("Flow thành công");
+    } catch (error) {
+      console.log(error);
+      toast.error("Flow thất bại");
+    }
+  };
+  const handleRemoveFlowTour = async () => {
+    try {
+      await userApi.removeFlowingTour(currentUserAccessToken, data.id);
+      const userFlowings = await tourApi.getAllFlowingByTourDepartureDay(
+        data.id
+      );
+      setUserFlowings(userFlowings.data.data);
+      toast.success("Xóa flow thành công");
+    } catch (error) {
+      console.log(error);
+      toast.error("Xóa flow thất bại");
+    }
+  };
+  const renderFavoriteIcon = () => {
+    if (!currentUser) {
+      return (
+        <FavoriteBorderIcon
+          onClick={() => {
+            toast.error("Xin vui lòng đăng nhập");
+          }}
+        ></FavoriteBorderIcon>
+      );
+    } else if (userFlowings.find((item) => item.userId === currentUser.id)) {
+      return <FavoriteIcon onClick={handleRemoveFlowTour}></FavoriteIcon>;
+    } else {
+      return <FavoriteBorderIcon onClick={handleFlowTour}></FavoriteBorderIcon>;
+    }
+  };
+
   return (
     <div className="card tour-item" style={{ width: "100%" }}>
       <div className="position-relative">
@@ -43,7 +107,7 @@ const CardTour = ({ data, dispatch }) => {
             />
           </Link>
           <span className="tour-item__image-inner__icon-favorite addlastminute">
-            <FavoriteBorderIcon></FavoriteBorderIcon>
+            {renderFavoriteIcon()}
           </span>
           <div className="tour-item__image-inner__bottom">
             <span className="tour-item__image-inner__bottom__category d-none">
@@ -52,21 +116,23 @@ const CardTour = ({ data, dispatch }) => {
           </div>
           <div className="tour-item__image-inner__summary position-absolute">
             <div className="tour-item__image-inner__summary__rating d-flex justify-content-end mb-2">
-              <span>9.4</span>
+              <span>{rating}</span>
             </div>
             <div className="tour-item__image-inner__summary__review">
               <h6 className="tour-item__image-inner__summary__feedback mb-0 text-end">
                 Tuyệt vời
               </h6>
               <div className="tour-item__image-inner__summary__review mb-1 text-end">
-                258 quan tâm
+                {`${userFlowings.length} quan tâm`}
               </div>
             </div>
           </div>
         </div>
       </div>
       <div className="card-body p-3">
-        <p className="tour-item__date mb-1">{`${moment(departureDays.find(item => item.id === data.dayStartId).dayStart).format('DD-MM-YYYY')} - ${data.tourInfo.duration} ngày`}</p>
+        <p className="tour-item__date mb-1">{`${moment(
+          departureDays.find((item) => item.id === data.dayStartId).dayStart
+        ).format("DD-MM-YYYY")} - ${data.tourInfo.duration} ngày`}</p>
         <p className="card-text tour-item__title mb-1">
           <Link
             to={`/tours/${data?.tourInfo.id}`}

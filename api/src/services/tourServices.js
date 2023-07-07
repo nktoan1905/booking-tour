@@ -1,5 +1,6 @@
 import UserRole from '../helpers/roleConst';
 import db from '../models';
+import tour from '../models/tour';
 
 const tourServices = {
 	createNewTour: async (data) => {
@@ -19,11 +20,8 @@ const tourServices = {
 					duration: data.duration,
 					amount: data.amount,
 					endPlace: data.endPlace,
-					status: 1,
-				});
-				await db.TourCity.create({
 					cityId: data.cityId,
-					tourId: newTour.id,
+					status: 1,
 				});
 				if (newTour) {
 					resolve({ status: true, message: 'Create new tour successfully' });
@@ -132,31 +130,6 @@ const tourServices = {
 					resolve({ status: true, message: 'Add promotion successfully' });
 				} else {
 					resolve({ status: false, message: 'Add promotion failed' });
-				}
-			} catch (error) {
-				reject(error);
-			}
-		});
-	},
-	addCity: async (tourId, cityId) => {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const tour = await db.Tour.findOne({ where: { id: tourId }, raw: false });
-				if (!tour) {
-					resolve({ status: false, message: 'Tour not found' });
-				}
-				const city = await db.City.findOne({ where: { id: cityId }, raw: false });
-				if (!city) {
-					resolve({ status: false, message: 'City not found' });
-				}
-				if (city.status === false) {
-					resolve({ status: false, message: 'City not available' });
-				}
-				const isAdd = await tour.addCity(city.id);
-				if (isAdd) {
-					resolve({ status: true, message: 'Add city successfully' });
-				} else {
-					resolve({ status: false, message: 'Add city failed' });
 				}
 			} catch (error) {
 				reject(error);
@@ -283,28 +256,6 @@ const tourServices = {
 			}
 		});
 	},
-	removeCity: async (tourId, cityId) => {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const tour = await db.Tour.findOne({ where: { id: tourId }, raw: false });
-				if (!tour) {
-					resolve({ status: false, message: 'Tour not found' });
-				}
-				const city = await db.City.findOne({ where: { id: cityId }, raw: false });
-				if (!city) {
-					resolve({ status: false, message: 'City not found' });
-				}
-				const isRemove = await tour.removeCity(city.id);
-				if (isRemove) {
-					resolve({ status: true, message: 'Remove city successfully' });
-				} else {
-					resolve({ status: false, message: 'City not found' });
-				}
-			} catch (error) {
-				reject(error);
-			}
-		});
-	},
 	removeDepartureDay: async (tourId, depentureDayId) => {
 		return new Promise(async (resolve, reject) => {
 			try {
@@ -360,7 +311,7 @@ const tourServices = {
 						},
 						{
 							model: db.City,
-							as: 'cities',
+							as: 'cityInfo',
 							attributes: ['id', 'name'],
 							include: [{ model: db.Country, as: 'countryInfo', attributes: ['id', 'name'] }],
 						},
@@ -376,6 +327,7 @@ const tourServices = {
 
 				resolve({ status: true, message: 'Get All Tours successfully', tours: tours });
 			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});
@@ -398,6 +350,7 @@ const tourServices = {
 						duration: data.duration,
 						amount: data.amount,
 						endPlace: data.endPlace,
+						cityId: data.cityId,
 						updatedAt: new Date(),
 						status: data.status,
 					},
@@ -455,6 +408,154 @@ const tourServices = {
 					resolve({ status: false, message: 'Delete image tour failed' });
 				}
 			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	getAllFollowByTourDepartureDayId: async (tourDepartureDayId) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const userFlowings = await db.UserFlowTour.findAll({ where: { tourDepartureDayId: tourDepartureDayId } });
+				resolve({ status: true, message: 'Get all flower successfully', userFlowings });
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	getAllFeebacksByTourId: async (tourId) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const feedbacks = await db.Feedback.findAll({
+					where: { tourId: tourId },
+				});
+				resolve({ status: true, message: 'Get all feedback successfully!', feedbacks });
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	getAllTourInCountry: async () => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const tours = await db.TourDepartureDay.findAll({
+					include: [
+						{
+							model: db.Tour,
+							as: 'tourInfo',
+							include: [
+								{
+									model: db.Category,
+									as: 'categories',
+									attributes: ['id', 'name', 'status'],
+									through: {
+										attributes: [],
+									},
+								},
+								{
+									model: db.Service,
+									as: 'services',
+									attributes: ['id', 'name', 'description', 'icon', 'status'],
+
+									through: {
+										attributes: [],
+									},
+								},
+								{
+									model: db.Promotion,
+									as: 'promotions',
+									attributes: ['id', 'name', 'promotion', 'forObject', 'status'],
+									through: {
+										attributes: [],
+									},
+								},
+								{
+									model: db.City,
+									as: 'cityInfo',
+									attributes: ['id', 'name'],
+									include: [{ model: db.Country, as: 'countryInfo', attributes: ['id', 'name'] }],
+								},
+								{
+									model: db.TourImage,
+									as: 'images',
+									attributes: ['id', 'imageName', 'imageLink'],
+								},
+							],
+						},
+						{
+							model: db.Transaction,
+							as: 'transactions',
+						},
+					],
+					nest: true,
+					raw: false,
+				});
+				const toursInCountry = tours.filter((item) => item.tourInfo.cityInfo.countryInfo.id === 1);
+				resolve({ tours: toursInCountry });
+			} catch (error) {
+				console.log(error);
+				reject(error);
+			}
+		});
+	},
+	getAllTourOurCountry: async () => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const tours = await db.TourDepartureDay.findAll({
+					include: [
+						{
+							model: db.Tour,
+							as: 'tourInfo',
+							include: [
+								{
+									model: db.Category,
+									as: 'categories',
+									attributes: ['id', 'name', 'status'],
+									through: {
+										attributes: [],
+									},
+								},
+								{
+									model: db.Service,
+									as: 'services',
+									attributes: ['id', 'name', 'description', 'icon', 'status'],
+
+									through: {
+										attributes: [],
+									},
+								},
+								{
+									model: db.Promotion,
+									as: 'promotions',
+									attributes: ['id', 'name', 'promotion', 'forObject', 'status'],
+									through: {
+										attributes: [],
+									},
+								},
+								{
+									model: db.City,
+									as: 'cityInfo',
+									attributes: ['id', 'name'],
+									include: [{ model: db.Country, as: 'countryInfo', attributes: ['id', 'name'] }],
+								},
+								{
+									model: db.TourImage,
+									as: 'images',
+									attributes: ['id', 'imageName', 'imageLink'],
+								},
+							],
+						},
+						{
+							model: db.Transaction,
+							as: 'transactions',
+						},
+					],
+					nest: true,
+					raw: false,
+				});
+				const toursInCountry = tours.filter((item) => item.tourInfo.cityInfo.countryInfo.id !== 1);
+				resolve({ tours: toursInCountry });
+			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});

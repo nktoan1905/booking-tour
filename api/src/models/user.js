@@ -17,7 +17,11 @@ module.exports = (sequelize, DataTypes) => {
 				targetKey: 'id',
 				as: 'tours',
 			});
-			User.belongsToMany(models.Tour, { through: models.UserFlowTour, foreignKey: 'userId', targetKey: 'id' });
+			User.belongsToMany(models.TourDepartureDay, {
+				through: models.UserFlowTour,
+				foreignKey: 'userId',
+				targetKey: 'id',
+			});
 
 			User.hasMany(models.Comment, { foreignKey: 'userId', targetKey: 'id' });
 			User.hasMany(models.Reply, { foreignKey: 'userId', targetKey: 'id' });

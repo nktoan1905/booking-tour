@@ -18,9 +18,19 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
-import { TableHead } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TableHead,
+  Typography,
+} from "@mui/material";
 import moment from "moment";
 import { Container, Row, Col } from "react-bootstrap";
+import { toast } from "react-toastify";
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -89,15 +99,27 @@ TablePaginationActions.propTypes = {
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 const TourOrderDetail = () => {
   const { departureDayId } = useParams();
+
   const [tourOrderDetail, setTourOrderDetail] = useState({});
   const [transactions, setTransactions] = useState([]);
   const currentUserAccessToken = useSelector(
     (state) => state.auth.login.currentUser.accessToken
   );
-  console.log(departureDayId);
+  const currentUser = useSelector((state) => state.auth.login.currentUser.user);
   useEffect(() => {
     const fetchData = async (departureDayId, accessToken) => {
       const res = await tourApi.getAllTransactionsByDepartureDayId(
@@ -126,7 +148,41 @@ const TourOrderDetail = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  console.log(tourOrderDetail.transactions);
+  const [open, setOpen] = React.useState(false);
+  const [transactionId, setTransactionId] = useState("");
+  const handleOpen = (transactionId, status) => {
+    setOpen(true);
+    setTransactionId(transactionId);
+    setStatus(status);
+  };
+  const handleClose = () => setOpen(false);
+
+  const [status, setStatus] = React.useState("");
+
+  const handleChange = (event) => {
+    setStatus(event.target.value);
+  };
+  const handleOnClickUpdateStatusTransaction = async () => {
+    try {
+      await tourApi.updateStatusTransaction(
+        transactionId,
+        { status: status },
+        currentUserAccessToken
+      );
+      toast.success("Update thành công");
+      setStatus("");
+      setTransactionId("");
+      const res = await tourApi.getAllTransactionsByDepartureDayId(
+        departureDayId,
+        currentUserAccessToken
+      );
+      setTourOrderDetail(res.data.transactions);
+      setTransactions(res.data.transactions.transactions);
+      handleClose();
+    } catch (error) {
+      toast.error("Update Failed");
+    }
+  };
   return (
     <Container fluid>
       <Row className="my-3">
@@ -140,18 +196,26 @@ const TourOrderDetail = () => {
             <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Id</TableCell>
-                  <TableCell>Địa chỉ email tài khoản đặt</TableCell>
-                  <TableCell>Họ và tên liên hệ</TableCell>
-                  <TableCell>Số điện thoại liên hệ</TableCell>
-                  <TableCell>Email liên hệ</TableCell>
+                  <TableCell align="center">Id</TableCell>
+                  <TableCell align="center">
+                    Địa chỉ email tài khoản đặt
+                  </TableCell>
+                  <TableCell align="center">Họ và tên liên hệ</TableCell>
+                  <TableCell align="center">Số điện thoại liên hệ</TableCell>
+                  <TableCell align="center">Email liên hệ</TableCell>
                   <TableCell>Địa chỉ liên hệ</TableCell>
-                  <TableCell>Số người lớn</TableCell>
-                  <TableCell>Số trẻ em</TableCell>
-                  <TableCell>Số em bé</TableCell>
-                  <TableCell>Số tiền đã thanh toán</TableCell>
-                  <TableCell>Mã giao dịch</TableCell>
+                  <TableCell align="center">Số người lớn</TableCell>
+                  <TableCell align="center">Số trẻ em</TableCell>
+                  <TableCell align="center">Số em bé</TableCell>
+                  <TableCell align="center">Số tiền đã thanh toán</TableCell>
+                  <TableCell align="center">Mã giao dịch</TableCell>
+                  <TableCell align="center">Status</TableCell>
                   <TableCell>Ngày đặt</TableCell>
+                  {currentUser.roleId === 1 ? (
+                    <TableCell align="center">Action</TableCell>
+                  ) : (
+                    ""
+                  )}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -163,18 +227,33 @@ const TourOrderDetail = () => {
                   : tourOrderDetail.transactions
                 ).map((row, index) => (
                   <TableRow key={index}>
-                    <TableCell>{index}</TableCell>
+                    <TableCell align="center">{index}</TableCell>
                     <TableCell>{row.User.email}</TableCell>
                     <TableCell>{row.fullName}</TableCell>
-                    <TableCell>{row.phoneNumber}</TableCell>
+                    <TableCell align="center">{row.phoneNumber}</TableCell>
                     <TableCell>{row.email}</TableCell>
                     <TableCell>{row.address}</TableCell>
-                    <TableCell>{row.adultQty}</TableCell>
-                    <TableCell>{row.childQty}</TableCell>
-                    <TableCell>{row.babyQty}</TableCell>
-                    <TableCell>{`$ ${row.amountPaid}`}</TableCell>
-                    <TableCell>{row.paymentInfo}</TableCell>
+                    <TableCell align="center">{row.adultQty}</TableCell>
+                    <TableCell align="center">{row.childQty}</TableCell>
+                    <TableCell align="center">{row.babyQty}</TableCell>
+                    <TableCell align="center">{`$ ${row.amountPaid}`}</TableCell>
+                    <TableCell align="center">{row.paymentInfo}</TableCell>
+                    <TableCell align="center">
+                      {row.status ? "Accepted" : "Cancel"}
+                    </TableCell>
                     <TableCell>{moment(row.createdAt).format("L")}</TableCell>
+                    {currentUser.roleId === 1 ? (
+                      <TableCell>
+                        <Button
+                          variant="contained"
+                          onClick={() => handleOpen(row.id, row.status)}
+                        >
+                          Action
+                        </Button>
+                      </TableCell>
+                    ) : (
+                      ""
+                    )}
                   </TableRow>
                 ))}
                 {emptyRows > 0 && (
@@ -212,6 +291,48 @@ const TourOrderDetail = () => {
           </TableContainer>
         </Col>
       </Row>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            textAlign={"center"}
+          >
+            Update Status
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <Box sx={{ minWidth: 120 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={status}
+                  label="Status"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={1}>Accepted</MenuItem>
+                  <MenuItem value={0}>Cancel</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <Button
+              variant="contained"
+              fullWidth
+              className="my-3"
+              onClick={handleOnClickUpdateStatusTransaction}
+            >
+              Update
+            </Button>
+          </Typography>
+        </Box>
+      </Modal>
     </Container>
   );
 };

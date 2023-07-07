@@ -74,7 +74,7 @@ const newServices = {
 				const isUpdate = await db.New.update(
 					{
 						title: data.title,
-						category: data.category,
+						categoryId: data.categoryId,
 						content: data.content,
 						image: data.image,
 						imageName: data.imageName,

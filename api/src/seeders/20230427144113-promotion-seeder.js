@@ -21,7 +21,7 @@ module.exports = {
 					promotion: 15,
 					status: 1,
 					forObject: 1,
-          createdAt: new Date(),
+					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
 				{
@@ -29,7 +29,7 @@ module.exports = {
 					promotion: 15,
 					status: 1,
 					forObject: 2,
-          createdAt: new Date(),
+					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
 				{
@@ -37,7 +37,7 @@ module.exports = {
 					promotion: 15,
 					status: 1,
 					forObject: 5,
-          createdAt: new Date(),
+					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
 			],

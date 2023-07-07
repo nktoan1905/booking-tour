@@ -154,8 +154,7 @@ const userController = {
 		try {
 			const { status, message } = await userServices.addNewFlowingTourByTourId(
 				req.user.id,
-				req.body.tourId,
-				req.body.dayStart,
+				req.body.tourDepartureDayId,
 			);
 			if (status) {
 				res.status(HttpStatusCode.CREATED).json({ message });
@@ -170,8 +169,7 @@ const userController = {
 		try {
 			const { status, message } = await userServices.deleteFlowingTourByTourId(
 				req.user.id,
-				req.body.tourId,
-				req.body.dayStart,
+				req.params.tourDepartureDayId,
 			);
 			if (status) {
 				res.status(HttpStatusCode.CREATED).json({ message });
@@ -234,7 +232,7 @@ const userController = {
 	},
 	handleUpdateFeeback: async (req, res) => {
 		try {
-			const {status, message} = await feedbackServices.updateFeedBack()
+			const { status, message } = await feedbackServices.updateFeedBack();
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json({ error });
 		}

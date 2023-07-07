@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CommentGroup from "../../../../components/CommentGroup/CommentGroup";
+import tourApi from "../../../../api/tourApi";
 const createImageArray = (images, handleDragStart) => {
   return images.map((image, index) => (
     <img
@@ -28,6 +29,8 @@ const DetailTourPage = () => {
   const tours = useSelector((state) => state.tours.tours?.tours);
   const tourDetail = tours.find((item) => item.id === Number(tourId));
   const [value, setValue] = React.useState(0);
+  const [userFlowings, setUserFlowings] = useState([]);
+  const currentTour = useSelector((state) => state.tours.currentTour);
   const handleDragStart = (e) => e.preventDefault();
   const items = createImageArray(tourDetail.images, handleDragStart);
   const isLogin = useSelector((state) => state.auth.login.currentUser);
@@ -55,6 +58,18 @@ const DetailTourPage = () => {
     1024: { items: 3 },
   };
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async (tourDepartureDayId) => {
+      const userFlowings = await tourApi.getAllFlowingByTourDepartureDay(
+        tourDepartureDayId
+      );
+      setUserFlowings(userFlowings.data.data);
+    };
+    if (currentTour) {
+      fetchData(currentTour.id);
+    }
+  }, []);
   return (
     <div className="tour-detail">
       <div className="entry-head">
@@ -67,12 +82,12 @@ const DetailTourPage = () => {
                   <div className="s-rate">
                     <span>10</span>
                     <div className="s-comment">
-                      Tuyệt vời <p>5 quan tâm</p>
+                      Tuyệt vời <p>{userFlowings.length} quan tâm</p>
                     </div>
                   </div>
                   <div className="s-wishlist">
                     <FavoriteIcon></FavoriteIcon>
-                    <label>126</label>
+                    <label>{userFlowings.length}</label>
                   </div>
                 </div>
               </Col>

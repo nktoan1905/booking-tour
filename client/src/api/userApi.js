@@ -92,9 +92,39 @@ const userApi = {
     const url = `/v1/admin/feedbacks/:feedbackId`;
     return axiosClient.put(url, data, {
       headers: {
-        token: `Bearer ${accessToken}`
+        token: `Bearer ${accessToken}`,
+      },
+    });
+  },
+  getAllFlowingTour(accessToken) {
+    const url = `/v1/user/flowing-tour`;
+    return axiosClient.get(url, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
+  },
+  addFlowingTour(accessToken, tourDepartureDayId) {
+    const url = `/v1/user/create-flowing`;
+    return axiosClient.post(
+      url,
+      {
+        tourDepartureDayId: tourDepartureDayId,
+      },
+      {
+        headers: {
+          token: `Bearer ${accessToken}`,
+        },
       }
-    })
+    );
+  },
+  removeFlowingTour(accessToken, tourDepartureDayId) {
+    const url = `/v1/user/delete-flowing/${tourDepartureDayId}`;
+    return axiosClient.delete(url, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
   },
 };
 

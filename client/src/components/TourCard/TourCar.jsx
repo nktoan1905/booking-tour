@@ -27,7 +27,7 @@ const TourCard = ({ data }) => {
               <LocalFireDepartmentIcon /> {" Giờ chót"}
             </span>
           </div>
-          <div className="tour-item__image-inner__summary position-absolute">
+          <div className="tour-item__image-inner__summary position-absolute d-none">
             <div className="tour-item__image-inner__summary__rating d-flex justify-content-end mb-2">
               <span>9.4</span>
             </div>

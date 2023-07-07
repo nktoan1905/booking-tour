@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import EditIcon from "@mui/icons-material/Edit";
@@ -11,6 +11,9 @@ import HTMLReactParser from "html-react-parser";
 import { Link as LinkScorll } from "react-scroll";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteTour } from "../../../../../redux/api/tourApiHandler";
+import { toast } from "react-toastify";
 
 const createImageArray = (images, handleDragStart) => {
   return images.map((image, index) => (
@@ -55,6 +58,13 @@ const ToursDetail = () => {
     1024: { items: 3 },
   };
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const dataUserAccessToken = useSelector(
+    (state) => state.auth.login.currentUser?.accessToken
+  );
+  const handleOnDeleteTour = async () => {
+    await deleteTour(dispatch, tourId, dataUserAccessToken, toast, navigate);
+  };
   return (
     <div className="tour-detail">
       <div className="p-3">
@@ -78,6 +88,14 @@ const ToursDetail = () => {
               >
                 Edit
               </Button>
+              <Button
+                variant="contained"
+                className="float-end mx-3"
+                endIcon={<DeleteIcon />}
+                onClick={handleOnDeleteTour}
+              >
+                Delete
+              </Button>
             </Col>
           </Row>
         </Container>
@@ -88,7 +106,7 @@ const ToursDetail = () => {
             <Row>
               <Col md={6} className="left">
                 <h1 className="title">{tourDetail.name}</h1>
-                <div className="short-rating">
+                <div className="short-rating d-none">
                   <div className="s-rate">
                     <span>10</span>
                     <div className="s-comment">

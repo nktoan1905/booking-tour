@@ -344,67 +344,80 @@ const userServices = {
 	getAllTourIdIsFlowingByUserId: async (userId) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const userFlowTours = await db.UserFlowTour.findAll({ where: { userId: userId } });
-				if (userFlowTours.length <= 0) {
-					resolve({ status: false, message: "User don't have any flowing tour" });
-				}
-				const listTourInfomation = [];
-
-				for (let i = 0; i < userFlowTours.length; i++) {
-					const data = await db.Tour.findOne(
+				const listTourInfomation = await db.UserFlowTour.findAll({
+					where: { userId: userId },
+					attributes: ['userId', 'tourDepartureDayId'],
+					include: [
 						{
+							model: db.TourDepartureDay,
+							attributes: ['id', 'dayStartId', 'tourId', 'startPlace'],
 							include: [
+								{ model: db.DepartureDay, attributes: ['dayStart'] },
 								{
-									model: db.Category,
-									as: 'categories',
-									through: {
-										attributes: [],
-									},
-								},
-								{
-									model: db.Service,
-									as: 'services',
-									through: {
-										attributes: [],
-									},
-								},
-								{
-									model: db.City,
-									as: 'cities',
-									include: [{ model: db.Country, as: 'countryInfo' }],
+									model: db.Tour,
+									as: 'tourInfo',
+									include: [
+										{
+											model: db.Category,
+											as: 'categories',
+											attributes: ['id', 'name', 'status'],
+											through: {
+												attributes: [],
+											},
+										},
+										{
+											model: db.Service,
+											as: 'services',
+											attributes: ['id', 'name', 'description', 'icon', 'status'],
+
+											through: {
+												attributes: [],
+											},
+										},
+										{
+											model: db.Promotion,
+											as: 'promotions',
+											attributes: ['id', 'name', 'promotion', 'forObject', 'status'],
+											through: {
+												attributes: [],
+											},
+										},
+										{
+											model: db.City,
+											as: 'cityInfo',
+											attributes: ['id', 'name'],
+											include: [{ model: db.Country, as: 'countryInfo', attributes: ['id', 'name'] }],
+										},
+										{
+											model: db.TourImage,
+											as: 'images',
+											attributes: ['id', 'imageName', 'imageLink'],
+										},
+									],
 								},
 							],
-							nest: true,
-							raw: false,
 						},
-						{
-							where: {
-								tourId: userFlowTours[i].tourId,
-							},
-						},
-					);
-					if (!data) {
-						resolve({ status: false, message: 'Invalid tour' });
-					}
-					const tourInfo = { ...data, dayStart: userFlowTours[i].dayStart };
-					listTourInfomation.push(tourInfo);
-				}
+					],
+					nest: true,
+					raw: false,
+				});
 				resolve({ status: true, message: 'Get all flowing tour successfully', listTourInfomation });
 			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});
 	},
-	addNewFlowingTourByTourId: async (userId, tourId, dayStart) => {
+	addNewFlowingTourByTourId: async (userId, tourDepartureDayId) => {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const isExist = await db.UserFlowTour.findOne({
-					wherer: { userId: userId, tourId: tourId, dayStart: new Date(dayStart) },
+					where: { userId: userId, tourDepartureDayId: tourDepartureDayId },
 				});
 				if (isExist) {
-					resolve({ status: false, message: 'This tour is already flowing' });
+					return resolve({ status: false, message: 'This tour is already flowing' });
 				}
-				const isCreated = await db.UserFlowTour.create({ userId: userId, tourId: tourId, dayStart: dayStart });
+				const isCreated = await db.UserFlowTour.create({ userId: userId, tourDepartureDayId: tourDepartureDayId });
 				if (isCreated) {
 					resolve({ status: true, message: 'Flowing successfully' });
 				} else {
@@ -415,11 +428,11 @@ const userServices = {
 			}
 		});
 	},
-	deleteFlowingTourByTourId: async (userId, tourId, dayStart) => {
+	deleteFlowingTourByTourId: async (userId, tourDepartureDayId) => {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const isDelete = await db.UserFlowTour.destroy({
-					where: { userId: userId, tourId: tourId, dayStart: new Date(dayStart) },
+					where: { userId: userId, tourDepartureDayId: tourDepartureDayId },
 				});
 				if (isDelete) {
 					resolve({ status: true, message: 'Delete flowing successfully' });
@@ -431,7 +444,6 @@ const userServices = {
 			}
 		});
 	},
-
 };
 
 export default userServices;

@@ -18,20 +18,20 @@ module.exports = {
 				{
 					name: 'Du lịch',
 					status: 1,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+					createdAt: new Date(),
+					updatedAt: new Date(),
 				},
-        {
+				{
 					name: 'Chăm sóc khách hàng',
 					status: 1,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+					createdAt: new Date(),
+					updatedAt: new Date(),
 				},
-        {
+				{
 					name: 'Liên hệ thông tin khác',
 					status: 1,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+					createdAt: new Date(),
+					updatedAt: new Date(),
 				},
 			],
 			{},

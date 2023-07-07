@@ -48,6 +48,9 @@ module.exports = {
 			status: {
 				type: Sequelize.BOOLEAN,
 			},
+			cityId: {
+				type: Sequelize.INTEGER,
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,

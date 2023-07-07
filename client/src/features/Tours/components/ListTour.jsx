@@ -82,13 +82,13 @@ const ListTour = ({ filterOptions }) => {
           </h1>
         )}
         <section className="promotion-search-result__result">
-          <div className="d-none d-lg-block">
+          <div className="d-lg-block">
             <div className="order-by">
               <div className="order-by-title">
                 Chúng tôi tìm thấy <strong>{res ? res.length : "0"}</strong>{" "}
                 tours cho Quý khách
               </div>
-              <div className="order-by-left">
+              <div className="order-by-left d-none">
                 <div className="order-wrap">
                   <span>Sắp xếp theo</span>
                   <FormControl fullWidth size="small">
@@ -116,8 +116,8 @@ const ListTour = ({ filterOptions }) => {
       <Container>
         <Row>
           {res &&
-            res.map((item) => (
-              <Col xs={4}>
+            res.map((item, index) => (
+              <Col xs={4} key={index}>
                 <CardTour data={item} dispatch={dispatch}></CardTour>
               </Col>
             ))}

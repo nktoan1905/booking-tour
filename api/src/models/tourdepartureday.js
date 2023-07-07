@@ -10,11 +10,20 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			TourDepartureDay.belongsTo(models.DepartureDay, { foreignKey: 'dayStartId' });
-			TourDepartureDay.belongsTo(models.Tour, { foreignKey: 'tourId' });
+			TourDepartureDay.belongsTo(models.Tour, { foreignKey: 'tourId', as: 'tourInfo' });
 			TourDepartureDay.hasMany(models.Transaction, {
 				foreignKey: 'tourDepartureDayId',
 				targetKey: 'id',
 				as: 'transactions',
+			});
+			TourDepartureDay.belongsToMany(models.User, {
+				through: models.UserFlowTour,
+				foreignKey: 'tourDepartureDayId',
+				targetKey: 'id',
+			});
+			TourDepartureDay.hasMany(models.UserFlowTour, {
+				foreignKey: 'tourDepartureDayId',
+				targetKey: 'id',
 			});
 		}
 	}

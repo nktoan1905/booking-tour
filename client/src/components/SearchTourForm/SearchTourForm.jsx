@@ -25,7 +25,7 @@ const SearchTourForm = () => {
     setValue(newValue);
   };
   return (
-    <Container className="my-4">
+    <Container className="my-4 d-none d-lg-block">
       <Row>
         <Col>
           <Box sx={{ width: "100%", typography: "body1" }}>

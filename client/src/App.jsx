@@ -62,6 +62,10 @@ import FeedbackAdmin from "./features/Admin/Feedbacks/FeedbackAdmin";
 import OrderAdminFeature from "./features/Admin/Orders/OrderAdminFeature";
 import ListTourOrder from "./features/Admin/Orders/page/ListTourOrder/ListTour";
 import TourOrderDetail from "./features/Admin/Orders/page/TourOrderDetail/TourOrderDetail";
+import UserFeedBacks from "./features/Profile/page/Feedbacks/UserFeedBacks";
+import FavoriteTour from "./features/Profile/page/FavoriteTour/FavoriteTour";
+import ListTourInCountry from "./features/Tours/pages/ListTourInCountry/ListTourInCountry";
+import ListTourOurCountry from "./features/Tours/pages/ListTourOurCountry/ListTourOurCountry";
 
 function App() {
   const dispatch = useDispatch();
@@ -104,6 +108,11 @@ function App() {
             <Route path="profile" index element={<ProfileDetail />}></Route>
             <Route path="profile/update" element={<ProfileEdit />}></Route>
             <Route path="order" element={<Order />}></Route>
+            <Route path="saved" element={<FavoriteTour />}></Route>
+            <Route
+              path="feedbacks"
+              element={<UserFeedBacks></UserFeedBacks>}
+            ></Route>
           </Route>
         </Route>
         <Route path="/contact" element={<ContactFeature />}></Route>
@@ -114,11 +123,15 @@ function App() {
         <Route path="/success" element={<Success />}></Route>
         <Route path="/cancel" element={<Cancel />}></Route>
         <Route path="/tours" element={<ToursFeature />}>
+          <Route path="tour-in-country" element={<ListTourInCountry />}></Route>
+          <Route
+            path="tour-our-country"
+            element={<ListTourOurCountry />}
+          ></Route>
           <Route
             path="search/:startPlaceId/:endPlaceId/:date/:duration/:inCountry"
             element={<SearchTourPage />}
           ></Route>
-
           <Route path=":tourId" element={<DetailTourPage />}></Route>
           <Route path=":tourId/booking" element={<BookingTour />}></Route>
           <Route path="checkout" element={<Payment />}></Route>

@@ -12,11 +12,8 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
-      tourId: {
+      tourDepartureDayId: {
         type: Sequelize.INTEGER
-      },
-      dayStart: {
-        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,

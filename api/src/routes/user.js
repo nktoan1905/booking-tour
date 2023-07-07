@@ -15,7 +15,7 @@ router.get('/flowing-tour', tokenMiddleware.verifyToken, userController.handleGe
 
 router.post('/create-flowing', tokenMiddleware.verifyToken, userController.handleAddNewFlowingTourByTourId);
 
-router.delete('/delete-flowing', tokenMiddleware.verifyToken, userController.handleDeleteFlowingTourByTourId);
+router.delete('/delete-flowing/:tourDepartureDayId', tokenMiddleware.verifyToken, userController.handleDeleteFlowingTourByTourId);
 
 router.get('/orders', tokenMiddleware.verifyToken, orderController.getUserOrder);
 

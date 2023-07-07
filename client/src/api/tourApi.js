@@ -149,6 +149,32 @@ const tourApi = {
       headers: { token: `Bearer ${accessToken}` },
     });
   },
+  updateStatusTransaction(transactionId, data, accessToken) {
+    const url = `/v1/tours/orders/${transactionId}`;
+    return axiosClient.put(
+      url,
+      { status: data.status },
+      {
+        headers: { token: `Bearer ${accessToken}` },
+      }
+    );
+  },
+  getAllFlowingByTourDepartureDay: (tourDepartureDayId) => {
+    const url = `/v1/tours/user-flowing/${tourDepartureDayId}`;
+    return axiosClient.get(url);
+  },
+  getAllFeedbacksByTourId(tourId) {
+    const url = `/v1/tours/${tourId}/feedbacks`;
+    return axiosClient.get(url);
+  },
+  getAllToursInCountry() {
+    const url = "/v1/tours/tour-in-country";
+    return axiosClient.get(url);
+  },
+  getAllToursOurCountry() {
+    const url = "/v1/tours/tour-Our-country";
+    return axiosClient.get(url);
+  },
 };
 
 export default tourApi;

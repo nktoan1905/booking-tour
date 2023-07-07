@@ -26,16 +26,17 @@ const feedbackServices = {
 	getAllFeedBackByUserId: async (userId) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const feedbacks = db.Feedback.findAll({
+				const feedbacks = await db.Feedback.findAll({
 					where: {
 						userId: userId,
 					},
-					include: [{ model: db.Tour }],
+					include: [{ model: db.Tour }, { model: db.User, attributes: ['id', 'fullName', 'avatar'] }],
 					nest: true,
 					raw: false,
 				});
 				resolve({ status: true, message: 'Get all feedback by user id successfully', feedbacks });
 			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});

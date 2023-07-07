@@ -14,6 +14,8 @@ import tourApi from "../../../../api/tourApi";
 const BookingTour = () => {
   const { tourId } = useParams();
   const [slotLeft, setSlotLeft] = useState(0);
+  const [userFlowings, setUserFlowings] = useState([]);
+
   const [orderInfo, setOrderInfo] = useState({
     userInfo: {
       fullName: "",
@@ -61,6 +63,10 @@ const BookingTour = () => {
       const res = await tourApi.getTheQuantityOrderedOfTourDepartureDay(
         tourDepartureDayId
       );
+      const userFlowings = await tourApi.getAllFlowingByTourDepartureDay(
+        tourDepartureDayId
+      );
+      setUserFlowings(userFlowings.data.data);
       setSlotLeft(toursDetail.tourInfo.amount - res.data.ordered);
     };
     fetchData(toursDetail.id);
@@ -116,7 +122,7 @@ const BookingTour = () => {
                   <span>9.98</span>
                   <div className="s-comment">
                     <h4>Rất tốt</h4>
-                    <span>358 quan tâm</span>
+                    <span>{userFlowings.length} quan tâm</span>
                   </div>
                 </div>
 
@@ -457,7 +463,7 @@ const BookingTour = () => {
                   style={{ width: "100%" }}
                   onClick={handleCheckout}
                 >
-                  Đặt ngay {slotLeft}
+                  Đặt ngay
                 </button>
               </div>
             </div>

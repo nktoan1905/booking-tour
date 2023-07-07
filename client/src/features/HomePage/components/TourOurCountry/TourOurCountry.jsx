@@ -11,6 +11,7 @@ import CardTour from "../CardTour/CardTour";
 import { Button } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const TourOurCountry = () => {
   const departureDayAndTours = useSelector(
@@ -47,8 +48,9 @@ const TourOurCountry = () => {
       });
       return item.tourInfo.amount - ordered !== 0;
     });
+  const navigate = useNavigate();
   return (
-    <Container>
+    <Container className="my-4">
       <Row>
         <div className="col-12">
           <h3>Tour nước ngoài</h3>
@@ -57,23 +59,23 @@ const TourOurCountry = () => {
       {displayData && (
         <Row>
           {displayData[0] ? (
-            <div className="col-4">
+            <Col xs={12} md={4}>
               <CardTour data={displayData[0]} dispatch={dispatch}></CardTour>
-            </div>
+            </Col>
           ) : (
             ""
           )}
           {displayData[1] ? (
-            <div className="col-4">
+            <Col xs={12} md={4}>
               <CardTour data={displayData[1]} dispatch={dispatch}></CardTour>
-            </div>
+            </Col>
           ) : (
             ""
           )}
           {displayData[2] ? (
-            <div className="col-4">
+            <Col xs={12} md={4}>
               <CardTour data={displayData[2]} dispatch={dispatch}></CardTour>
-            </div>
+            </Col>
           ) : (
             ""
           )}
@@ -81,7 +83,11 @@ const TourOurCountry = () => {
       )}
       <Row>
         <div className="col-12">
-          <Button endIcon={<ArrowForwardIcon />} className="float-end my-3">
+          <Button
+            endIcon={<ArrowForwardIcon />}
+            className="float-end my-3"
+            onClick={() => navigate("/tours/tour-our-country")}
+          >
             Xem thêm
           </Button>
         </div>

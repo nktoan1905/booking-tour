@@ -7,6 +7,10 @@ import orderController from '../controllers/orderController';
 
 const router = express.Router();
 
+router.get('/tour-in-country', tourController.handleGetAllTourInCountry);
+
+router.get('/tour-our-country', tourController.handleGetAllTourOurCountry);
+
 router.post('/create-order', tokenMiddleware.verifyToken, orderController.createNewOrder);
 
 router.get('/orders', roleMiddleware.verifyAdminOrEmployee, orderController.getAllOrder);
@@ -18,10 +22,15 @@ router.get(
 	roleMiddleware.verifyAdminOrEmployee,
 	orderController.getAllTransationByDepartureDayId,
 );
+router.get('/user-flowing/:tourDepartureDayId', tourController.handleGetAllUserFlowingTourByTourId);
+
+router.put('/orders/:transactionId', roleMiddleware.verifyAdmin, orderController.handleUpdateStatusTransaction);
 
 router.get('/ordered/:tourDepartureDayId', tourController.handleGetTheQuantityOrderedByTourDepartureDay);
 
 router.post('/resgister', roleMiddleware.verifyAdminOrEmployee, tourController.handleCreateNewTour);
+
+router.get('/:tourId/feedbacks', tourController.handleGetAllFeedbacks);
 
 router.post(
 	'/:tourId/categories/add',
@@ -35,20 +44,6 @@ router.delete(
 	roleMiddleware.verifyAdminOrEmployee,
 	checkIdExistMiddleware.checkIdTourExist,
 	tourController.handleRemoveCategory,
-);
-
-router.post(
-	'/:tourId/cites/add',
-	roleMiddleware.verifyAdminOrEmployee,
-	checkIdExistMiddleware.checkIdTourExist,
-	tourController.handleAddCity,
-);
-
-router.delete(
-	'/:tourId/cites/remove',
-	roleMiddleware.verifyAdminOrEmployee,
-	checkIdExistMiddleware.checkIdTourExist,
-	tourController.handleRemoveCity,
 );
 
 router.post(
@@ -106,7 +101,7 @@ router.put(
 
 router.delete(
 	'/:tourId',
-	roleMiddleware.verifyAdminOrEmployee,
+	roleMiddleware.verifyAdmin,
 	checkIdExistMiddleware.checkIdTourExist,
 	tourController.handleDeleteTourByTuorId,
 );

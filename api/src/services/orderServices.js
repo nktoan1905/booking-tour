@@ -43,6 +43,7 @@ const orderServices = {
 							include: [
 								{
 									model: db.Tour,
+									as: 'tourInfo',
 								},
 							],
 						},
@@ -73,6 +74,7 @@ const orderServices = {
 							include: [
 								{
 									model: db.Tour,
+									as: 'tourInfo',
 								},
 								{
 									model: db.DepartureDay,
@@ -81,11 +83,12 @@ const orderServices = {
 							],
 						},
 					],
-					raw: true,
+					raw: false,
 					nest: true,
 				});
 				resolve({ status: true, message: 'Get all orders successfully', transactions });
 			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});
@@ -107,7 +110,9 @@ const orderServices = {
 				});
 				var ordered = 0;
 				transactions.forEach((element) => {
-					ordered += element.adultQty + element.childQty + element.babyQty;
+					if (element.status === 1) {
+						ordered += element.adultQty + element.childQty + element.babyQty;
+					}
 				});
 				resolve({ status: true, message: 'asdasd', ordered });
 			} catch (error) {
@@ -133,6 +138,7 @@ const orderServices = {
 						{
 							model: db.Tour,
 							attributes: ['id', 'name', 'thumbnail', 'thumbnailName', 'duration', 'amount'],
+							as: 'tourInfo',
 						},
 						{
 							model: db.DepartureDay,
@@ -169,6 +175,7 @@ const orderServices = {
 						{
 							model: db.Tour,
 							attributes: ['id', 'name', 'thumbnail', 'thumbnailName', 'duration', 'amount'],
+							as: 'tourInfo',
 						},
 						{
 							model: db.DepartureDay,
@@ -181,6 +188,29 @@ const orderServices = {
 				resolve({ status: true, message: 'Get all transaction successfully', transactions });
 			} catch (error) {
 				console.log(error);
+				reject(error);
+			}
+		});
+	},
+	updateStatusTransaction: async (transactionId, status) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const isUpdate = await db.Transaction.update(
+					{
+						status: status,
+					},
+					{
+						where: {
+							id: transactionId,
+						},
+					},
+				);
+				if (isUpdate) {
+					resolve({ status: true, message: 'Update successfully' });
+				} else {
+					resolve({ status: false, message: 'Update failed' });
+				}
+			} catch (error) {
 				reject(error);
 			}
 		});

@@ -104,6 +104,9 @@ function TablePaginationActions(props) {
   );
 }
 export const Order = () => {
+  useEffect(() => {
+    document.tilte = "Your orders";
+  }, []);
   const [open, setOpen] = React.useState(false);
   const handleOpen = (tourId) => {
     setOpen(true);
@@ -139,12 +142,20 @@ export const Order = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const { control, handleSubmit, reset } = useForm();
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm({
+    defaultValues: {
+      rating: 0,
+      content: "",
+    },
+  });
 
   const onSubmit = async (data, event) => {
     event.preventDefault();
-
-    console.log(data, tour);
     try {
       await userApi.createFeedback(
         tour,
@@ -161,8 +172,23 @@ export const Order = () => {
       toast.error("Tạo feedback lỗi");
     }
   };
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubmitSuccessful]);
+  useEffect(() => {
+    document.title = "Orders";
+  }, []);
+  console.log(ordered);
   return (
-    <Container  fluid>
+    <Container
+      fluid
+      style={{
+        minHeight: "75vh",
+      }}
+    >
       <Row>
         <Col>
           <div className="title fs-2">Order của bạn</div>
@@ -188,6 +214,7 @@ export const Order = () => {
                   <TableCell align="center">Ngày đi</TableCell>
                   <TableCell align="center">Địa chỉ khởi hành</TableCell>
                   <TableCell align="center">Feedback</TableCell>
+                  <TableCell align="center">Status</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -202,14 +229,14 @@ export const Order = () => {
                     <TableCell align="center">{index}</TableCell>
                     <TableCell>
                       <img
-                        src={row.TourDepartureDay.Tour.thumbnail}
+                        src={row.TourDepartureDay.tourInfo.thumbnail}
                         style={{ width: "100px", height: "100px" }}
                         className="rounded"
-                        alt={row.TourDepartureDay.Tour.thumbnailNail}
+                        alt={row.TourDepartureDay.tourInfo.thumbnailNail}
                       />
                     </TableCell>
                     <TableCell align="center" style={{ width: "200px" }}>
-                      {row.TourDepartureDay.Tour.name}
+                      {row.TourDepartureDay.tourInfo.name}
                     </TableCell>
                     <TableCell align="center">{row.fullName}</TableCell>
                     <TableCell align="center">{row.email}</TableCell>
@@ -234,7 +261,7 @@ export const Order = () => {
                         departureDays.find(
                           (item) => item.id === row.TourDepartureDay.dayStartId
                         ).dayStart
-                      ).isBefore(new Date()) ? (
+                      ).isBefore(new Date()) && row.status !== 0 ? (
                         <Button
                           variant="contained"
                           endIcon={<DrawIcon />}
@@ -253,6 +280,9 @@ export const Order = () => {
                           Viết feedback
                         </Button>
                       )}
+                    </TableCell>
+                    <TableCell align="center">
+                      {row.status ? "Accepted" : "Cancel"}
                     </TableCell>
                   </TableRow>
                 ))}

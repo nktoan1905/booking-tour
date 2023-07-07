@@ -10,7 +10,7 @@ const Card = ({ data }) => {
       const res = await tourApi.getTheQuantityOrderedOfTourDepartureDay(
         tourDepartureDayId
       );
-      setSlotLeft(data.Tour.amount - res.data.ordered);
+      setSlotLeft(data.tourInfo.amount - res.data.ordered);
     };
     if (data) {
       fetchData(data.id);
@@ -23,8 +23,8 @@ const Card = ({ data }) => {
           <Link to={`/admin/orders/${data.id}`}>
             <img
               className="card-img-top img-fluid"
-              src={data.Tour.thumbnail}
-              alt={data.Tour.thumbnailName}
+              src={data.tourInfo.thumbnail}
+              alt={data.tourInfo.thumbnailName}
             />
           </Link>
         </div>
@@ -32,14 +32,14 @@ const Card = ({ data }) => {
       <div className="card-body p-3">
         <p className="tour-item__date mb-1">{`${moment(
           data.DepartureDay.dayStart
-        ).format("DD-MM-YYYY")} - ${data.Tour.duration} ngày`}</p>
+        ).format("DD-MM-YYYY")} - ${data.tourInfo.duration} ngày`}</p>
         <p className="card-text tour-item__title mb-1">
           <Link
             className="text-decoration-none"
             style={{ color: "#2d4271" }}
             to={`/admin/orders/${data.id}`}
           >
-            {data.Tour.name}
+            {data.tourInfo.name}
           </Link>
         </p>
         <p className="tour-item__departure mb-3">{`Nơi khởi hành: ${data.startPlace}`}</p>
@@ -50,7 +50,7 @@ const Card = ({ data }) => {
             Số chỗ còn
           </div>
           <div className="tour-item__footer__available-seat--number">
-            {`${slotLeft}/${data.Tour.amount}`}
+            {`${slotLeft}/${data.tourInfo.amount}`}
           </div>
         </div>
       </div>

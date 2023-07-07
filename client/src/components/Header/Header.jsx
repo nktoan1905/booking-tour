@@ -168,7 +168,7 @@ const Header = () => {
                 <Row>
                   <Col
                     as={Link}
-                    to="/me/profile"
+                    to="/me/feedbacks"
                     className="text-decoration-none text-black"
                   >
                     Đánh giá của quý khách
@@ -178,7 +178,7 @@ const Header = () => {
                 <Row>
                   <Col
                     as={Link}
-                    to="/me/profile"
+                    to="/me/saved"
                     className="text-decoration-none text-black"
                   >
                     Yêu thích đã lưu

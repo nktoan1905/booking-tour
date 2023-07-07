@@ -63,7 +63,7 @@ const FormSeachInCountry = ({ cities }) => {
   }, [isSubmitSuccessful]);
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)}>
-      <Container>
+      <Container >
         <Row>
           <div className="col-6">
             <Row className="destination-selector gx-0">

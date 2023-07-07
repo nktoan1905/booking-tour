@@ -10,7 +10,7 @@ export const getTourInCountry = (data) => {
   const res = data.map((item) => {
     const { tours, ...rest } = item;
     const toursInCountry = tours.filter(
-      (item) => item.tourInfo.cities[0].countryInfo.id === 1
+      (item) => item.tourInfo.cityInfo.countryInfo.id === 1
     );
     return { ...rest, tours: toursInCountry };
   });
@@ -21,7 +21,7 @@ export const getTourOurCountry = (data) => {
   const res = data.map((item) => {
     const { tours, ...rest } = item;
     const toursInCountry = tours.filter(
-      (item) => item.tourInfo.cities[0].countryInfo.id !== 1
+      (item) => item.tourInfo.cityInfo.countryInfo.id !== 1
     );
     return { ...rest, tours: toursInCountry };
   });
@@ -92,17 +92,8 @@ export function mergeArrays(departureDays, tourDepartureDays) {
 }
 
 export function filterTour(filter, tourDepartureDays, tours, cities) {
-  const {
-    startPlaceId,
-    endPlaceId,
-    amountOfPeople,
-    date,
-    duration,
-    inCountry,
-    isHaveEmpty,
-    isHavePromotion,
-    priceRange,
-  } = filter;
+  const { startPlaceId, endPlaceId, date, duration, inCountry, priceRange } =
+    filter;
   const durations = [
     { label: "Tất cả", id: 0 },
     { label: "1 - 3 ngày", id: 1 },

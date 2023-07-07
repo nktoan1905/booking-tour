@@ -27,6 +27,7 @@ const ListTourOrder = () => {
       const res = await tourApi.getAllDepartureDayAndTransaction(
         currentUserAccessToken
       );
+      console.log(res.data)
       setTourOrder(res.data.orders.sort(compareDeparture));
     };
     fecthData();

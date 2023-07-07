@@ -88,30 +88,6 @@ const tourController = {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}
 	},
-	handleAddCity: async (req, res) => {
-		try {
-			const { status, message } = await tourServices.addCity(req.params.tourId, req.body.cityId);
-			if (status) {
-				res.status(HttpStatusCode.OK).json({ message });
-			} else {
-				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
-			}
-		} catch (error) {
-			res.status(HttpStatusCode.BAD_REQUEST).json(error);
-		}
-	},
-	handleRemoveCity: async (req, res) => {
-		try {
-			const { status, message } = await tourServices.removeCity(req.params.tourId, req.body.cityId);
-			if (status) {
-				res.status(HttpStatusCode.OK).json({ message });
-			} else {
-				res.status(HttpStatusCode.BAD_REQUEST).json({ message });
-			}
-		} catch (error) {
-			res.status(HttpStatusCode.BAD_REQUEST).json(error);
-		}
-	},
 	handleAddDepentureDay: async (req, res) => {
 		try {
 			const { status, message } = await tourServices.addDepartureDay(req.params.tourId, req.body);
@@ -216,6 +192,40 @@ const tourController = {
 			res
 				.status(HttpStatusCode.OK)
 				.json({ message: 'Get the quantity ordered in tour departure day successfully', ordered: ordered });
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleGetAllUserFlowingTourByTourId: async (req, res) => {
+		try {
+			const { status, message, userFlowings } = await tourServices.getAllFollowByTourDepartureDayId(
+				req.params.tourDepartureDayId,
+			);
+			res.status(HttpStatusCode.OK).json({ message, data: userFlowings });
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleGetAllFeedbacks: async (req, res) => {
+		try {
+			const { status, message, feedbacks } = await tourServices.getAllFeebacksByTourId(req.params.tourId);
+			res.status(HttpStatusCode.OK).json({ message, data: feedbacks });
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleGetAllTourInCountry: async (req, res) => {
+		try {
+			const { tours } = await tourServices.getAllTourInCountry();
+			res.status(HttpStatusCode.OK).json(tours);
+		} catch (error) {
+			res.status(HttpStatusCode.BAD_REQUEST).json(error);
+		}
+	},
+	handleGetAllTourOurCountry: async (req, res) => {
+		try {
+			const { tours } = await tourServices.getAllTourOurCountry();
+			res.status(HttpStatusCode.OK).json(tours);
 		} catch (error) {
 			res.status(HttpStatusCode.BAD_REQUEST).json(error);
 		}

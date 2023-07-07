@@ -11,6 +11,7 @@ import CardTour from "../CardTour/CardTour";
 import { Button } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const TourInCountry = () => {
   const departureDayAndTours = useSelector(
@@ -37,6 +38,7 @@ const TourInCountry = () => {
     displayData = [].concat(...tourInCountry.map((item) => item.tours));
   }
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   displayData =
     displayData &&
     displayData.filter((item) => {
@@ -47,7 +49,7 @@ const TourInCountry = () => {
       return item.tourInfo.amount - ordered !== 0;
     });
   return (
-    <Container>
+    <Container className="my-4">
       <Row>
         <div className="col-12">
           <h3>Tour trong nước</h3>
@@ -55,20 +57,24 @@ const TourInCountry = () => {
       </Row>
       {displayData && (
         <Row>
-          <div className="col-4">
+          <Col xs={12} md={4}>
             <CardTour data={displayData[0]} dispatch={dispatch}></CardTour>
-          </div>
-          <div className="col-4">
+          </Col>
+          <Col xs={12} md={4}>
             <CardTour data={displayData[1]} dispatch={dispatch}></CardTour>
-          </div>
-          <div className="col-4">
+          </Col>
+          <Col xs={12} md={4}>
             <CardTour data={displayData[2]} dispatch={dispatch}></CardTour>
-          </div>
+          </Col>
         </Row>
       )}
       <Row>
         <div className="col-12">
-          <Button endIcon={<ArrowForwardIcon />} className="float-end my-3">
+          <Button
+            endIcon={<ArrowForwardIcon />}
+            className="float-end my-3"
+            onClick={() => navigate("/tours/tour-in-country")}
+          >
             Xem thêm
           </Button>
         </div>

@@ -199,15 +199,15 @@ export const OrdersAdmin = () => {
                     <TableCell align="center">{index}</TableCell>
                     <TableCell>
                       <img
-                        src={row.TourDepartureDay.Tour.thumbnail}
+                        src={row.TourDepartureDay.tourInfo.thumbnail}
                         style={{ width: "100px", height: "100px" }}
                         className="rounded"
-                        alt={row.TourDepartureDay.Tour.thumbnailNail}
+                        alt={row.TourDepartureDay.tourInfo.thumbnailNail}
                       />
                     </TableCell>
                     <TableCell align="center" style={{ width: "200px" }}>
                       <Link to={`/admin/orders/${row.tourDepartureDayId}`}>
-                        {row.TourDepartureDay.Tour.name}
+                        {row.TourDepartureDay.tourInfo.name}
                       </Link>
                     </TableCell>
                     <TableCell align="center">{row.fullName}</TableCell>

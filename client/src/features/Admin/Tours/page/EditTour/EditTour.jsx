@@ -68,9 +68,10 @@ const EditTour = () => {
   const cites = useSelector((state) => state.cityAndCountries.cites.cites);
   const getCityIdByName = (cityName) => {
     const city = cities.find((c) => c.name === cityName);
+    console.log(cityName);
     return city ? city.id : null;
   };
-  const cititesInVn = cites.filter((item) => item.countryInfo.id === 1);
+  const cititesInVn = cites;
   const [imageSelected, setImageSelected] = useState({
     file: null,
     url: tourDetailData.thumbnail,
@@ -291,7 +292,7 @@ const EditTour = () => {
                   }
                   {...register("endPlace")}
                 >
-                  {cititesInVn.map((item) => (
+                  {cities.map((item) => (
                     <MenuItem value={item.id}> {item.name}</MenuItem>
                   ))}
                 </Select>
