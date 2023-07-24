@@ -181,7 +181,6 @@ export const Order = () => {
   useEffect(() => {
     document.title = "Orders";
   }, []);
-  console.log(ordered);
   return (
     <Container
       fluid

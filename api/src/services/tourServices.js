@@ -327,7 +327,6 @@ const tourServices = {
 
 				resolve({ status: true, message: 'Get All Tours successfully', tours: tours });
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});
@@ -492,7 +491,6 @@ const tourServices = {
 				const toursInCountry = tours.filter((item) => item.tourInfo.cityInfo.countryInfo.id === 1);
 				resolve({ tours: toursInCountry });
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});
@@ -555,7 +553,6 @@ const tourServices = {
 				const toursInCountry = tours.filter((item) => item.tourInfo.cityInfo.countryInfo.id !== 1);
 				resolve({ tours: toursInCountry });
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});

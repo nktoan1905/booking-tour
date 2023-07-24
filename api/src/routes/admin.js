@@ -26,8 +26,8 @@ router.put('/role/:userId', userController.handleUpdateMemberAndEmployeeStatus);
 // update member role to siver or golden
 router.put('/status/:userId', userController.handleUpdateUserRole);
 
-router.get('/feedbacks', userController.handleGetAllFeedback);
+// router.get('/feedbacks', userController.handleGetAllFeedback);
 
-router.put('/feedbacks/:feedbackId', userController.handleUpdateFeeback);
+// router.put('/feedbacks/:feedbackId', userController.handleUpdateFeeback);
 
 export default router;

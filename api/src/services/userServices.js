@@ -403,7 +403,6 @@ const userServices = {
 				});
 				resolve({ status: true, message: 'Get all flowing tour successfully', listTourInfomation });
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});

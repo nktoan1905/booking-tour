@@ -18,7 +18,6 @@ const feedbackServices = {
 					resolve({ status: false, message: 'Create new feedback failed' });
 				}
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});
@@ -36,7 +35,6 @@ const feedbackServices = {
 				});
 				resolve({ status: true, message: 'Get all feedback by user id successfully', feedbacks });
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});

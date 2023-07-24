@@ -10,7 +10,6 @@ const ListTourInCountry = () => {
   useEffect(() => {
     const fetch = async () => {
       const res = await tourApi.getAllToursInCountry();
-      console.log(res.data);
       setData(res.data);
     };
     fetch();

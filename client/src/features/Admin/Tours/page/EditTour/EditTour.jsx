@@ -68,7 +68,6 @@ const EditTour = () => {
   const cites = useSelector((state) => state.cityAndCountries.cites.cites);
   const getCityIdByName = (cityName) => {
     const city = cities.find((c) => c.name === cityName);
-    console.log(cityName);
     return city ? city.id : null;
   };
   const cititesInVn = cites;

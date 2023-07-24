@@ -5,7 +5,6 @@ import moment from "moment";
 import { setCurrentTour } from "../../../../redux/slice/tourSlice";
 
 const FavoriteTourCard = ({ data, dispatch }) => {
-  console.log(data);
   return (
     <div className="product">
       <div className="product-inner">

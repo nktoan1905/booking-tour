@@ -88,7 +88,6 @@ const orderServices = {
 				});
 				resolve({ status: true, message: 'Get all orders successfully', transactions });
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});
@@ -187,7 +186,6 @@ const orderServices = {
 				});
 				resolve({ status: true, message: 'Get all transaction successfully', transactions });
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});

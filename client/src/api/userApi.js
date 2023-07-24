@@ -81,7 +81,7 @@ const userApi = {
     });
   },
   getAllFeedback(accessToken) {
-    const url = `/v1/admin/feedbacks`;
+    const url = `/v1/user/feedbacks/all`;
     return axiosClient.get(url, {
       headers: {
         token: `Bearer ${accessToken}`,
@@ -89,7 +89,7 @@ const userApi = {
     });
   },
   updateFeedBack(data, accessToken, feedbackId) {
-    const url = `/v1/admin/feedbacks/${feedbackId}`;
+    const url = `/v1/user/feedbacks/${feedbackId}`;
     return axiosClient.put(url, data, {
       headers: {
         token: `Bearer ${accessToken}`,

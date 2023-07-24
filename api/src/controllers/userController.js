@@ -232,7 +232,6 @@ const userController = {
 	},
 	handleUpdateFeeback: async (req, res) => {
 		try {
-			console.log(req.params.feedbackId);
 			const { status, message } = await feedbackServices.updateFeedBack(req.params.feedbackId, req.body);
 
 			if (status) {

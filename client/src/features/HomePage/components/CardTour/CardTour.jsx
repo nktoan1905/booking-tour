@@ -59,7 +59,6 @@ const CardTour = ({ data, dispatch }) => {
       setUserFlowings(userFlowings.data.data);
       toast.success("Flow thành công");
     } catch (error) {
-      console.log(error);
       toast.error("Flow thất bại");
     }
   };
@@ -72,7 +71,6 @@ const CardTour = ({ data, dispatch }) => {
       setUserFlowings(userFlowings.data.data);
       toast.success("Xóa flow thành công");
     } catch (error) {
-      console.log(error);
       toast.error("Xóa flow thất bại");
     }
   };

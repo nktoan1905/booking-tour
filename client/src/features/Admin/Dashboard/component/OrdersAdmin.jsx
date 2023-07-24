@@ -160,7 +160,6 @@ export const OrdersAdmin = () => {
       toast.error("Tạo feedback lỗi");
     }
   };
-  console.log(ordered);
   return (
     <Container fluid style={{ scale: "0.95" }}>
       <Row className="my-2">

@@ -136,7 +136,7 @@ export function filterTour(filter, tourDepartureDays, tours, cities) {
     isHaveEqualEndplace =
       isHaveEqualStartPlace &&
       isHaveEqualStartPlace.filter(
-        (item) => item.tourInfo.cities[0].countryInfo.id === Number(endPlaceId)
+        (item) => item.tourInfo.cityInfo.countryInfo.id === Number(endPlaceId)
       );
   }
   if (isHaveEqualEndplace?.length === 0) return [];
