@@ -11,17 +11,24 @@ const FavoriteTourCard = ({ data, dispatch }) => {
         <div className="product-image tour-item__image">
           <Link
             to={`/tours/${data.TourDepartureDay.tourId}`}
-            onClick={() =>
-              dispatch(
-                setCurrentTour({
-                  id: data.TourDepartureDay.id,
-                  dayStartId: data.TourDepartureDay.dayStartId,
-                  tourId: data.TourDepartureDay.TourId,
-                  startPlace: data.TourDepartureDay.startPlace,
-                  tourInfo: data.TourDepartureDay.tourInfo,
-                })
-              )
-            }
+            onClick={(e) => {
+              const myDate = moment(
+                data.TourDepartureDay.DepartureDay.dayStart
+              );
+              if (myDate.isBefore(moment())) {
+                e.preventDefault();
+                dispatch(
+                  setCurrentTour({
+                    id: data.TourDepartureDay.id,
+                    dayStartId: data.TourDepartureDay.dayStartId,
+                    tourId: data.TourDepartureDay.TourId,
+                    startPlace: data.TourDepartureDay.startPlace,
+                    tourInfo: data.TourDepartureDay.tourInfo,
+                  })
+                );
+              }
+            }}
+            disabled
           >
             <img
               src={data.TourDepartureDay.tourInfo.thumbnail}
@@ -43,17 +50,23 @@ const FavoriteTourCard = ({ data, dispatch }) => {
             <Link
               style={{ color: "#2d4271" }}
               to={`/tours/${data.TourDepartureDay.tourId}`}
-              onClick={() =>
-                dispatch(
-                  setCurrentTour({
-                    id: data.TourDepartureDay.id,
-                    dayStartId: data.TourDepartureDay.dayStartId,
-                    tourId: data.TourDepartureDay.TourId,
-                    startPlace: data.TourDepartureDay.startPlace,
-                    tourInfo: data.TourDepartureDay.tourInfo,
-                  })
-                )
-              }
+              onClick={(e) => {
+                const myDate = moment(
+                  data.TourDepartureDay.DepartureDay.dayStart
+                );
+                if (myDate.isBefore(moment())) {
+                  e.preventDefault();
+                  dispatch(
+                    setCurrentTour({
+                      id: data.TourDepartureDay.id,
+                      dayStartId: data.TourDepartureDay.dayStartId,
+                      tourId: data.TourDepartureDay.TourId,
+                      startPlace: data.TourDepartureDay.startPlace,
+                      tourInfo: data.TourDepartureDay.tourInfo,
+                    })
+                  );
+                }
+              }}
             >
               {data.TourDepartureDay.tourInfo.name}
             </Link>

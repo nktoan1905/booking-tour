@@ -181,7 +181,7 @@ const CommentGroup = () => {
                           {reply.User.fullName}
                         </Comment.Author>
                         <Comment.Metadata>
-                          <span>{moment(comment.createdAt).fromNow()}</span>
+                          <span>{moment(reply.createdAt).fromNow()}</span>
                           {currentUser?.roleId === 2 ||
                           currentUser?.roleId === 1 ? (
                             <Comment.Action>

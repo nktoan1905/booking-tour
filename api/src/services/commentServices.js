@@ -93,7 +93,7 @@ const commemtServices = {
 						{
 							model: db.Reply,
 							as: 'replyComments',
-							attributes: ['id', 'userId', 'text'],
+							attributes: ['id', 'userId', 'text', 'createdAt'],
 							include: [
 								{
 									model: db.User,
@@ -107,6 +107,7 @@ const commemtServices = {
 				});
 				resolve({ status: true, message: 'asd', comments });
 			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});

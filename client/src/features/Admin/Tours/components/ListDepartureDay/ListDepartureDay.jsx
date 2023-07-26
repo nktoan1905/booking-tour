@@ -178,22 +178,24 @@ const ListDepartureDay = () => {
                 {moment(row.createdAt).format("L")}
               </TableCell>
               <TableCell component="th" scope="row" align="center">
-                <Button
-                  variant="primary"
-                  size="sm"
-                  className="me-2"
-                  onClick={() => handleOpenUpdate(row)}
-                >
-                  Update
-                </Button>
                 {currentUser.roleId === 1 ? (
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => handleOnDelete(row.id)}
-                  >
-                    Delete
-                  </Button>
+                  <>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      className="me-2"
+                      onClick={() => handleOpenUpdate(row)}
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => handleOnDelete(row.id)}
+                    >
+                      Delete
+                    </Button>
+                  </>
                 ) : (
                   ""
                 )}

@@ -121,6 +121,7 @@ export default function ContactTable({ rows }) {
   const currentUserAccessToken = useSelector(
     (state) => state.auth.login.currentUser?.accessToken
   );
+  const currentUser= useSelector((state)=> state.auth.login.currentUser?.user);
   const handleOnDelete = async (contactId) => {
     await deleteContact(dispatch, toast, currentUserAccessToken, contactId);
     setValue("");
@@ -204,6 +205,7 @@ export default function ContactTable({ rows }) {
                     variant="danger"
                     size="sm"
                     onClick={() => handleOpenModalConfirm(row.id)}
+                    disabled={currentUser.roleId === 1 ? false : true}
                   >
                     <DeleteIcon></DeleteIcon>
                   </Button>

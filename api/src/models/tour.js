@@ -28,11 +28,6 @@ module.exports = (sequelize, DataTypes) => {
 			});
 			Tour.belongsToMany(models.Service, { through: models.TourService, as: 'services', foreignKey: 'tourId' });
 			Tour.belongsToMany(models.Promotion, { through: models.TourPromotion, as: 'promotions', foreignKey: 'tourId' });
-			Tour.belongsToMany(models.User, {
-				through: models.TourGuide,
-				foreignKey: 'tourId',
-				as: 'tourGuide',
-			});
 			Tour.hasMany(models.TourImage, { foreignKey: 'tourId', as: 'images', targetKey: 'id' });
 
 			Tour.hasMany(models.Comment, { foreignKey: 'tourId', targetKey: 'id', as: 'listComments' });
