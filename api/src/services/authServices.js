@@ -25,7 +25,7 @@ const authServices = {
 					fullName: data.fullName,
 					password: hashed,
 					roleId: UserRole.MEMBERS,
-					status: Status.ACTIVE,
+					status: true,
 				});
 				resolve({
 					status: true,
@@ -81,7 +81,7 @@ const authServices = {
 					});
 				}
 				delete user?.password;
-				if (user && validPassword && user.status === Status.ACTIVE) {
+				if (user && validPassword && user.status === true) {
 					resolve({
 						status: true,
 						message: 'Login successfully',

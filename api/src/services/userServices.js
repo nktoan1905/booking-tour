@@ -155,7 +155,7 @@ const userServices = {
 					phoneNumber: data.phoneNumber,
 					dob: data.dob,
 					roleId: UserRole.EMPLOYEE,
-					status: Status.ACTIVE,
+					status: true,
 				});
 				const { status, message } = await sendMail(
 					{
@@ -260,15 +260,15 @@ const userServices = {
 					});
 				}
 				let user = checkIdExist;
-				if (user.status === Status.ACTIVE) {
-					let isUpdate = await db.User.update({ status: Status.DELETE, updatedAt: new Date() }, { where: { id: id } });
+				if (user.status === true) {
+					let isUpdate = await db.User.update({ status: false, updatedAt: new Date() }, { where: { id: id } });
 					if (isUpdate) {
 						resolve({ status: true, message: 'Update active status to delete status successfully!' });
 					} else {
 						resolve({ status: false, message: 'Update status failed.' });
 					}
 				} else {
-					let isUpdate = await db.User.update({ status: Status.ACTIVE, updatedAt: new Date() }, { where: { id: id } });
+					let isUpdate = await db.User.update({ status: true, updatedAt: new Date() }, { where: { id: id } });
 					if (isUpdate) {
 						resolve({ status: true, message: 'Update delete status to active status successfully!' });
 					} else {
