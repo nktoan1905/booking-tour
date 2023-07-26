@@ -25,10 +25,21 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "booking_tour_5it4_user",
+    "password": "3bb03L3LjOzrM63acWvtFmIqtr3v30uL",
+    "database": "booking_tour_5it4",
+    "host": "dpg-ch5ghhlgk4q08dea5m4g-a.singapore-postgres.render.com",
+    "dialect": "postgres",
+    "logging": false,
+    "query": {
+      "raw": true
+    },
+    "timezone": "+07:00",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }

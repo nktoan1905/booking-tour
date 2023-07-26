@@ -29,6 +29,8 @@
     "node-html-parser": "^6.1.5",
     "nodemailer": "^6.9.1",
     "otp-generator": "^4.0.1",
+    "pg": "^8.11.1",
+    "pg-hstore": "^2.3.4",
     "stripe": "^12.2.0"
   },
   "devDependencies": {
