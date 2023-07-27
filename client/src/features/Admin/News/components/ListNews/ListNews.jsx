@@ -23,13 +23,10 @@ const ListNews = ({ dataInfo }) => {
   const handleOnSubmit = (data, e) => {
     e.preventDefault();
     if (data.newsName !== "" && Number(data.status) !== 2) {
-      const newData = dataInfo.filter((item) =>
-        item.title
-          .toLowerCase()
-          .includes(
-            data.newsName.toLowerCase() &&
-              item.status === (Number(data.status) ? true : false)
-          )
+      const newData = dataInfo.filter(
+        (item) =>
+          item.title.toLowerCase().includes(data.newsName.toLowerCase()) &&
+          item.status === data.status
       );
       setDataValue(newData);
     } else if (data.newsName !== "" && Number(data.status) === 2) {
@@ -39,7 +36,7 @@ const ListNews = ({ dataInfo }) => {
       setDataValue(newData);
     } else if (data.newsName.length === 0 && Number(data.status) !== 2) {
       const newData = dataInfo.filter((item) => {
-        return item.status === (Number(data.status) ? true : false);
+        return item.status === data.status;
       });
       setDataValue(newData);
     } else if (data.newsName.length === 0 && Number(data.status) === 2) {
@@ -80,8 +77,8 @@ const ListNews = ({ dataInfo }) => {
               {...register("status")}
             >
               <MenuItem value={2}>Full</MenuItem>
-              <MenuItem value={1}>Active</MenuItem>
-              <MenuItem value={0}>Inactive</MenuItem>
+              <MenuItem value={true}>Active</MenuItem>
+              <MenuItem value={false}>Inactive</MenuItem>
             </Select>
           </FormControl>
           <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">

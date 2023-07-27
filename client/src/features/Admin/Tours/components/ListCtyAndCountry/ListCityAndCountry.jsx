@@ -19,7 +19,7 @@ const ListCityAndCountry = () => {
     setValue(newValue);
   };
   return (
-    <Box sx={{ minWidth: "1200px", typography: "body1" }}>
+    <Box sx={{ typography: "body1" }}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList

@@ -58,7 +58,7 @@ const ProfileDetail = () => {
     (state) => state.auth.login.currentUser?.accessToken
   );
 
-  const [sex, setSex] = useState(dataUser?.gender);
+  const [sex, setSex] = useState(dataUser?.gender ? true : false);
   const [dob, setDob] = useState(dataUser?.dob);
 
   const [image, setImage] = useState(

@@ -39,7 +39,7 @@ const Register = () => {
   } = useForm({ resolver: yupResolver(schema) });
   const handleOnSubmit = async (data, event) => {
     event.preventDefault();
-    await registerUser(data.email, dispatch, navigate, toast);
+    await registerUser(data, dispatch, navigate, toast);
   };
   useEffect(() => {
     if (isSubmitSuccessful) {

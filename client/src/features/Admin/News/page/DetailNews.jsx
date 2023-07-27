@@ -167,7 +167,7 @@ const DetailNews = () => {
                 {moment(dataNews?.createdAt).format("L")}
               </p>
             </div>
-            <div className="mt-5">
+            <div className="mt-5 bg-light">
               {dataNews?.content
                 ? HTMLReactPaser(dataNews?.content)
                 : HTMLReactPaser("")}

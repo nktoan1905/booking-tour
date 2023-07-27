@@ -107,7 +107,6 @@ const commemtServices = {
 				});
 				resolve({ status: true, message: 'asd', comments });
 			} catch (error) {
-				console.log(error);
 				reject(error);
 			}
 		});

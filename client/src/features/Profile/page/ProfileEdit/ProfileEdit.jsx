@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 const ProfileEdit = () => {
   const dataCurrent = useSelector((state) => state.auth.login.currentUser);
   const dataUser = dataCurrent.user;
-  const [sex, setSex] = useState(dataUser?.gender);
+  const [sex, setSex] = useState(dataUser?.gender ? true : false);
   const [dob, setDob] = useState(dataUser?.dob);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,7 +54,10 @@ const ProfileEdit = () => {
         <div className="col-sm-3">
           <div className="text-center">
             <img
-              src={dataUser.avatar || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+              src={
+                dataUser.avatar ||
+                "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+              }
               className="avatar img-circle img-thumbnail"
               alt="avatar"
             />

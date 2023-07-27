@@ -69,7 +69,7 @@ const ModalCreatePromotion = ({ open, handleClose }) => {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Create new category
+          Create new promotion
         </Typography>
         <Typography
           id="modal-modal-description"
@@ -80,7 +80,7 @@ const ModalCreatePromotion = ({ open, handleClose }) => {
           <TextField
             margin="normal"
             fullWidth
-            label="Category name"
+            label="Promotion name"
             name="name"
             error={!!errors["name"]}
             helperText={errors["name"] ? errors["name"].message : ""}

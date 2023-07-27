@@ -135,7 +135,10 @@ const ListService = () => {
   };
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: "1300px" }} aria-label="custom pagination table">
+      <Table
+        
+        aria-label="custom pagination table"
+      >
         <TableHead>
           <TableRow>
             <TableCell style={{ width: "40px" }} align="center">
@@ -182,13 +185,13 @@ const ListService = () => {
               <TableCell component="th" scope="row" align="center">
                 {moment(row.createdAt).format("L")}
               </TableCell>
-              <TableCell component="th" scope="row" align="center">
+              <TableCell component="th" scope="row" align="center" className="d-flex justify-content-center">
                 {currentUser.roleId === 1 ? (
                   <>
                     <Button
                       variant="primary"
                       size="sm"
-                      className="me-2"
+                      className="me-2 my-1"
                       onClick={() => handleOpenUpdate(row)}
                     >
                       Update

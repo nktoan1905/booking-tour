@@ -132,7 +132,7 @@ const ListCategory = () => {
     await deleteCategory(dispatch, toast, id, currentUserAccessToken);
   };
   return (
-    <TableContainer component={Paper} style={{ minWidth: "1200px" }}>
+    <TableContainer component={Paper}>
       <Table aria-label="custom pagination table">
         <TableHead>
           <TableRow>
