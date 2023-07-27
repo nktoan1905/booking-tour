@@ -276,7 +276,7 @@ const FeedbackAdmin = () => {
                 label="Status"
                 labelId="Load home"
                 name="loadhome"
-                defaultValue={currentData?.loadhome ? 1 : 0}
+                defaultValue={currentData?.loadhome ? true : false}
                 error={!!errors["loadhome"]}
                 helpertext={
                   errors["loadhome"] ? errors["loadhome"].message : ""

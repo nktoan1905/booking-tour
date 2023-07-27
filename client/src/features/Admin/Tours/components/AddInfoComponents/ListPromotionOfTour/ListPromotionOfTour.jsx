@@ -47,7 +47,7 @@ const ListPromotionOfTour = () => {
     (state) => state.promotions.promotions.promotions
   );
   const res = removeDuplicates(promotions, tourDetail.promotions);
-  const options = res.filter((item) => item.status === 1).map((item) => ({
+  const options = res.filter((item) => item.status === true).map((item) => ({
     label: item.name,
     value: item.id,
   }));

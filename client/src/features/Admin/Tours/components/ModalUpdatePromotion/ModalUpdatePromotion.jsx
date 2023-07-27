@@ -40,7 +40,7 @@ const schema = yup
       .typeError("Must specify a number")
       .required("Disount value is required"),
     forObject: yup.number().required(""),
-    status: yup.number().typeError("Must specify a number"),
+    status: yup.boolean(),
   })
   .required();
   

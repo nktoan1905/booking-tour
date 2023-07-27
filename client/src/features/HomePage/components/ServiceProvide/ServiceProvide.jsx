@@ -7,7 +7,7 @@ const ServiceProvide = () => {
   const service = [];
   if (services) {
     for (let i = 0; i < services.length; i++) {
-      if (services[i].status === 1 && services[i].loadhome === 1) {
+      if (services[i].status === true && services[i].loadhome === true) {
         service.push(services[i]);
       }
     }

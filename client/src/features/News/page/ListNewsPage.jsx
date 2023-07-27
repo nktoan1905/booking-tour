@@ -50,11 +50,11 @@ const ListNewsPage = () => {
   const news3 = [];
   for (const newItem of newsList) {
     const typeId = newItem.type.id;
-    if (typeId === 1 && newItem.status === 1) {
+    if (typeId === 1 && newItem.status === true) {
       news1.push(newItem);
-    } else if (typeId === 2 && newItem.status === 1) {
+    } else if (typeId === 2 && newItem.status === true) {
       news2.push(newItem);
-    } else if (typeId === 3 && newItem.status === 1) {
+    } else if (typeId === 3 && newItem.status === true) {
       news3.push(newItem);
     }
   }

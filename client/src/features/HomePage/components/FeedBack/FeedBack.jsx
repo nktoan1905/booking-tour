@@ -6,68 +6,13 @@ import Rating from "@mui/material/Rating";
 import feedbackApi from "../../../../api/feedbackApi";
 
 const FeedBack = () => {
-  const binhluans = [
-    {
-      id: 1,
-      tourId: 1,
-      userId: 1,
-      feedback:
-        "tuyệt vời trải nghiệm khó quên mong rằng mõi người đặt tour thật nhiều để web phát triển",
-      star: 5,
-      loadhome: 1,
-      status: 1,
-      userData: {
-        avatar:
-          "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.18169-1/16142309_667985890050244_370131090873379996_n.jpg?stp=dst-jpg_p200x200&_nc_cat=101&ccb=1-7&_nc_sid=7206a8&_nc_ohc=KcRrm0c0ikUAX_1iPM6&_nc_ht=scontent.fhan2-3.fna&oh=00_AfCCm7KrnxaGnfmSHFgX5RabvhMBd46aM-CWmrgzhiQlAA&oe=647237C8",
-        name: "Nguyễn Khánh Toàn",
-      },
-    },
-    {
-      id: 2,
-      tourId: 1,
-      userId: 1,
-      feedback:
-        "tuyệt vời trải nghiệm khó quên mong rằng mõi người đặt tour thật nhiều để web phát triển",
-      star: 5,
-      loadhome: 1,
-      status: 1,
-      userData: {
-        avatar:
-          "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.18169-1/16142309_667985890050244_370131090873379996_n.jpg?stp=dst-jpg_p200x200&_nc_cat=101&ccb=1-7&_nc_sid=7206a8&_nc_ohc=KcRrm0c0ikUAX_1iPM6&_nc_ht=scontent.fhan2-3.fna&oh=00_AfCCm7KrnxaGnfmSHFgX5RabvhMBd46aM-CWmrgzhiQlAA&oe=647237C8",
-        name: "Nguyễn Khánh Toàn",
-      },
-    },
-    {
-      id: 2,
-      tourId: 1,
-      userId: 1,
-      feedback:
-        "tuyệt vời trải nghiệm khó quên mong rằng mõi người đặt tour thật nhiều để web phát triển",
-      star: 5,
-      loadhome: 1,
-      status: 1,
-      userData: {
-        avatar:
-          "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.18169-1/16142309_667985890050244_370131090873379996_n.jpg?stp=dst-jpg_p200x200&_nc_cat=101&ccb=1-7&_nc_sid=7206a8&_nc_ohc=KcRrm0c0ikUAX_1iPM6&_nc_ht=scontent.fhan2-3.fna&oh=00_AfCCm7KrnxaGnfmSHFgX5RabvhMBd46aM-CWmrgzhiQlAA&oe=647237C8",
-        name: "Nguyễn Khánh Toàn",
-      },
-    },
-  ];
-  var binhluan = [];
-  if (binhluans) {
-    for (let i = 0; i < binhluans.length; i++) {
-      if (binhluans[i].status === 1 && binhluans[i].loadhome === 1) {
-        binhluan.push(binhluans[i]);
-      }
-    }
-  }
   const [feedbacks, setFeedbacks] = useState([]);
   useState(() => {
     const fetch = async () => {
       const res = await feedbackApi.getAllFeedback();
       setFeedbacks(
         res.data.data.filter(
-          (item) => item.loadhome === true && item.status === 1
+          (item) => item.loadhome === true && item.status === true
         )
       );
     };

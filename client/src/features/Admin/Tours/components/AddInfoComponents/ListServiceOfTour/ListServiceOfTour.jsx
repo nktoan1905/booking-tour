@@ -44,7 +44,7 @@ const ListServiceOfTour = () => {
   const services = useSelector((state) => state.services.services.services);
   const res = removeDuplicates(services, tourDetail.services);
   const options = res
-    .filter((item) => item.status === 1)
+    .filter((item) => item.status === true)
     .map((item) => ({
       label: item.name,
       value: item.id,

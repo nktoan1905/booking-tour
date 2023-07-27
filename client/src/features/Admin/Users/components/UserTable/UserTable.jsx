@@ -199,7 +199,7 @@ export default function UserTable({ rows }) {
               </TableCell>
               <TableCell>{roleRender(row.roleId)}</TableCell>
               <TableCell align="center">
-                {row.status === 1 ? "Active" : "Inactive"}
+                {row.status === true ? "Active" : "Inactive"}
               </TableCell>
               <TableCell>{moment(row.createdAt).fromNow()}</TableCell>
               <TableCell>

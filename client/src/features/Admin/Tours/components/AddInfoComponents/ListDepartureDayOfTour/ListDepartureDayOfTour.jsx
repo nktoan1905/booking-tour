@@ -56,7 +56,7 @@ const ListDepartureDayOfTour = () => {
   const options = departureDays
     .filter((item) => {
       const itemDate = new Date(item.dayStart);
-      return itemDate >= currentDate && item.status === 1;
+      return itemDate >= currentDate && item.status === true;
     })
     .map((item) => ({
       label: item.dayStart,

@@ -260,7 +260,7 @@ export const Order = () => {
                         departureDays.find(
                           (item) => item.id === row.TourDepartureDay.dayStartId
                         ).dayStart
-                      ).isBefore(new Date()) && row.status !== 0 ? (
+                      ).isBefore(new Date()) && row.status !== false ? (
                         <Button
                           variant="contained"
                           endIcon={<DrawIcon />}

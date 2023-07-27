@@ -44,7 +44,7 @@ const ListCategoryOfTour = () => {
   );
   const res = removeDuplicates(categories, tourDetail.categories);
   const options = res
-    .filter((item) => item.status === 1)
+    .filter((item) => item.status === true)
     .map((item) => ({
       label: item.name,
       value: item.id,
