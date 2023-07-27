@@ -21,7 +21,7 @@ const tourServices = {
 					amount: data.amount,
 					endPlace: data.endPlace,
 					cityId: data.cityId,
-					status: 1,
+					status: true,
 				});
 				if (newTour) {
 					resolve({ status: true, message: 'Create new tour successfully' });
@@ -143,7 +143,7 @@ const tourServices = {
 				if (!tour) {
 					resolve({ status: false, message: 'Tour not found' });
 				}
-				if (tour.status === 1) {
+				if (tour.status === false) {
 					resolve({ status: false, message: 'Tour is not available' });
 				}
 				const departureDay = await db.DepartureDay.findOne({ where: { id: data.departureDayId }, raw: false });

@@ -6,10 +6,6 @@ const promotionServices = {
 	createNewPromotion: async (data) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				/**
-				 * Admin 20%
-				 *
-				 */
 				let newPromotion = await db.Promotion.create({
 					name: data.name,
 					promotion: data.promotion,

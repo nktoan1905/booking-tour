@@ -9,8 +9,8 @@ const feedbackServices = {
 					tourId: tourId,
 					content: data.content,
 					star: data.star,
-					status: 1,
-					loadhome: 0,
+					status: true,
+					loadhome: false,
 				});
 				if (isCreated) {
 					resolve({ status: true, message: 'Create new feedback successfully' });

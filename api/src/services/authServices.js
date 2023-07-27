@@ -80,7 +80,6 @@ const authServices = {
 						message: 'Wrong password!',
 					});
 				}
-				console.log(user.status);
 				delete user?.password;
 				if (user && validPassword && user.status === true) {
 					resolve({

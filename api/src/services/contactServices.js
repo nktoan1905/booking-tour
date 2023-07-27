@@ -12,9 +12,9 @@ const contactServices = {
 					countCustomer: data.countCustomer,
 					companyName: data.companyName,
 					title: data.title,
-					content: data.content.replace(/\n/g, '\\n'),
+					content: data.content,
 					typeContact: data.typeContact,
-					status: 1,
+					status: true,
 				});
 				if (isCreate) {
 					resolve({ status: true, message: 'Create new contact successfully' });

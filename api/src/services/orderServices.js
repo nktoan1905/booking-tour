@@ -16,7 +16,7 @@ const orderServices = {
 					paymentInfo: data.paymentInfo,
 					tourDepartureDayId: data.tourDepartureDayId,
 					amountPaid: data.amountPaid,
-					status: 1,
+					status: true,
 				});
 				if (isCreate) {
 					resolve({ status: true, message: 'Create new transaction successfully!' });

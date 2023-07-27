@@ -96,6 +96,7 @@ const authController = {
 	handleLogout: async (req, res) => {
 		try {
 			res.clearCookie('refreshToken');
+			console.log(req.cookies.refreshToken)
 			await db.RefreshToken.destroy({
 				where: {
 					token: req.cookies.refreshToken,

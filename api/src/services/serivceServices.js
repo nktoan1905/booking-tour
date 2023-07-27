@@ -8,8 +8,8 @@ const serviceServices = {
 					name: data.name,
 					description: data.description,
 					icon: data.icon,
-					loadhome: 0,
-					status: 1,
+					loadhome: false,
+					status: true,
 				});
 				if (newService) {
 					resolve({ status: true, message: 'Create new service successfully!' });
