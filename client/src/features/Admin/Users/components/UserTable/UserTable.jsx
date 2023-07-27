@@ -188,7 +188,7 @@ export default function UserTable({ rows }) {
                 ></img>
               </TableCell>
               <TableCell>{row.fullName}</TableCell>
-              <TableCell>{row.gender === 1 ? "Nam" : "Nữ"}</TableCell>
+              <TableCell>{row.gender === true ? "Nam" : "Nữ"}</TableCell>
               <TableCell style={{ minWidth: "250px" }}>{row.email}</TableCell>
               <TableCell style={{ minWidth: "250px" }}>
                 {row.address || "Chưa có"}
