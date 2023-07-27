@@ -28,15 +28,16 @@ const ListContacts = () => {
   const type1Contacts = [];
   const type2Contacts = [];
   const type3Contacts = [];
-  for (const contact of contacts) {
-    const typeId = contact.type.id;
-
-    if (typeId === 1) {
-      type1Contacts.push(contact);
-    } else if (typeId === 2) {
-      type2Contacts.push(contact);
-    } else if (typeId === 3) {
-      type3Contacts.push(contact);
+  if(contacts) {
+    for (const contact of contacts) {
+      const typeId = contact.type.id;
+      if (typeId === 1) {
+        type1Contacts.push(contact);
+      } else if (typeId === 2) {
+        type2Contacts.push(contact);
+      } else if (typeId === 3) {
+        type3Contacts.push(contact);
+      }
     }
   }
   useEffect(() => {

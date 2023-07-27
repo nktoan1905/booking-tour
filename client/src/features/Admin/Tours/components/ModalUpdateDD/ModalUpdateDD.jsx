@@ -76,8 +76,8 @@ const ModalUpdateDD = ({ open, handleClose, valuex }) => {
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
-              <MenuItem value={1}>Active</MenuItem>
-              <MenuItem value={0}>Inactive</MenuItem>
+              <MenuItem value={true}>Active</MenuItem>
+              <MenuItem value={false}>Inactive</MenuItem>
             </Select>
           </FormControl>
           <Button

@@ -134,8 +134,8 @@ const ProfileEdit = () => {
                       fullWidth
                       label="abc"
                     >
-                      <MenuItem value={1}>Nam</MenuItem>
-                      <MenuItem value={0}>Nữ</MenuItem>
+                      <MenuItem value={true}>Nam</MenuItem>
+                      <MenuItem value={false}>Nữ</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>

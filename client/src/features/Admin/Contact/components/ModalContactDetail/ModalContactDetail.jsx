@@ -90,8 +90,8 @@ const ModalContactDetail = ({ open, handleClose, value }) => {
                 defaultValue={value.status}
                 {...register("status")}
               >
-                <MenuItem value={1}>Active</MenuItem>
-                <MenuItem value={0}>Done</MenuItem>
+                <MenuItem value={true}>Active</MenuItem>
+                <MenuItem value={false}>Done</MenuItem>
               </Select>
             </FormControl>
             <Button variant="contained" type="submit">

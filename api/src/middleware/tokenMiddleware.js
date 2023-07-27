@@ -12,7 +12,7 @@ const tokenMiddleware = {
 					return res.status(HttpStatusCode.FORBIDDEN).json({ message: 'Token is not valid' });
 				}
 				const userDB = await db.User.findOne({ where: { id: user.id } });
-				if (userDB.status === 1) {
+				if (userDB.status === true) {
 					req.user = user;
 					next();
 				} else {

@@ -15,11 +15,10 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 
-
 const ListNews = ({ dataInfo }) => {
   const [dataValue, setDataValue] = useState(dataInfo);
   const [status, setStatus] = React.useState(2);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const handleOnSubmit = (data, e) => {
     e.preventDefault();
@@ -28,7 +27,8 @@ const ListNews = ({ dataInfo }) => {
         item.title
           .toLowerCase()
           .includes(
-            data.newsName.toLowerCase() && item.status === Number(data.status)
+            data.newsName.toLowerCase() &&
+              item.status === (Number(data.status) ? true : false)
           )
       );
       setDataValue(newData);
@@ -39,7 +39,7 @@ const ListNews = ({ dataInfo }) => {
       setDataValue(newData);
     } else if (data.newsName.length === 0 && Number(data.status) !== 2) {
       const newData = dataInfo.filter((item) => {
-        return item.status === Number(data.status);
+        return item.status === (Number(data.status) ? true : false);
       });
       setDataValue(newData);
     } else if (data.newsName.length === 0 && Number(data.status) === 2) {

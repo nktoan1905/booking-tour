@@ -218,8 +218,8 @@ const ProfileDetail = () => {
                     disabled
                     label="Giới tính"
                   >
-                    <MenuItem value={1}>Nam</MenuItem>
-                    <MenuItem value={0}>Nữ</MenuItem>
+                    <MenuItem value={true}>Nam</MenuItem>
+                    <MenuItem value={false}>Nữ</MenuItem>
                   </Select>
                 </Grid>
                 <Grid item xs={6} sm={6}>

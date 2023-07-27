@@ -60,6 +60,7 @@ export const logoutUser = async (accessToken, dispatch, navigate, toast) => {
     navigate("/");
     dispatch(logoutSuccess()); /*  */
   } catch (error) {
+    console.log(error);
     toast.error("Logout thất bại!");
     dispatch(logoutFailed());
   }

@@ -317,8 +317,8 @@ const TourOrderDetail = () => {
                   label="Status"
                   onChange={handleChange}
                 >
-                  <MenuItem value={1}>Accepted</MenuItem>
-                  <MenuItem value={0}>Cancel</MenuItem>
+                  <MenuItem value={true}>Accepted</MenuItem>
+                  <MenuItem value={false}>Cancel</MenuItem>
                 </Select>
               </FormControl>
             </Box>

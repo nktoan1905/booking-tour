@@ -113,8 +113,8 @@ const ModalUpdateCategory = ({ open, handleClose, value }) => {
               }
               {...register("status")}
             >
-              <MenuItem value={1}>Active</MenuItem>
-              <MenuItem value={0}>Inactive</MenuItem>
+              <MenuItem value={true}>Active</MenuItem>
+              <MenuItem value={false}>Inactive</MenuItem>
             </Select>
           </FormControl>
           <Button

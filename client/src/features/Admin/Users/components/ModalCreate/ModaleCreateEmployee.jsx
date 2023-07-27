@@ -164,15 +164,15 @@ const ModalCreateEmloyee = ({ open, handleClose, handleOpen }) => {
                       label="Giới tính"
                       labelId="gender"
                       name="gender"
-                      defaultValue={1}
+                      defaultValue={true}
                       error={!!errors["gender"]}
                       helperText={
                         errors["gender"] ? errors["gender"].message : ""
                       }
                       {...register("gender")}
                     >
-                      <MenuItem value={1}>Nam</MenuItem>
-                      <MenuItem value={0}>Nữ</MenuItem>
+                      <MenuItem value={true}>Nam</MenuItem>
+                      <MenuItem value={false}>Nữ</MenuItem>
                     </Select>
                   </FormControl>
                 </Col>
