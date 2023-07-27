@@ -67,7 +67,7 @@ const ModalCreateCountry = ({ open, handleClose }) => {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Create new city
+          Create new country
         </Typography>
         <Typography
           id="modal-modal-description"

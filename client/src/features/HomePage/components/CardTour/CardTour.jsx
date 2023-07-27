@@ -41,7 +41,9 @@ const CardTour = ({ data, dispatch }) => {
         return accumulator + currentValue.star;
       }, 0);
       setRating((prevValues) => {
-        return rate === 0 ? prevValues : (rate * 2) / feedbacks.length;
+        return rate === 0
+          ? prevValues
+          : Math.round((rate * 2) / feedbacks.length);
       });
       setUserFlowings(userFlowings.data.data);
       setSlotLeft(data.tourInfo.amount - res.data.ordered);
@@ -90,7 +92,7 @@ const CardTour = ({ data, dispatch }) => {
     }
   };
 
-  return (
+  return data ? (
     <div className="card tour-item" style={{ width: "100%" }}>
       <div className="position-relative">
         <div className="tour-item__image">
@@ -202,6 +204,8 @@ const CardTour = ({ data, dispatch }) => {
         </div>
       </div>
     </div>
+  ) : (
+    ""
   );
 };
 

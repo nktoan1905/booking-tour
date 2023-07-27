@@ -109,7 +109,7 @@ const orderServices = {
 				});
 				var ordered = 0;
 				transactions.forEach((element) => {
-					if (element.status === 1) {
+					if (element.status === true) {
 						ordered += element.adultQty + element.childQty + element.babyQty;
 					}
 				});

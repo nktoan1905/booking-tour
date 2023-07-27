@@ -161,7 +161,7 @@ const ListDepartureDayOfTour = () => {
           ) : (
             <TableRow>
               <TableCell colSpan={7} align="center">
-                Tour này chưa được add promotion
+                Tour này chưa được add ngày đi
               </TableCell>
             </TableRow>
           )}

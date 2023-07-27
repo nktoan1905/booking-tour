@@ -17,7 +17,7 @@ const FeedbackCard = ({ data }) => {
         <br />
         <strong>{data.User.fullName}</strong>
         <br />
-        <Rating value={data.star} />
+        <Rating value={data.star} readOnly />
       </div>
     </React.Fragment>
   );

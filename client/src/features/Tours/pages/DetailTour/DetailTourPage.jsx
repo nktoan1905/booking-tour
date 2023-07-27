@@ -30,6 +30,7 @@ const DetailTourPage = () => {
   const tourDetail = tours.find((item) => item.id === Number(tourId));
   const [value, setValue] = React.useState(0);
   const [userFlowings, setUserFlowings] = useState([]);
+  const [rating, setRating] = useState(9.8);
   const currentTour = useSelector((state) => state.tours.currentTour);
   const handleDragStart = (e) => e.preventDefault();
   const items = createImageArray(tourDetail.images, handleDragStart);
@@ -64,6 +65,16 @@ const DetailTourPage = () => {
       const userFlowings = await tourApi.getAllFlowingByTourDepartureDay(
         tourDepartureDayId
       );
+      const res2 = await tourApi.getAllFeedbacksByTourId(tourId);
+      const feedbacks = res2.data?.data;
+      const rate = feedbacks.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue.star;
+      }, 0);
+      setRating((prevValues) => {
+        return rate === 0
+          ? prevValues
+          : Math.round((rate * 2) / feedbacks.length);
+      });
       setUserFlowings(userFlowings.data.data);
     };
     if (currentTour) {
@@ -80,7 +91,7 @@ const DetailTourPage = () => {
                 <h1 className="title">{tourDetail.name}</h1>
                 <div className="short-rating">
                   <div className="s-rate">
-                    <span>10</span>
+                    <span>{rating}</span>
                     <div className="s-comment">
                       Tuyệt vời <p>{userFlowings.length} quan tâm</p>
                     </div>

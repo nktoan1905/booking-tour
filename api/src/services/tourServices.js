@@ -321,6 +321,7 @@ const tourServices = {
 							attributes: ['id', 'imageName', 'imageLink'],
 						},
 					],
+					order: [['createdAt', 'DESC']],
 					nest: true,
 					raw: false,
 				});
