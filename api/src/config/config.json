@@ -25,10 +25,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "booking_tour_5it4_user",
-    "password": "3bb03L3LjOzrM63acWvtFmIqtr3v30uL",
-    "database": "booking_tour_5it4",
-    "host": "dpg-ch5ghhlgk4q08dea5m4g-a.singapore-postgres.render.com",
+    "username": "bookingtour",
+    "password": "KCmTdDp5crvZW9m17JLyMDfdvkYq8DVF",
+    "database": "bookingtour",
+    "host": "dpg-cj14mhiip7vkfo6c16hg-a.singapore-postgres.render.com",
     "dialect": "postgres",
     "logging": false,
     "query": {

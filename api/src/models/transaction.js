@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
 			paymentInfo: DataTypes.STRING,
 			tourDepartureDayId: DataTypes.INTEGER,
 			amountPaid: DataTypes.DOUBLE,
-			status: DataTypes.INTEGER,
+			status: DataTypes.BOOLEAN,
 		},
 		{
 			sequelize,

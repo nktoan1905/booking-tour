@@ -13,7 +13,7 @@ module.exports = {
 				type: Sequelize.STRING,
 			},
 			status: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.BOOLEAN,
 			},
 			countryId: {
 				type: Sequelize.INTEGER,

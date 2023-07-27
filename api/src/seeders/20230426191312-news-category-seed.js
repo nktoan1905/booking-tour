@@ -16,21 +16,21 @@ module.exports = {
 			'NewsCategories',
 			[
 				{
-					status: 1,
+					status: true,
 					name: 'Tin tức du lịch',
 					url:"tin-tuc-du-lich",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
 				{
-					status: 1,
+					status: true,
 					name: 'Cẩm nang du lịch',
 					url:"cam-nang-du-lich",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
 				{
-					status: 1,
+					status: true,
 					name: 'Kinh nghiệm du lịch',
 					url:"kinh-nghiem-du-lic",
 					createdAt: new Date(),

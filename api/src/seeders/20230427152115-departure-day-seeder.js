@@ -17,13 +17,13 @@ module.exports = {
 			[
 				{
 					dayStart: new Date('2023/5/30'),
-					status: 1,
+					status: true,
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
 				{
 					dayStart: new Date('2023/6/30'),
-					status: 1,
+					status: true,
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},

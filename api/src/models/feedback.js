@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 			content: DataTypes.TEXT,
 			star: DataTypes.INTEGER,
 			loadhome: DataTypes.BOOLEAN,
-			status: DataTypes.INTEGER,
+			status: DataTypes.BOOLEAN,
 		},
 		{
 			sequelize,

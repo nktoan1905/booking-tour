@@ -38,7 +38,7 @@ module.exports = {
 				allowNull: false,
 			},
 			content: {
-				type: Sequelize.TEXT('long'),
+				type: Sequelize.TEXT,
 				allowNull: false,
 			},
 			typeContact: {

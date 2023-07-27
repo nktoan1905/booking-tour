@@ -28,16 +28,16 @@ module.exports = {
 				type: Sequelize.DOUBLE,
 			},
 			trailer: {
-				type: Sequelize.TEXT('long'),
+				type: Sequelize.TEXT,
 			},
 			tourDetail: {
-				type: Sequelize.TEXT('long'),
+				type: Sequelize.TEXT,
 			},
 			note: {
-				type: Sequelize.TEXT('long'),
+				type: Sequelize.TEXT,
 			},
 			map: {
-				type: Sequelize.TEXT('long'),
+				type: Sequelize.TEXT,
 			},
 			duration: {
 				type: Sequelize.INTEGER,

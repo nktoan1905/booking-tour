@@ -13,7 +13,7 @@ module.exports = {
 				type: Sequelize.DATEONLY,
 			},
 			status: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.BOOLEAN,
 			},
 			createdAt: {
 				allowNull: false,

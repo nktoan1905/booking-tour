@@ -19,7 +19,7 @@ module.exports = {
 				{
 					name: 'Giảm 15% cho admin',
 					promotion: 15,
-					status: 1,
+					status: true,
 					forObject: 1,
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -27,7 +27,7 @@ module.exports = {
 				{
 					name: 'Giảm 10% cho Employee',
 					promotion: 15,
-					status: 1,
+					status: true,
 					forObject: 2,
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -35,7 +35,7 @@ module.exports = {
 				{
 					name: 'Giảm 5% cho Golden Member',
 					promotion: 15,
-					status: 1,
+					status: true,
 					forObject: 5,
 					createdAt: new Date(),
 					updatedAt: new Date(),
